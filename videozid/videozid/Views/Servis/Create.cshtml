@@ -1,0 +1,64 @@
+@model videozid.Models.Servis
+
+@{
+    ViewData["Title"] = "Servis";
+}
+
+<!DOCTYPE html>
+
+<html>
+<body>
+
+    <form asp-action="Create">
+        <div class="form-horizontal">
+
+            <h4>Novi servis</h4>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Ime" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Ime" class="form-control" required />
+                    <span asp-validation-for="Ime" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ZiroRacun" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="ZiroRacun" class="form-control" maxlength="21" required />
+                    <span asp-validation-for="ZiroRacun" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Opis" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Opis" class="form-control" />
+                    <span asp-validation-for="Opis" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">Tip servisa</label>
+                <div class="col-md-10">
+                    <input name="TipServisa" class="form-control" required/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Stvori" class="btn btn-default" />
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+    <div>
+        <a class="btn btn-primary" asp-controller="Servis" asp-action="Index"> Povratak</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+﻿</br>
+</br>
+<strong>Uvoz servisera pomoću excela. Koristiti Microsoft Edge preglednik.</strong>
+<form method="post" asp-action="Index" asp-controller="Excel" enctype="multipart/form-data">
+    <input type="file" name="files" multiple />
+    <input type="submit" value="Uvoz" />
+</form>
+
+</br>
+</br>
+<strong>Za unos servisera može se koristiti sljedeći predložak</strong>
+<a class="btn btn-success" asp-controller="Excel" asp-action="ServiseriPredlozak">Prezumi</a>
+</br></br>
+<a class="btn btn-primary btn-sm" asp-controller="Serviser" asp-action="IndexApi">Serviserii</a>
+

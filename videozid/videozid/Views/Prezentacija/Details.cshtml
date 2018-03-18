@@ -1,0 +1,70 @@
+@model videozid.Models.Prezentacija
+
+@{
+    ViewData["Title"] = "Detalji";
+}
+
+<h2>Detalji</h2>
+
+<div>
+    <h4>Prezentacija</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Prezentacija
+        </dt>
+        <dd>
+            Prezentacija @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt>
+            X koordinata
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.XKoord)
+        </dd>
+        <dt>
+            Y koordinata
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.YKoord)
+        </dd>
+        <dt>
+            Sirina
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Sirina)
+        </dd>
+        <dt>
+            Visina
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Visina)
+        </dd>
+        <dt>
+            Kategorija
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdKategorijeNavigation.Vrsta)
+        </dd>
+        <dt>
+            Sadrzaj
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdSadrzajaNavigation.Ime)
+        </dd>
+    </dl>
+</div>
+<div class="row">
+    <div class="btn-group" role="group">
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Uredi</a> 
+        <a class="btn btn-primary" asp-action="Index">Povratak</a>
+        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Obrisi</a> 
+        
+    </div>
+    <br /><br />
+
+    <div class="btn-group" role="group">
+        <a class="btn btn-primary" asp-action="Previous" asp-route-id="@Model.Id">Prethodni</a> 
+        <a class="btn btn-primary" asp-action="Next" asp-route-id="@Model.Id">Sljedeci</a>
+    </div>
+    </div>

@@ -1,0 +1,20 @@
+﻿</br>
+</br>
+<strong>Uvoz Dhmz računa. Koristiti Microsoft Edge preglednik.</strong>
+<form method="post" asp-action="IndexDhmz" asp-controller="ImportExcel" enctype="multipart/form-data">
+    <input type="file" name="files" multiple />
+    <input type="submit" value="Uvoz" />
+</form>
+
+</br>
+</br>
+<strong>Za unos Dhmz računa poželjno je koristiti sljedeći predložak</strong>
+<a class="btn btn-success" asp-controller="ImportExcel" asp-action="PredlozakDhmzAcc">Prezumi</a>
+</br>
+<strong>Primjer test datoteke za unos</strong>
+<a class="btn btn-success" asp-controller="ImportExcel" asp-action="TestAcc">Prezumi</a>
+
+</br></br>
+<a class="btn btn-primary btn-sm" asp-controller="DhmzAcc" asp-action="ApiIndex">Povratak na popis DHMZ računa</a>
+
+

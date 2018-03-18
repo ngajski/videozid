@@ -1,0 +1,85 @@
+@model IEnumerable<videozid.Models.Sadrzaj>
+
+@{
+    ViewData["Title"] = "Sadrzaji";
+}
+
+<div class="row">
+    <br /><br />
+
+    <h3>Sadrzaji</h3>
+    <br />
+
+    <div class="btn-group" role="group">
+        <a class="btn btn-primary" asp-action="Create">Dodaj novi sadrzaj</a>
+    </div>
+
+    <table class="table table-bordered table-striped text-center" id="tableSadrzaji">
+        <thead>
+            <tr>
+                <th class="text-center"> Ime </th>
+                <th class="text-center"> Opis </th>
+                <th class="text-center"> URL </th>
+                <th class="text-center"> Odobren </th>
+                <th class="text-center"> Autor </th>
+                <th class="text-center"> Odobren od </th>
+                <th class="text-center"> Tip </th>
+                <th class="text-center"> Akcije </th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td> @item.Ime </td>
+                    <td> @item.Opis </td>
+                    <td> @item.Url </td>
+                    <td> @item.JeOdobren </td>
+                    <td>
+                        @if (item.IdAutoraNavigation == null)
+                        {
+                            <p>/</p>
+                        }
+                        else
+                        {
+                            <a asp-controller="Korisnik" asp-action="Details" asp-route-id="@item.IdAutora">@item.IdAutoraNavigation.Ime @item.IdAutoraNavigation.Prezime</a>
+
+                        }
+                    </td>
+                    <td>
+                        @if (item.IdOdobrenOdNavigation == null)
+                        {
+                            <p>/</p>
+                        }
+                        else
+                        {
+                            <a asp-controller="Korisnik" asp-action="Details" asp-route-id="@item.IdOdobrenOd">@item.IdOdobrenOdNavigation.Ime @item.IdOdobrenOdNavigation.Prezime</a>
+
+                        }
+                    </td>
+                    <td>@item.IdTipaNavigation.Ime</td>
+
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-default btn-sm" asp-action="Edit" asp-route-id="@item.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script>
+            $(document).ready(function () {
+                $('#tableSadrzaji').DataTable();
+            });
+    </script>
+}

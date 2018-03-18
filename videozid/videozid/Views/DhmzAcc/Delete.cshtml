@@ -1,0 +1,18 @@
+﻿@model videozid.ViewModels.DhmzAccDetailsViewModel
+@{
+
+    ViewData["Title"] = "Brisanje računa";
+}
+
+
+<h3>Jeste li sigurni da želite obrisati ovaj račun?</h3>
+<br />
+
+<div>
+    <form asp-action="Delete">
+        <div class="form-actions no-color btn-group" role="group">
+            <input type="submit" value="Izbriši" class="btn btn-danger" />
+            <a class="btn btn-primary" asp-controller = "DhmzAcc" asp-action = "Details" asp-route-id = "@Model.racun.Id">Natrag</a>
+        </div>
+    </form>
+</div>

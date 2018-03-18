@@ -1,0 +1,262 @@
+﻿@{
+
+    ViewData["Title"] = "WEB API Serviser";
+}
+
+<div class="row">
+    <br /> <br />
+
+    <table class="table table-bordered table-striped text-center" id="tablica">
+        <thead>
+            <tr>
+                <th class="text-center"> Ime </th>
+                <th class="text-center"> Prezime </th>
+                <th class="text-center"> Opis </th>
+                <th class="text-center"> Servis </th>
+                <th class="text-center"> Akcije </th>
+            </tr>
+        </thead>
+    </table>
+
+    <div class="btn-group" role="group">
+        <a id="Create" class="btn btn-primary">Dodaj novog servisera</a>
+        <a class="btn btn-primary" href="../api/excel/serviseri">Excel izvoz</a>
+        <a class="btn btn-primary" href="../api/excel/serviseri/predlozak">Excel predložak</a>
+    </div>
+    <br />
+
+    <div id="Create-content" class="row initially-hidden">
+        <div class="col-xs-12">
+            <hr />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Ime</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="ime" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Prezime</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="prezime" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Opis</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="opis" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Servis</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="servis">
+                        <option value="">--</option>
+                    </select>
+                </div>
+            </div>
+            <br /><br />
+            <div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="submitServiser" value="Stvori servisera" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br /><br />
+
+    <div>
+        <form method="post" enctype="multipart/form-data" asp-controller="Excel" asp-action="ServiseriImport">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <p>Uvoz xlsx datoteke (Radi samo na Microsoft Edge-u)</p>
+                    <input type="file" name="files" multiple />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="submit" value="Upload" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <br /> <br />
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            getServiseri();
+            getServisi();
+
+            $("#submitServiser").click(create);
+      
+            $("#Create").click(function () {
+                $("#Create-content").toggle(500);
+            });
+            $("#Create-content").hide(0);
+        });
+
+         function deleteRow(id) {
+             $.ajax({
+                 type: "DELETE",
+                 url: "../api/serviser/delete/" + id,
+                 ajaxasync: true,
+                 success: function (data) {
+                     $('#tablica')
+                         .DataTable()
+                         .row(document.getElementById('row-'.concat(id)).parentElement.parentElement)
+                         .remove()
+                         .draw();
+                 },
+                 error: function (data) {
+                     alert(data.responseText);
+                 }
+             });
+         }
+
+         function getServiseri() {
+             $.ajax({
+                 type: "GET",
+                 url: "../api/serviser",
+                 ajaxasync: true,
+                 success: function (data) {
+                     loadTable(data);
+                 },
+                 error: function (data) {
+                     alert(data.responseText);
+                 }
+             });
+         }
+
+         function getServisi() {
+             $.ajax({
+                 type: "GET",
+                 url: "../api/servis",
+                 ajaxasync: true,
+                 success: function (data) {
+                     $.each(data, function () {
+                         var opt = document.createElement('option');
+                         opt.value = this.id;
+                         opt.innerHTML = this.ime;
+                         document.getElementById("servis").appendChild(opt);
+                     });
+                 },
+                 error: function (data) {
+                     alert(data.responseText);
+                 }
+             });
+         }
+
+         function loadTable(data) {
+             var html = "";
+             $.each(data, function () {
+                 var a1, a2, a3, a4, a5;
+
+                 a1 = '<b id="row-' + this.id + '" >' + this.ime + '</b>';
+                 a2 = this.prezime;
+                 if (this.opis == null) a3 = " - ";
+                 else a3 = this.opis;
+                 a4 = this.servis;
+                 a5 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../Serviser/EditAPI/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../Serviser/DetailsAPI/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deleteRow(' + this.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div>'
+
+                 $('#tablica').DataTable().row.add([
+                     a1,
+                     a2,
+                     a3,
+                     a4,
+                     a5,
+                 ]).draw(false);
+             });
+         }
+
+         function create() {
+             var ime = $("#ime")[0].value;
+             if (ime == "") {
+                 alert("Ime ne smije biti prazno");
+                 $("#ime")[0].select();
+                 return;
+             }
+
+             var prezime = $("#prezime")[0].value;
+             if (prezime == "") {
+                 alert("Prezime ne smije biti prazno");
+                 $("#prezime")[0].select();
+                 return;
+             }
+           
+             var opis = $("#opis")[0].value;
+             var servis = $("#servis")[0];
+             var sel = servis.options[servis.selectedIndex];
+             servis = sel.value === "" ? null : sel.value;
+
+             var data = {
+                 "Ime": ime,
+                 "Prezime": prezime,
+                 "Opis": opis,
+                 "IdServis": servis
+             }     
+
+             $.ajax({
+                 type: "POST",
+                 url: "../api/serviser",
+                 ajaxasync: true,
+                 data: JSON.stringify(data),
+                 processData: false,
+                 contentType: 'application/json',
+                 success: function (data) {
+                     var a1, a2, a3, a4, a5, a6, a7;
+
+                     a1 = '<b id="row-' + data.id + '" >' + data.ime + '</b>';
+                     a2 = prezime;
+                     if (opis.trim() == "") a3 = " - ";
+                     else a3 = opis;
+                     a4 = sel.innerHTML;
+                     a5 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../Serviser/EditAPI/' + data.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../Serviser/DetailsAPI/' + data.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deleteRow(' + data.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div>'
+
+                     $('#tablica').DataTable().row.add([
+                         a1,
+                         a2,
+                         a3,
+                         a4,
+                         a5
+                     ]).draw(false);
+
+                 },
+                 error: function (data) {
+                     alert(data.responseText);
+                 }
+             });
+         }
+
+         function drawTable(data) {
+             var a1, a2, a3, a4, a5, a6, a7;
+
+             a1 = '<b id="row-' + data.id + '" >' + data.ime + '</b>';
+             a2 = prezime;
+             if (opis.trim() == "") a3 = " - ";
+             else a3 = opis;
+             a4 = sel.innerHTML;
+             a5 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../Serviser/EditAPI/' + data.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../Serviser/DetailsAPI/' + data.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deleteRow(' + data.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div>'
+
+             $('#tablica').DataTable().row.add([
+                 a1,
+                 a2,
+                 a3,
+                 a4,
+                 a5
+             ]).draw(false);
+         }
+
+    </script>
+}

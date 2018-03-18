@@ -1,0 +1,71 @@
+﻿@model IEnumerable<videozid.Models.Servisira>
+
+
+@{
+    ViewData["Title"] = "Servisira";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Servisira</title>
+
+    <script>
+
+        function deleteRow(id) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteAsync", "Servisira")",
+                data: { id: id },
+                ajaxasync: true,
+                success: function (data) {
+                    $('#tablica').DataTable()
+                        .row(document.getElementById('row-'.concat(id)))
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert("Greška");
+                }
+            });
+        }
+
+    </script>
+
+</head>
+<body>
+
+    <div class="row">
+        <br /> <br />
+        <h3>Servisira</h3>
+        <br />
+    </div>
+
+    <div class="row">
+        @Html.Partial("TableView")
+    </div>
+
+    <div class="row">
+        <p>
+            <a class="btn btn-primary" asp-action="Create">Dodaj novi uređaj servisu</a>
+        </p>
+    </div>
+
+</body>
+</html>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tablica').DataTable();
+        });
+
+    </script>
+}

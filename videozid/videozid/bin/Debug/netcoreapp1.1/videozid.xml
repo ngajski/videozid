@@ -1,0 +1,2706 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>videozid</name>
+    </assembly>
+    <members>
+        <member name="T:videozid.Controllers.AdministratorController">
+            <summary>
+            Upravljač za rad s administratorima
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.AdministratorController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="context">VideozidContext za pristup bazi podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.AdministratorController.Index">
+            <summary>
+            Postupak za dohvat liste administratora, koja se prosljeđuje pogledu
+            </summary>
+            <returns>Lista administratora</returns>
+        </member>
+        <member name="T:videozid.Controllers.DhmzAccController">
+            <summary>
+            Upravljač za rad s Dhmz računima
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.DhmzAccController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="context">VideozidContext za pristup bazi podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.DhmzAccController.Index">
+            <summary>
+            Postupak za dohvat liste Dhmz računa
+            </summary>
+            <returns>Lista administratora</returns>
+        </member>
+        <member name="M:videozid.Controllers.DhmzAccController.Details(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za dohvat pojedinačnog Dhmz računa  
+            </summary>
+            <param name="id">Id od traženog Dhmz računa</param>
+            <returns>Primjerak traženog računa ili status da nije pronađen</returns>
+        </member>
+        <member name="M:videozid.Controllers.DhmzAccController.Create(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za dohvat forme za unos novog Dhmz računa
+            </summary>
+            <param name="id">Id korisnika kojemu će se pridjeliti novi Dhmz račun</param>
+            <returns>Forma za unos novog računa</returns>
+        </member>
+        <member name="M:videozid.Controllers.DhmzAccController.Create(videozid.Models.DhmzAcc,System.Nullable{System.Int32})">
+            <summary>
+            Postupak za kreiranje novog Dhmz računa
+            </summary>
+            <param name="racun">Uneseni podaci za novog korisnika</param>
+            <param name="id">Id korisnika kojemu će se pridjeliti novi Dhmz račun</param>
+            <returns>Pogled na stvoreni račun ili formu za ponovni unos podataka računa s ispisom razloga zbog čega isti nije uspješno kreiran</returns>
+        </member>
+        <member name="M:videozid.Controllers.DhmzAccController.Delete(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za brisanje pojedinog Dhmz računa
+            </summary>
+            <param name="id">Id računa koji se želi obrisati</param>
+            <returns>Detaljni pogled na račun koji se želi obrisati ili status o nepostojećem računu za navedeni id</returns>
+        </member>
+        <member name="M:videozid.Controllers.DhmzAccController.DeleteConfirmed(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za brisanje pojedinog Dhmz računa
+            </summary>
+            <param name="id">Id računa koji se želi obrisati</param>
+            <returns>Status o uspješnosti brisanja računa</returns>
+        </member>
+        <member name="M:videozid.Controllers.DhmzAccController.Edit(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za ažuriranje pojedinog Dhmz računa
+            </summary>
+            <param name="id">Id računa kojeg je potrebno ažurirati</param>
+            <returns>Forma za ažuriranje računa ili status da račun nije pronađen za navedeni id</returns>
+        </member>
+        <member name="M:videozid.Controllers.DhmzAccController.Edit(System.Int32,videozid.Models.DhmzAcc)">
+            <summary>
+            Postupak za ažuriranje pojedinog Dhmz računa
+            </summary>
+            <param name="id">Id računa kojeg je potrebno ažurirati</param>
+            <param name="racun">Uneseni podaci koje je potrebno ažurirati</param>
+            <returns>Detaljni pogled na ažurirani račun ili forma za ponovni unos podataka s navedenim razlozima neuspješnosti prošlog unosa</returns>
+        </member>
+        <member name="M:videozid.Controllers.DhmzAccController.RacunExists(System.Int32)">
+            <summary>
+            Metoda koja provjerava da li račun postoji za navedeni "id"
+            </summary>
+            <param name="id">Id računa</param>
+            <returns>Istinitosna vrijednost ukoliko postoji, suprotno ukoliko ne postoji</returns>
+        </member>
+        <member name="M:videozid.Controllers.DhmzAccController.Next(System.Int32)">
+            <summary>
+            Metoda koja vraća detaljni pogled sljedećeg Dhmz raćuna koji su sortirani po id-u
+            </summary>
+            <param name="id">Id trenutno prikazanog računa</param>
+            <returns>Detaljni pogled sljedećeg računa</returns>
+        </member>
+        <member name="M:videozid.Controllers.DhmzAccController.Previous(System.Int32)">
+            <summary>
+            Metoda koja vraća detaljni pogled prethodnog Dhmz raćuna koji su sortirani po id-u
+            </summary>
+            <param name="id">Id trenutno prikazanog računa</param>
+            <returns>Detaljni pogled prethodnog računa</returns>
+        </member>
+        <member name="T:videozid.Controllers.EkranZidaController">
+            <summary>
+            Upravljaè za baratanje podacima o ekranima videozidova
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.EkranZidaController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="context">kontekst za rukovanje bazom podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.EkranZidaController.Index">
+            <summary>
+            Postupak za dohvat ekrana koji prikazuje popis ekrana videozidova.
+            </summary>
+            <returns>Pogled koji sadrži pregled ekrana videozidova</returns>
+        </member>
+        <member name="M:videozid.Controllers.EkranZidaController.ApiIndex">
+            <summary>
+            Postupak za dohvat API ekrana koji prikazuje popis ekrana videozidova.
+            </summary>
+            <returns>Pogled koji sadrži metode za AJAX baratanje ekranima videozidova te odgovarajuæe postupke za njihov prikaz</returns>
+        </member>
+        <member name="M:videozid.Controllers.EkranZidaController.Details(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za dohvat ekrana koji prikazuje informacije o jednom ekranu videozida.
+            </summary>
+            <param name="id">ID ekrana videozida</param>
+            <returns>Pogled koji prikazuje podatke o ekranu videozida</returns>
+        </member>
+        <member name="M:videozid.Controllers.EkranZidaController.Next(System.Int32)">
+            <summary>
+            Kontrola za navigiranje izmeðu detalja razlièitih ekrana videozidova unaprijed
+            </summary>
+            <param name="id">ID trenutnog ekrana videozida</param>
+            <returns>Pogled koji prikazuje podatke o ekranu videozida èiji je ID prvi veæi od trenutnog</returns>
+        </member>
+        <member name="M:videozid.Controllers.EkranZidaController.Previous(System.Int32)">
+            <summary>
+            Kontrola za navigiranje izmeðu detalja razlièitih ekrana videozida unaprijed
+            </summary>
+            <param name="id">ID trenutnog ekrana videozida</param>
+            <returns>Pogled koji prikazuje podatke o ekranu videozida èiji je ID prvi manji od trenutnog</returns>
+        </member>
+        <member name="M:videozid.Controllers.EkranZidaController.Create">
+            <summary>
+            Postupak za dohvat ekrana koji služi za stvaranje novog ekrana videozida
+            </summary>
+            <returns>Pogled za stvaranje novog ekrana videozida</returns>
+        </member>
+        <member name="M:videozid.Controllers.EkranZidaController.Create(videozid.Models.EkranZida)">
+            <summary>
+            Interna metoda koja dohvaæeni ekran videozida sprema u bazu, ukoliko su svi atributi ispravno zadani
+            </summary>
+            <param name="ekranZida"> Objekt tipa EkranZida koji sadži informacije o novom ekranu videozida</param>
+            <returns>Pogled na detelje o novostvorenom ekranu videozida ili pogled za stvaranje novog ekrana videozida s porukom o atributima koji su krivo zadani</returns>
+        </member>
+        <member name="M:videozid.Controllers.EkranZidaController.Edit(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za dohvat ekrana za ureðivanje detalja ekrana videozida
+            </summary>
+            <param name="id">ID ekrana videozida kojeg se ureðuje</param>
+            <returns>NotFound ako ekran videozida s navedenim Id-em ne postoji, ekran za ureðivanje ekrana videozida inaèe</returns>
+        </member>
+        <member name="M:videozid.Controllers.EkranZidaController.Edit(System.Int32,videozid.Models.EkranZida)">
+            <summary>
+            Interna metoda koja dohvaæeni ekran videozida ažurira primljenim informacijama
+            </summary>
+            <param name="id">ID ekrana videozida</param>
+            <param name="ekranZida">informacije o ekranu videozida</param>
+            <returns>Pogled na detelje o ažuriranom ekranu videozida ili pogled za ureðivanje videozida s porukom o atributima koji su krivo zadani</returns>
+        </member>
+        <member name="M:videozid.Controllers.EkranZidaController.Delete(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za dohvat pogleda koji prikauje infomacije o ekranu videozida prije nego što æe biti obrisan
+            </summary>
+            <param name="id">ID ekrana videozida</param>
+            <returns>Not Found ako ekran videozida s zadanim ID-em ne postoji, ekran s popisom ekrana videozida inaèe</returns>
+        </member>
+        <member name="M:videozid.Controllers.EkranZidaController.EkranZidaValid(videozid.Models.EkranZida)">
+            <summary>
+            Pomoæna metoda za provjeru ispravnosti stvorenog ekrana videozida.
+            </summary>
+            <param name="ekranZida">objekt tipa EkranZida</param>
+            <returns>true ako je ekran zida za zadani videozida ispravno definiran, false inaèe</returns>
+        </member>
+        <member name="M:videozid.Controllers.ImportExcelController.IndexPrezentacije(System.Collections.Generic.ICollection{Microsoft.AspNetCore.Http.IFormFile})">
+            <summary>
+            Precedura koja sprema prezentacije u bazu podataka i vraća excel tablicu u kojoj piše
+            je li prezentacija uspješno spremljena.
+            </summary>
+            <param name="files">Excel tablica prezentacija</param>
+            <returns>Excel tablica sa statusom je li pojedina prezentacija uspješno spremljena</returns>
+        </member>
+        <member name="T:videozid.Controllers.UredajController">
+            <summary>
+            Upravljaè za baratanje podacima o ureðajima
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="context">kontekst za rukovanje bazom podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.Index">
+            <summary>
+            Postupak za dohvat ekrana koji prikazuje popis ureðaja.
+            </summary>
+            <returns>Pogled koji sadrži pregled ureðaja</returns>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.ApiIndex">
+            <summary>
+            Postupak za dohvat API ekrana koji prikazuje popis ureðaja.
+            </summary>
+            <returns>Pogled koji sadrži metode za AJAX baratanje ureðajima te odgovarajuæe postupke za njihov prikaz</returns>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.ApiDetails(System.Int32)">
+            <summary>
+            Postupak za dohvat API ekrana koji prikazuje detalje jednog ureðaja.
+            </summary>
+            <param name="id">ID videozida</param>
+            <returns>Pogled koji sadrži metode za AJAX ureðivanje ureðaja</returns>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.ApiEdit(System.Int32)">
+            <summary>
+            Postupak za dohvat API ekrana koji sadrži kontrole za ažuriranje ureðaja.
+            </summary>
+            <param name="id">ID videozida</param>
+            <returns>Pogled koji sadrži metode za AJAX ureðivanje osnovnih informacija o ureðaju</returns>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.Details(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za dohvat ekrana koji prikazuje informacije o jednom ureðaju
+            </summary>
+            <param name="id">ID ureðaja</param>
+            <returns>Pogled koji prikazuje podatke o ureðaju</returns>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.Next(System.Int32)">
+            <summary>
+            Kontrola za navigiranje izmeðu detalja razlièitih ureðaja unaprijed
+            </summary>
+            <param name="id">ID trenutnog ureðaja</param>
+            <returns>Pogled koji prikazuje podatke o ureðaju èiji je ID prvi veæi od trenutnog</returns>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.Previous(System.Int32)">
+            <summary>
+            Kontrola za navigiranje izmeðu detalja razlièitih ureðaja unazad.
+            </summary>
+            <param name="id">ID trenutnog ureðaja</param>
+            <returns>Pogled koji prikazuje podatke o ureðaju èiji je ID prvi manji od trenutnog</returns>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.Create">
+            <summary>
+            Postupak za dohvat ekrana koji služi za stvaranje novog ureðaja
+            </summary>
+            <returns>Pogled za stvaranje novog ureðaja</returns>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.Create(videozid.Models.Uredaj)">
+            <summary>
+            Interna metoda koja dohvaæeni ureðaj sprema u bazu, ukoliko su atributi ispravno zadani
+            </summary>
+            <param name="uredaj"> Objekt tipa Uredaj koji sadži informacije o novom ureðaju</param>
+            <returns>Pogled na detelje o novostvorenom ureðaju ili pogled za stvaranje novog ureðaja s porukom o atributima koji su krivo zadani</returns>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.Edit(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za dohvat ekrana za ureðivanje detalja ureðaja
+            </summary>
+            <param name="id">ID ureðaja kojeg se ureðuje</param>
+            <returns>NotFound ako ureðaj s navedenim Id-em ne postoji, ekran za ureživanje ureðaja inaèe</returns>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.Edit(System.Int32,videozid.Models.Uredaj)">
+            <summary>
+            Interna metoda koja dohvaæeni ureðaj ažurira primljenim informacijama
+            </summary>
+            <param name="id">ID ureðaja</param>
+            <param name="uredaj">infomacije o ureðaju</param>
+            <returns>Pogled na detelje o ažuriranom ureðaju ili pogled za ureðivanje ureðaja s porukom o atributima koji su krivo zadani</returns>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.Delete(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za dohvat pogleda koji prikauje infomacije o ureðaju prije nego što æe biti obrisan
+            </summary>
+            <param name="id">ID ureðaja</param>
+            <returns>Not Found ako ureðaj s zadanim ID-em ne postoji, ekran s popisom ureðaja inaèe</returns>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.UredajExists(System.Int32)">
+            <summary>
+            Pomoæni postupak za provjeru postojanja ureðaja s poslanim ID-em
+            </summary>
+            <param name="id">ID ureðaja</param>
+            <returns>true ako ureðaj postoji, false inaèe</returns>
+        </member>
+        <member name="M:videozid.Controllers.UredajController.LoadDetails(videozid.Models.Uredaj)">
+            <summary>
+            Pomoæni postupak za stvaranje objekta tipa UredajDetailsViewModel na temelju objekta tipa Uredaj.
+            </summary>
+            <param name="ur">Ureðaj kojeg treba pretvorit</param>
+            <returns>objekt tipa UredajDetailsViewModel</returns>
+        </member>
+        <member name="T:videozid.Controllers.VideozidController">
+            <summary>
+            Upravljaè za baratanje podacima o videozidovima
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="context">kontekst za rukovanje bazom podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.ApiIndex">
+            <summary>
+            Postupak za dohvat API ekrana koji prikazuje popis videozidova.
+            </summary>
+            <returns>Pogled koji sadrži metode za AJAX baratanje videozidovima te odgovarajuæe postupke za njihov prikaz</returns>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.ApiDetails(System.Int32)">
+            <summary>
+            Postupak za dohvat API ekrana koji prikazuje detalje jednog videozida.
+            </summary>
+            <param name="id">ID videozida</param>
+            <returns>Pogled koji sadrži metode za AJAX ureðivanje videozida</returns>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.ApiEdit(System.Int32)">
+            <summary>
+            Postupak za dohvat API ekrana koji sadrži kontrole za ažuriranje videozida.
+            </summary>
+            <param name="id">ID videozida</param>
+            <returns>Pogled koji sadrži metode za AJAX ureðivanje osnovnih informacija o videozidu</returns>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.Index">
+            <summary>
+            Postupak za dohvat ekrana koji prikazuje popis videozidova.
+            </summary>
+            <returns>Pogled koji sadrži pregled videozidova</returns>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.Details(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za dohvat ekrana koji prikazuje informacije o jednom videozidu.
+            </summary>
+            <param name="id">ID videozida</param>
+            <returns>Pogled koji prikazuje podatke o videozidu</returns>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.Next(System.Int32)">
+            <summary>
+            Kontrola za navigiranje izmeðu detalja razlièitih videozidova unaprijed
+            </summary>
+            <param name="id">ID trenutnog videozida</param>
+            <returns>Pogled koji prikazuje podatke o videozidu èiji je ID prvi veæi od trenutnog</returns>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.Previous(System.Int32)">
+            <summary>
+            Kontrola za navigiranje izmeðu detalja razlièitih videozidova unaprijed
+            </summary>
+            <param name="id">ID trenutnog videozida</param>
+            <returns>Pogled koji prikazuje podatke o videozidu èiji je ID prvi manji od trenutnog</returns>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.Create">
+            <summary>
+            Postupak za dohvat ekrana koji služi za stvaranje novog videozida
+            </summary>
+            <returns>Pogled za stvaranje novog videozida</returns>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.Create(videozid.Models.Videozid)">
+            <summary>
+            Interna metoda koja dohvaæeni videozid sprema u bazu, ukoliko su svi atributi ispravno zadani
+            </summary>
+            <param name="videozid"> Objekt tipa Videozid koji sadži informacije o novom videozidu</param>
+            <returns>Pogled na detelje o novostvorenom videozidu ili pogled za stvaranje novog videozida s porukom o atributima koji su krivo zadani</returns>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.Check(videozid.Models.Videozid)">
+            <summary>
+            Pomoæni postupak za provjeru ispravnosti atributa videozida koji se treba stvoriti.
+            </summary>
+            <param name="videozid"></param>
+            <returns>true ako je videozid ispravno zadan, false inaèe</returns>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.Edit(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za dohvat ekrana za ureðivanje detalja videozida
+            </summary>
+            <param name="id">ID videozida kojeg se ureðuje</param>
+            <returns>NotFound ako videozid s navedenim Id-em ne postoji, ekran za ureðivanje videozida inaèe</returns>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.Edit(System.Int32,videozid.Models.Videozid)">
+            <summary>
+            Interna metoda koja dohvaæeni videozid ažurira primljenim informacijama
+            </summary>
+            <param name="id">ID videozida</param>
+            <param name="videozid">informacije o videozidu</param>
+            <returns>Pogled na detelje o ažuriranom videozidu ili pogled za ureðivanje videozida s porukom o atributima koji su krivo zadani</returns>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.Delete(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za dohvat pogleda koji prikauje infomacije o videozidu prije nego što æe biti obrisan
+            </summary>
+            <param name="id">ID videozida</param>
+            <returns>Not Found ako ekran videozida s zadanim ID-em ne postoji, ekran s popisom videozidova inaèe</returns>
+        </member>
+        <member name="M:videozid.Controllers.VideozidController.VideozidExists(System.Int32)">
+            <summary>
+            Pomoæna metoda koja provjerava postoji li videozid s navedenim ID-em
+            </summary>
+            <param name="id">ID videozida</param>
+            <returns>true ako vidoezid s primljenim ID-em postoji, false inaèe</returns>
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.DhmzAccController">
+            <summary>
+            Web API servis za rad s DHMZ računima
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.DhmzAccController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="context">VideozidContext za pristup bazi podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.DhmzAccController.DhmzGet">
+            <summary>
+            Postupak za dohvat svih DHMZ računa. 
+            </summary>
+            <returns>Popis svih DHMZ računa, sortiran po korisničkom imenu</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.DhmzAccController.RacunGet(System.String)">
+            <summary>
+            Postupak za dohvat DHMZ računa čije je korisničko ime jednako poslanom parametru
+            </summary>
+            <param name="KorisnickoIme">Korisničko ime</param>
+            <returns>objekt tipa IndexAccApiModel ili NotFound ako račun s traženim korisničkim imenom ne postoji</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.DhmzAccController.RacunCreate(System.String,videozid.ViewModels.Api.AccNewApiModel)">
+            <summary>
+            Postupak kojim se unosi novi Dhmz račun
+            </summary>
+            <param name="PripadaKorisniku">Pripada korisniku</param>
+            <param name="model">Podaci o novom računu. Pod vlasnik se unosi korisničko ime korisnika kojemu želimo stvoriti novi Dhmz račun</param>
+            <returns>201 ako je račun uspješno pohranjen, te se ujedno vraća i spremljeni objekt, 400 u slučaju neispravnog modela ili korisnik već posjeduje Dhmz račun</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.DhmzAccController.DhmzDelete(System.String)">
+            <summary>
+            Briše račun s predanim korisničkim imenom u adresi zahtjeva
+            </summary>
+            <param name="KorisnickoIme">Korisničko ime Dhmz računa koje je potrebno obrisati</param>
+            <returns>404 ako nije obrisan ili 204 ako je brisanje uspješno</returns>          
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.DhmzAccController.DhmzUpdate(System.String,videozid.ViewModels.Api.AccEditApiModel)">
+            <summary>
+            Ažurira Dhmz račun s temeljem parametera iz zahtjeva (korisničko ime)
+            </summary>
+            <param name="KorisnickoIme">Korisničko ime Dhmz računa kojeg je potrebno ažurirati</param>
+            <param name="model">model s podacima o Dhmz računu</param>
+            <returns>204 ako je račun uspješno ažuriran, 404 ako račun s traženim korisničkim imenom ne postoji ili 400 ako model nije ispravan</returns>
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.EkranZidaController">
+            <summary>
+            Web API servis za rad s ekranima Videozida.
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.EkranZidaController.#ctor(videozid.Models.RPPP15Context,Microsoft.Extensions.Logging.ILogger{videozid.Controllers.WebAPI.ServisController})">
+            <summary>
+            Konstruktor.
+            </summary>
+            <param name="context">RPPP15Context za pristup bazi podataka</param>
+            /// <param name="logger">>Loger koji zapisuje u bazu podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.EkranZidaController.EkraniGet">
+            <summary>
+            Postupak za dohvat svih ekrana videozidova. 
+            </summary>
+            <returns>Popis svih ekrana sortiran po Id-u</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.EkranZidaController.EkranGet(System.Int32)">
+            <summary>
+            Postupak za dohvat ekrana čiji je ID jednak poslanom parametru.
+            </summary>
+            <param name="IdEkrana">ID ekrana</param>
+            <returns>objekt tipa EkranZidaApiModel ili NotFound ako ekran videozida s traženim Id-em ne postoji</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.EkranZidaController.EkraniZidaGet(System.Int32)">
+            <summary>
+            Postupak za dohvat svih ekrana jednog videozida. 
+            </summary>
+            <returns>Popis svih ekrana sortiran po Id-u</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.EkranZidaController.EkranCreate(videozid.Models.EkranZida)">
+            <summary>
+            Postupak kojim se unosi novi ekran videozida.
+            </summary>
+            <param name="ekran">Podaci o novom ekranu</param>
+            <returns>201 ako je ekran videozida uspješno pohranjen, te se ujedno vraća i spremljeni objekt, 400 u slučaju neispravnog modela</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.EkranZidaController.EkranUpdate(videozid.ViewModels.Api.EkranZidaApiModel)">
+            <summary>
+            Ažurira ekran videozida s ID-em IdEkrana temeljem parametera iz zahtjeva.
+            </summary>
+            <param name="model">model s podacima o ekranu zida</param>
+            <returns>204 ako je ekran videozida uspješno ažuriran, NotFound ako ekran s traženom šifrom ne postoji ili BadRequest ako model nije ispravan</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.EkranZidaController.EkranDelete(System.Int32)">
+            <summary>
+            Briše ekran videozida s ID-em predanim u adresi zahtjeva.
+            </summary>
+            <param name="IdEkrana">ID ekrana videozida kojeg treba obrisati</param>
+            <returns>NotFound ili 204 ako je brisanje uspješno</returns>          
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.ExcelController">
+            <summary>
+            Kontroler koji se koristi za izradu excel tablica na temelju sadržaja u bazi podataka.
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ExcelController.#ctor(videozid.Models.RPPP15Context,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="context">Kontekst za pristup bazi podataka</param>
+            <param name="env">Okruženje </param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ExcelController.Index">
+            <summary>
+            Procedura koja vraća pogled IndexServiseri.
+            </summary>
+            <returns>pogled IndexServiseri</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ExcelController.ServisiExport">
+            <summary>
+            Metoda koja kreira excel tablicu svih dostupnih servisa.
+            </summary>
+            <returns>Excel dokumenst, xlsx</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ExcelController.ServiseriExport">
+            <summary>
+            Metoda koja kreira excel tablicu svih dostupnih serviera.
+            </summary>
+            <returns>Excel dokument, xlsx</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ExcelController.ServiseriPredlozak">
+            <summary>
+            Metoda koja kreira excel predložak za dodavanje servisera.
+            </summary>
+            <returns>Excel predložak za dodavanje servisera</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ExcelController.ServiseriImport(System.Collections.Generic.ICollection{Microsoft.AspNetCore.Http.IFormFile})">
+            <summary>
+            Precedura koja sprema servisere zapisane u excel tablici u bazu podataka i vreća excel tablicu u kojoj piše
+            je li serviser uspiješno spremljen.
+            </summary>
+            <param name="files">Excel tablica sa serviserima</param>
+            <returns>Excel tablica sa statusom je li pojedini serviser uspješno spremljen</returns>
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.FerWebAccController">
+            <summary>
+            Web API servis za rad s FerWeb računima
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.FerWebAccController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="context">VideozidContext za pristup bazi podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.FerWebAccController.FerWebGet">
+            <summary>
+            Postupak za dohvat svih FerWeb računa. 
+            </summary>
+            <returns>Popis svih FerWeb računa, sortiran po korisničkom imenu</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.FerWebAccController.RacunGet(System.String)">
+            <summary>
+            Postupak za dohvat FerWeb računa čije je korisničko ime jednako poslanom parametru
+            </summary>
+            <param name="KorisnickoIme">Korisničko ime</param>
+            <returns>objekt tipa FerWebAccApiModel ili NotFound ako račun s traženim korisničkim imenom ne postoji</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.FerWebAccController.RacunCreate(System.String,videozid.ViewModels.Api.AccNewApiModel)">
+            <summary>
+            Postupak kojim se unosi novi FerWeb račun
+            </summary>
+            <param name="PripadaKorisniku">Pripada korisniku</param>
+            <param name="model">Podaci o novom računu. Pod vlasnik se unosi korisničko ime korisnika kojemu želimo stvoriti novi FerWeb račun</param>
+            <returns>201 ako je račun uspješno pohranjen, te se ujedno vraća i spremljeni objekt, 400 u slučaju neispravnog modela ili korisnik već posjeduje FerWeb račun</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.FerWebAccController.FerWebDelete(System.String)">
+            <summary>
+            Briše račun s predanim korisničkim imenom u adresi zahtjeva
+            </summary>
+            <param name="KorisnickoIme">Korisničko ime FerWeb računa koje je potrebno obrisati</param>
+            <returns>404 ako nije obrisan ili 204 ako je brisanje uspješno</returns>          
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.FerWebAccController.FerWebUpdate(System.String,videozid.ViewModels.Api.AccEditApiModel)">
+            <summary>
+            Ažurira FerWeb račun s temeljem parametera iz zahtjeva (korisničko ime)
+            </summary>
+            <param name="KorisnickoIme">Korisničko ime FerWeb računa kojeg je potrebno ažurirati</param>
+            <param name="model">model s podacima o FerWeb računu</param>
+            <returns>204 ako je račun uspješno ažuriran, 404 ako račun s traženim korisničkim imenom ne postoji ili 400 ako model nije ispravan</returns>
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.KategorijaController">
+            <summary>
+            Web API servis za rad s kategorijama.
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.KategorijaController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Konstruktor.
+            </summary>
+            <param name="context">RPPP15Context za pristup bazi podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.KategorijaController.KategorijeGet">
+            <summary>
+            Postupak za dohvat svih kategorija. 
+            </summary>
+            <returns>Popis svih kategorija</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.KategorijaController.KategorijaGet(System.Int32)">
+            <summary>
+            Postupak za dohvat kategorije čiji je ID jednak poslanom parametru.
+            </summary>
+            <param name="idKategorije">ID kategorije</param>
+            <returns>objekt tipa KategorijaApiModel ili NotFound ako kategorija s traženom oznakom ne postoji</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.KategorijaController.KategorijaCreate(videozid.ViewModels.Api.KategorijaApiModel)">
+            <summary>
+            Postupak kojim se unosi nova kategorija.
+            </summary>
+            <param name="model">Podaci o novoj kategoriji</param>
+            <returns>201 ako je kategorija uspješno pohranjena, te se ujedno vraća i spremljeni objekt, 400 u slučaju neispravnog modela</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.KategorijaController.KategorijaUpdate(System.Int32,videozid.ViewModels.Api.KategorijaApiModel)">
+            <summary>
+            Ažurira kategoriju s ID-em kategorije temeljem parametera iz zahtjeva.
+            </summary>
+            <param name="IdKategorije">ID kategorije koju treba ažurirati</param>
+            <param name="model">model s podacima o ekranu zida</param>
+            <returns>204 ako je kategorija uspješno ažurirana, 404 ako ekran s traženom šifrom ne postoji ili 400 ako model nije ispravan</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.KategorijaController.KategorijanDelete(System.Int32)">
+            <summary>
+            Briše kategoriju s ID-em predanim u adresi zahtjeva.
+            </summary>
+            <param name="IdKategorije">ID kategorije koju treba obrisati</param>
+            <returns>404 ili 204 ako je brisanje uspješno</returns>          
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.PrezentacijaController">
+            <summary>
+            Web API servis za rad s prezentacijama.
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.PrezentacijaController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Konstruktor.
+            </summary>
+            <param name="context">RPPP15Context za pristup bazi podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.PrezentacijaController.PrezentacijeGet">
+            <summary>
+            Postupak za dohvat svih prezentacija. 
+            </summary>
+            <returns>Popis svih prezentacija</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.PrezentacijaController.PrezentacijaGet(System.Int32)">
+            <summary>
+            Postupak za dohvat prezentacije čiji je ID jednak poslanom parametru.
+            </summary>
+            <param name="idPrezentacije">ID prezentacije</param>
+            <returns>objekt tipa PrezentacijaApiModel ili NotFound ako prezentacija s traženim ID-em ne postoji</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.PrezentacijaController.PrezentacijaCreate(videozid.ViewModels.Api.PrezentacijaApiModel)">
+            <summary>
+            Postupak kojim se unosi nova prezentacija.
+            </summary>
+            <param name="model">Podaci o novoj prezentaciji</param>
+            <returns>201 ako je prezentacija uspješno pohranjena, te se ujedno vraća i spremljeni objekt, 400 u slučaju neispravnog modela</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.PrezentacijaController.PrezentacijaUpdate(videozid.ViewModels.Api.PrezentacijaApiModel)">
+            <summary>
+            Ažurira prezentaciju s parametrom ID iz zahtjeva.
+            </summary>
+            <param name="IdPrezentacije">ID prezentacije koju treba ažurirati</param>
+            <param name="model">model s podacima o prezentaciji</param>
+            <returns>204 ako je prezentacija uspješno ažurirana, 404 ako prezentacija s traženom šifrom ne postoji ili 400 ako model nije ispravan</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.PrezentacijaController.PrezentacijaDelete(System.Int32)">
+            <summary>
+            Briše prezentaciju s ID-em predanim u adresi zahtjeva.
+            </summary>
+            <param name="IdPrezentacije">oznaka prezentacije koju treba obrisati</param>
+            <returns>404 ili 204 ako je brisanje uspješno</returns>          
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.SadrzajController">
+            <summary>
+            Web API servis za rad sa sadržajima.
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.SadrzajController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Konstruktor.
+            </summary>
+            <param name="context">RPPP15Context za pristup bazi podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.SadrzajController.SadrzajiGet">
+            <summary>
+            Postupak za dohvat svih sadržaja. 
+            </summary>
+            <returns>Popis svih sadržaja</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.SadrzajController.SadrzajGet(System.Int32)">
+            <summary>
+            Postupak za dohvat sadržaja čiji je ID jednak poslanom parametru.
+            </summary>
+            <param name="idSadrzaja">ID sadržaja</param>
+            <returns>objekt tipa SadrzajApiModel ili NotFound ako sadržaj s traženim ID-em ne postoji</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.SadrzajController.SadrzajCreate(videozid.ViewModels.Api.SadrzajApiModel)">
+            <summary>
+            Postupak kojim se unosi novi sadržaj.
+            </summary>
+            <param name="model">Podaci o novom sadržaju</param>
+            <returns>201 ako je sadržaj uspješno pohranjen, te se ujedno vraća i spremljeni objekt, 400 u slučaju neispravnog modela</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.SadrzajController.SadrzajUpdate(videozid.ViewModels.Api.SadrzajApiModel)">
+            <summary>
+            Ažurira sadržaj s parametrom ID iz zahtjeva.
+            </summary>
+            <param name="IdSadrzaja">ID sadržaja koji treba ažurirati</param>
+            <param name="model">model s podacima o sadržaju</param>
+            <returns>204 ako je sadržaj uspješno ažuriran, 404 ako uređaj s traženom šifrom ne postoji ili 400 ako model nije ispravan</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.SadrzajController.SadrzajDelete(System.Int32)">
+            <summary>
+            Briše sadržaj s ID-em predanim u adresi zahtjeva.
+            </summary>
+            <param name="IdSadrzaja">oznaka sadržaja koji treba obrisati</param>
+            <returns>404 ili 204 ako je brisanje uspješno</returns>          
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.ServisController">
+            <summary>
+            Kontroler za upravljanje servisima
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisController.#ctor(videozid.Models.RPPP15Context,Microsoft.Extensions.Logging.ILogger{videozid.Controllers.WebAPI.ServisController})">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="context">Kontekst za pristup bazi podataka</param>
+            <param name="logger">Loger koji zapisuje u bazu podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisController.GetServisi">
+            <summary>
+            Postupak za dohvat svih servisa. 
+            </summary>
+            <returns>Popis svih servisa</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisController.DeleteServis(System.Nullable{System.Int32})">
+            <summary>
+            Metoda koja briše servisera zadanog s ID-om
+            </summary>
+            <param name="id">id servisera</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisController.GetServis(System.Int32)">
+            <summary>
+            Procedura koja dohvača servis kojemu je ID jednak predanom parametru id.
+            </summary>
+            <param name="id">ID koji jednoznačno određuje servis</param>
+            <returns>Servis ukoliko je pronađen, inače Error 404</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisController.CreateServis(videozid.Controllers.WebAPI.ServisApiModel)">
+            <summary>
+            Postupak kojim se stvara novi servis
+            </summary>
+            <param name="model">Model servisa</param>
+            <returns>201 ako je servis uspješno pohranjen, te se ujedno vraća i spremljeni objekt, 400 u slučaju neispravnog modela</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisController.UpdateServis(videozid.Controllers.WebAPI.ServisApiModel,System.Int32)">
+            <summary>
+            Postupak kojim se mijenja postojeći servis
+            </summary>
+            <param name="model">Model servisa (ServisApiModel)</param>
+            <param name="idServis">ID servisa koji se mijenja</param>
+            <returns>201 ako je servis uspješno pohranjen, te se ujedno vraća i spremljeni objekt, 400 u slučaju neispravnog modela</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisController.AddServiser(System.Int32,System.Int32)">
+            <summary>
+            Procedura koja dodaje servisera zadanog ID-em servisu zadanom ID-em.
+            </summary>
+            <param name="idServis">id servisa</param>
+            <param name="idServiser">id servisera</param>
+            <returns>status 200 i dodanog servisera ukoliko je sve u redu, inače error 400</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisController.GetUredaji(System.Int32)">
+            <summary>
+            Procedura koja vraća listu svih uređaja koje servis zadan s ID-em NE servisira
+            </summary>
+            <param name="idServis">id servisa</param>
+            <returns>listu svih uređaja koje servis zadan s ID-em NE servisira</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisController.AddUredaj(System.Int32,System.Int32)">
+            <summary>
+            Procedura koja dodaje postojeć uređaj zadan ID-em servisu zadanom ID-em.
+            </summary>
+            <param name="idServis">id servisa</param>
+            <param name="idUredaj">id uređaja</param>
+            <returns>Dodani uređaj i status 202 u skučaju uspjeha, inače status 400</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisController.CheckIBAN(System.String)">
+            <summary>
+            Procedura koja provjerava je li iban u dobrom formatu.
+            </summary>
+            <param name="iban"></param>
+            <returns></returns>
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.ServisApiModel">
+            <summary>
+            Klasa koja predstavlja model Servisa pogodan za API.
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.ServisApiModel.Id">
+            <summary>
+            Id servisa
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.ServisApiModel.Ime">
+            <summary>
+            Ime servisa
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.ServisApiModel.Racun">
+            <summary>
+            ZiroRacun servisa
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.ServisApiModel.Opis">
+            <summary>
+            Opis servisa
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.ServisApiModel.Serviseri">
+            <summary>
+            Lista servisara koji pripadaju servisu
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.ServisApiModel.TipServisa">
+            <summary>
+            Tip servisa
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.ServisApiModel.Uredaji">
+            <summary>
+            List uredaja koje servis servisira
+            </summary>
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.UredajApiModelHelper">
+            <summary>
+            Model uređaja koji se koristi prilikom prijenosa paramateara u post zahtjevu.
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.UredajApiModelHelper.Id">
+            <summary>
+            Id uređaja.
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.UredajApiModelHelper.Ime">
+            <summary>
+            Ime uređaja
+            </summary>
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.ServiserController">
+            <summary>
+            Kontroler za upravljanje serviserima.
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServiserController.#ctor(videozid.Models.RPPP15Context,Microsoft.Extensions.Logging.ILogger{videozid.Controllers.WebAPI.ServiserController})">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="context">Kontekst za pristup bazi podataka</param>
+            <param name="logger">Logger sa spremanje traga rada aplikacije u bazu podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServiserController.GetServiseri">
+            <summary>
+            Postupak za dohvat svih servisera. 
+            </summary>
+            <returns>Popis svih servisera</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServiserController.DeleteServiser(System.Nullable{System.Int32})">
+            <summary>
+            Metoda koja briše servisera zadanog s ID-om
+            </summary>
+            <param name="id">id servisera</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServiserController.CreateServiser(videozid.Controllers.WebAPI.ServiserApiModel)">
+            <summary>
+            Postupak kojim se stvara novi servis
+            </summary>
+            <param name="model">Model servisa</param>
+            <returns>201 ako je servis uspješno pohranjen, te se ujedno vraća i spremljeni objekt, 400 u slučaju neispravnog modela</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServiserController.UpdateServiser(videozid.Controllers.WebAPI.ServiserApiModel,System.Int32)">
+            <summary>
+            Postupak kojim se mijenja postojeći serviser
+            </summary>
+            <param name="model">Model servisaera (ServiserApiModel)</param>
+            <param name="idServiser">ID servisera koji se mijenja</param>
+            <returns>201 ako je serviser uspješno izmjenjen, te se ujedno vraća i spremljeni objekt, 400 u slučaju neispravnog modela</returns>
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.ServiserApiModel">
+            <summary>
+            Model koji predstavlja Servisera za korištenje s APIjem 
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.ServiserApiModel.Id">
+            <summary>
+            Id servisera
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.ServiserApiModel.IdServis">
+            <summary>
+            Id servisa za koji serviser radi
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.ServiserApiModel.Ime">
+            <summary>
+            Ime servisera
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.ServiserApiModel.Prezime">
+            <summary>
+            Prezime servisera
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.ServiserApiModel.Opis">
+            <summary>
+            Opis servisera
+            </summary>
+        </member>
+        <member name="P:videozid.Controllers.WebAPI.ServiserApiModel.Servis">
+            <summary>
+            Imde servisa za koji serviser radi
+            </summary>
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.ServisiraController">
+            <summary>
+            Kontroler za upravljanje servisira.
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisiraController.#ctor(videozid.Models.RPPP15Context,Microsoft.Extensions.Logging.ILogger{videozid.Controllers.WebAPI.ServisController})">
+            <summary>
+            Kontroler za upravljanje servisira.
+            </summary>
+            <param name="context">Kontekst za pristup bazi podataka</param>
+            <param name="logger">NLogger koji zapisuje trag u bazu podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisiraController.GetIndex">
+            <summary>
+            Metoda koja dohvaca sve servisira i vrati pogled Index.
+            </summary>
+            <returns>Pogled Index sa pripadajućim modelom</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisiraController.GetDetails(System.Nullable{System.Int32})">
+            <summary>
+            Metoda koja odabire tip servisa za detaljniji pregled na temelju ID-a.
+            </summary>
+            <param name="id">id tipa servisa</param>
+            <returns>Pogled Details sa odgovarajućim modelom</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisiraController.DeleteServisira(System.Nullable{System.Int32})">
+            <summary>
+            Procedura koja briše servisira zadanog s ID-om
+            </summary>
+            <param name="id">id servisira</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ServisiraController.DeleteForServisAndUredaj(System.Int32,System.Int32)">
+            <summary>
+            Procedura koja briše servisira. Servisira je jednoznačno određen sa ID-em uređaja i ID-em servisa.
+            </summary>
+            <param name="idServis"></param>
+            <param name="idUredaj"></param>
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.TipSadrzajaController">
+            <summary>
+            Web API servis za rad s tipovima sadržaja.
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.TipSadrzajaController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Konstruktor.
+            </summary>
+            <param name="context">RPPP15Context za pristup bazi podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.TipSadrzajaController.TipSadrzajaGet">
+            <summary>
+            Postupak za dohvat svih tipova sadržaja. 
+            </summary>
+            <returns>Popis svih tipova sadržaja</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.TipSadrzajaController.TipSadrzajaGet(System.Int32)">
+            <summary>
+            Postupak za dohvat tipa sadrzaja čiji je ID jednak poslanom parametru.
+            </summary>
+            <param name="idTipSadrzaja">ID tipa sadrzaja</param>
+            <returns>objekt tipa TipSadrzajApiModel ili NotFound ako kategorija s traženom oznakom ne postoji</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.TipSadrzajaController.TipSadrzajaCreate(videozid.ViewModels.Api.TipSadrzajaApiModel)">
+            <summary>
+            Postupak kojim se unosi novi tip sadržaja.
+            </summary>
+            <param name="model">Podaci o novom tipu</param>
+            <returns>201 ako je tip uspješno pohranjen, te se ujedno vraća i spremljeni objekt, 400 u slučaju neispravnog modela</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.TipSadrzajaController.TipSadrzajaDelete(System.Int32)">
+            <summary>
+            Briše tip sadržaja s ID-em predanim u adresi zahtjeva.
+            </summary>
+            <param name="IdTipSadrzaja">ID tipa koji treba obrisati</param>
+            <returns>404 ili 204 ako je brisanje uspješno</returns>          
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.TipServisaController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Kontroler za upravljanje tipvoima servisa.
+            </summary>
+            <param name="context">Kontekst za pristup bazi podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.TipServisaController.GetTipoviServisa">
+            <summary>
+            Metoda koja dohvaca sve tipove servisa i vrati pogled Index.
+            </summary>
+            <returns>Pogled Index sa pripadajućim modelom</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.TipServisaController.GetDetails(System.Nullable{System.Int32})">
+            <summary>
+            Metoda koja odabire tip servisa za detaljniji pregled na temelju ID-a.
+            </summary>
+            <param name="id">id tipa servisa</param>
+            <returns>Pogled Details sa odgovarajućim modelom</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.TipServisaController.GetEdit(System.Nullable{System.Int32})">
+            <summary>
+            Metoda koja odabire tip servisa za uredivanje na temelju ID-a.
+            </summary>
+            <param name="id">id tipa servisa</param>
+            <returns>Pogled Edit sa odgovarajućim modelom</returns>>
+            <returns></returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.TipServisaController.PostEdit(System.Int32,videozid.Models.TipServisa)">
+            <summary>
+            Metoda koja sprema promjete u tipu servisa zadanom određenom s ID-om.
+            </summary>
+            <param name="id">id tipa</param>
+            <param name="tipServisa">ime tipa</param>
+            <returns>Pogled Post</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.TipServisaController.TipServisaExists(System.Int32)">
+             <summary>
+            
+             </summary>
+             <param name="id"> id tipa servisa</param>
+             <returns>True ako tip servisa postoji u bazi podataka</returns>
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.UredajController">
+            <summary>
+            Web API servis za rad s uređajima.
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.UredajController.#ctor(videozid.Models.RPPP15Context,Microsoft.Extensions.Logging.ILogger{videozid.Controllers.WebAPI.ServisController})">
+            <summary>
+            Konstruktor.
+            </summary>
+            <param name="context">RPPP15Context za pristup bazi podataka</param>
+            /// <param name="logger">>Loger koji zapisuje u bazu podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.UredajController.UredajiGet">
+            <summary>
+            Postupak za dohvat svih uređaja. 
+            </summary>
+            <returns>Popis svih uređaja sortiran po nazivu</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.UredajController.UredajGet(System.Int32)">
+            <summary>
+            Postupak za dohvat uređaja čiji je ID jednak poslanom parametru.
+            </summary>
+            <param name="idUredaja">ID uređaja</param>
+            <returns>objekt tipa UredajApiModel ili NotFound ako uređaj s traženim ID-em ne postoji</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.UredajController.ServisiGet">
+            <summary>
+            Postupak za dohvat svih servisa.
+            </summary>
+            <returns>lista servisa</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.UredajController.ServisAdd(videozid.Models.Servisira)">
+            <summary>
+            Postupak kojim se dodaje novi servise uređaju.
+            </summary>
+            <param name="model">Podaci o novom servisu</param>
+            <returns>201 ako je uređaj uspješno pohranjen, te se ujedno vraća i spremljeni objekt, BadRequest u slučaju neispravnog modela</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.UredajController.UredajCreate(videozid.ViewModels.Api.UredajApiModel)">
+            <summary>
+            Postupak kojim se stvara novi uređaj.
+            </summary>
+            <param name="model">Podaci o novom uređaju</param>
+            <returns>201 ako je uređaj uspješno pohranjen, te se ujedno vraća i spremljeni objekt, BadRequest u slučaju neispravnog modela</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.UredajController.UredajUpdate(videozid.ViewModels.Api.UredajApiModel)">
+            <summary>
+            Ažurira uređaj s ID-em uređaja temeljem parametera iz zahtjeva.
+            </summary>
+            <param name="model">model s podacima o uređaju</param>
+            <returns>204 ako je uređaj uspješno ažuriran, NotFound ako uređaj s traženom šifrom ne postoji ili BadRequest ako model nije ispravan</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.UredajController.UredajDelete(System.Int32)">
+            <summary>
+            Briše uređaj s ID-em predanim u adresi zahtjeva.
+            </summary>
+            <param name="IdUredaja">oznaka uređaja kojeg treba obrisati</param>
+            <returns>NotFound ili 204 ako je brisanje uspješno</returns>          
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.UredajController.PodredeniDelete(videozid.ViewModels.MasterDetailHelper)">
+            <summary>
+            Briše zamjenski uređaj s ID-em predanim u adresi zahtjeva.
+            </summary>
+            <param name="model">veza koju treba obrisati</param>
+            <returns>NotFound ili 204 ako je brisanje uspješno</returns>          
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.UredajController.PodredeniAdd(videozid.ViewModels.MasterDetailHelper)">
+            <summary>
+            Briše zamjenski uređaj s ID-em predanim u adresi zahtjeva.
+            </summary>
+            <param name="model">veza koju treba obrisati</param>
+            <returns>NotFound ili 204 ako je brisanje uspješno</returns>          
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.UredajController.ServisDelete(System.Int32)">
+            <summary>
+            Briše servis uređaja s ID-em predanim u adresi zahtjeva.
+            </summary>
+            <param name="idVeze">oznaka veze koju treba obrisati</param>
+            <returns>404 ili 204 ako je brisanje uspješno</returns>          
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.VideozidController">
+            <summary>
+            Web API servis za rad s videozidom.
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.VideozidController.#ctor(videozid.Models.RPPP15Context,Microsoft.Extensions.Logging.ILogger{videozid.Controllers.WebAPI.ServisController})">
+            <summary>
+            Konstruktor.
+            </summary>
+            <param name="context">RPPP15Context za pristup bazi podataka</param>
+            /// <param name="logger">>Loger koji zapisuje u bazu podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.VideozidController.VideozidiGet">
+            <summary>
+            Postupak za dohvat svih videozidova. 
+            </summary>
+            <returns>Popis svih videozidova sortiran po nazivu</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.VideozidController.VideozidGet(System.Int32)">
+            <summary>
+            Postupak za dohvat videozida čiji je ID jednak primljenom parametru.
+            </summary>
+            <param name="idZida">ID videozida</param>
+            <returns>objekt tipa VideozidApiModel ili NotFound ako videozid s traženom oznakom ne postoji</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.VideozidController.VideozidCreate(videozid.ViewModels.Api.VideozidApiModel)">
+            <summary>
+            Postupak kojim se stvara novi videozid.
+            </summary>
+            <param name="model">Podaci o novom videozidu</param>
+            <returns>201 ako je videozid uspješno pohranjen te se ujedno vraća i spremljeni objekt, BadRequest u slučaju neispravnog modela</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.VideozidController.VideozidUpdate(videozid.ViewModels.Api.VideozidApiModel)">
+            <summary>
+            Ažurira videozid novim vrijednostima temeljem parametera iz zahtjeva.
+            </summary>
+            <param name="model">model s podacima o videozidu</param>
+            <returns>204 ako je videozid uspješno ažuriran, NotFound ako videozid s traženom šifrom ne postoji ili BadRequest ako model nije ispravan</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.VideozidController.VideozidDelete(System.Int32)">
+            <summary>
+            Briše videozid s ID-em predanim u adresi zahtjeva.
+            </summary>
+            <param name="IdZida">oznaka videozida kojeg treba obrisati</param>
+            <returns>NotFound ili 204 ako je brisanje uspješno</returns>          
+        </member>
+        <member name="T:videozid.Controllers.WebAPI.ZamjenskiUredajController">
+            <summary>
+            Web API servis za rad sa zamjenskim uređajima.
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ZamjenskiUredajController.#ctor(videozid.Models.RPPP15Context,Microsoft.Extensions.Logging.ILogger{videozid.Controllers.WebAPI.ServisController})">
+            <summary>
+            Konstruktor.
+            </summary>
+            <param name="context">RPPP15Context za pristup bazi podataka</param>
+            <param name="logger">>Loger koji zapisuje u bazu podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ZamjenskiUredajController.ZamjenskiUredajiGet">
+            <summary>
+            Postupak za dohvat svih zamjenskih uređaja. 
+            </summary>
+            <returns>Popis svih zamjenskih uređaja sortiran po ID-u</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ZamjenskiUredajController.ZamjenskiUredajGet(System.Int32)">
+            <summary>
+            Postupak za dohvat zamjenskog uređaja čiji je ID jednak poslanom parametru.
+            </summary>
+            <param name="idUredaja">ID zamjenskog uređaja</param>
+            <returns>objekt tipa ZamjenskiUredajApiModel ili NotFound s pripadajućom porukom ako zamjenski uređaj s traženim ID-em ne postoji</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ZamjenskiUredajController.ZamjenskiUredajCreate(videozid.Models.ZamjenskiUredaj)">
+            <summary>
+            Postupak kojim se deklarira novi zamjenski uređaj.
+            </summary>
+            <param name="zamjenski">Podaci o novom zamjenskom uređaju</param>
+            <returns>201 ako je zamjenski uređaj uspješno pohranjen, te se ujedno vraća i spremljeni objekt, BadRequest s u slučaju neispravnog modela</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ZamjenskiUredajController.ZamjenskiUredajUpdate(videozid.ViewModels.Api.ZamjenskiUredajApiModel)">
+            <summary>
+            Ažurira zamjenski uređaj s ID-em uređaja IdUredaja temeljem parametera iz zahtjeva.
+            </summary>
+            <param name="model">model tipa ZamjenskiUredajApiModel s novim podacima o zamjenskom uređaju</param>
+            <returns>204 ako je uređaj uspješno ažuriran, 404 ako uređaj s traženom šifrom ne postoji ili BadRequest ako model nije ispravan</returns>
+        </member>
+        <member name="M:videozid.Controllers.WebAPI.ZamjenskiUredajController.ZamjenskiUredajDelete(System.Int32)">
+            <summary>
+            Briše zamjenski uređaj s ID-em predanim u adresi zahtjeva.
+            </summary>
+            <param name="IdUredaja">ID zamjenskog uređaja kojeg treba obrisati</param>
+            <returns>NotFound ako uređaj nije pronađen ili 204 ako je brisanje uspješno</returns>          
+        </member>
+        <member name="T:videozid.Controllers.ZamjenskiUredajController">
+            <summary>
+            Upravljaè za baratanje podacima o zamjenskim ureðajima
+            </summary>
+        </member>
+        <member name="M:videozid.Controllers.ZamjenskiUredajController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="context">kontekst za rukovanje bazom podataka</param>
+        </member>
+        <member name="M:videozid.Controllers.ZamjenskiUredajController.Index">
+            <summary>
+            Postupak za dohvat ekrana koji prikazuje popis zamjenskih ureðaja.
+            </summary>
+            <returns>Pogled koji sadrži pregled zamjenskih ureðaja</returns>
+        </member>
+        <member name="M:videozid.Controllers.ZamjenskiUredajController.ApiIndex">
+            <summary>
+            Postupak za dohvat API ekrana koji prikazuje popis zamjenskih ureðaja.
+            </summary>
+            <returns>Pogled koji sadrži metode za AJAX baratanje zamjenskim ureðajima te odgovarajuæe postupke za njihov prikaz</returns>
+        </member>
+        <member name="M:videozid.Controllers.ZamjenskiUredajController.Details(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za dohvat ekrana koji prikazuje informacije o jednom zamjenskom ureðaju
+            </summary>
+            <param name="id">ID zamjenskog ureðaja</param>
+            <returns>Pogled koji prikazuje podatke o zamjenskom ureðaju</returns>
+        </member>
+        <member name="M:videozid.Controllers.ZamjenskiUredajController.Next(System.Int32)">
+            <summary>
+            Kontrola za navigiranje izmeðu detalja razlièitih zamjenskih ureðaja unaprijed
+            </summary>
+            <param name="id">ID trenutnog zamjenskog ureðaja</param>
+            <returns>Pogled koji prikazuje podatke o zamjenskom ureðaju èiji je ID prvi veæi od trenutnog</returns>
+        </member>
+        <member name="M:videozid.Controllers.ZamjenskiUredajController.Previous(System.Int32)">
+            <summary>
+            Kontrola za navigiranje izmeðu detalja razlièitih zamjenskih ureðaja unazad.
+            </summary>
+            <param name="id">ID trenutnog zamjenskog ureðaja</param>
+            <returns>Pogled koji prikazuje podatke o zamjenskom ureðaju èiji je ID prvi manji od trenutnog</returns>
+        </member>
+        <member name="M:videozid.Controllers.ZamjenskiUredajController.Create">
+            <summary>
+            Postupak za dohvat ekrana koji služi za stvaranje novog zamjenskog ureðaja
+            </summary>
+            <returns>Pogled za stvaranje novog zamjenskog ureðaja</returns>
+        </member>
+        <member name="M:videozid.Controllers.ZamjenskiUredajController.Create(videozid.Models.ZamjenskiUredaj)">
+            <summary>
+            Interna metoda koja dohvaæeni zamjenskih ureðaj sprema u bazu, ukoliko su atributi ispravno zadani
+            </summary>
+            <param name="zamjenskiUredaj"> Objekt tipa ZamjenskiUredaj koji sadži informacije o novom zamjenskom ureðaju</param>
+            <returns>Pogled na detelje o novostvorenom zamjenskom ureðaju ili pogled za stvaranje novog zamjenskog ureðaja s porukom o atributima koji su krivo zadani</returns>
+        </member>
+        <member name="M:videozid.Controllers.ZamjenskiUredajController.Edit(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za dohvat ekrana za ureðivanje detalja zamjenskog ureðaja
+            </summary>
+            <param name="id">ID zamjenskog ureðaja kojeg se ureðuje</param>
+            <returns>NotFound ako zamjenski ureðaj s navedenim Id-em ne postoji, ekran za ureživanje zamjenskog ureðaja inaèe</returns>
+        </member>
+        <member name="M:videozid.Controllers.ZamjenskiUredajController.Edit(System.Int32,videozid.Models.ZamjenskiUredaj)">
+            <summary>
+            Interna metoda koja dohvaæeni zamjenski ureðaj ažurira primljenim informacijama
+            </summary>
+            <param name="id">ID zamjenskog ureðaja</param>
+            <param name="zamjenskiUredaj">informacije o zamjenskom ureðaju</param>
+            <returns>Pogled na detelje o ažuriranom zamjenskom ureðaju ili pogled za ureðivanje zamjenskog ureðaja s porukom o atributima koji su krivo zadani</returns>
+        </member>
+        <member name="M:videozid.Controllers.ZamjenskiUredajController.Delete(System.Nullable{System.Int32})">
+            <summary>
+            Postupak za dohvat pogleda koji prikauje infomacije o zamjenskom ureðaju prije nego što æe biti obrisan
+            </summary>
+            <param name="id">Id zamjenskog ureðaja</param>
+            <returns>Not Found ako zamjenski ureðaj s zadanim ID-em ne postoji, ekran s popisom zamjenskih ureðaja inaèe</returns>
+        </member>
+        <member name="M:videozid.Controllers.ZamjenskiUredajController.ZamjenskiUredajExists(System.Int32)">
+            <summary>
+            Pomoæni postupak za provjeru postojanja zamjenskog ureðaja s poslanim ID-em
+            </summary>
+            <param name="id">ID zamjenskog ureðaja</param>
+            <returns>true ako zamjenski ureðaj postoji, false inaèe</returns>
+        </member>
+        <member name="T:videozid.Extensions.ExceptionExtensions">
+            <summary>
+            Razred sa proširenjima za iznimke
+            </summary>
+        </member>
+        <member name="M:videozid.Extensions.ExceptionExtensions.CompleteExceptionMessage(System.Exception)">
+            <summary>
+            Vraća sadržaj poruka cijele hijerarhije neke iznimke. Za predanu iznimku provjerava se postoji li unutarnja iznimka.
+            Ako da, poruka unutanje iznimke dodaje se u rezultat te se dalje provjerava postoji li unutarnja iznimka unutarnje iznimke itd...    
+            </summary>
+            <param name="exc">Iznimka čija se kompletna hijerarhija poruka treba ispisati</param>
+            <returns>String formiran od poruka svih unutarnjih iznimki. Poruka svake iznimmke dodana je u novi redak</returns>
+        </member>
+        <member name="T:videozid.Models.Administrator">
+            <summary>
+            Administrator (šifrarnik)
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Administrator.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Administrator.IdKorisnika">
+            <summary>
+            Id Korisnika koji je administrator
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Administrator.IdKorisnikaNavigation">
+            <summary>
+            Navigacija korisnikom preko id-a njegove tablice
+            </summary>
+        </member>
+        <member name="T:videozid.Models.DhmzAcc">
+            <summary>
+            Račun za prijavu na Državni hidrometeorološki zavod (DHMZ)
+            </summary>
+        </member>
+        <member name="M:videozid.Models.DhmzAcc.#ctor">
+            <summary>
+            Konstruktor
+            </summary>
+        </member>
+        <member name="P:videozid.Models.DhmzAcc.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:videozid.Models.DhmzAcc.Lozinka">
+            <summary>
+            Lozinka računa
+            </summary>
+        </member>
+        <member name="P:videozid.Models.DhmzAcc.KorisnickoIme">
+            <summary>
+            Korisničko ime Dhmz računa
+            </summary>
+        </member>
+        <member name="P:videozid.Models.DhmzAcc.DozvolaServer">
+            <summary>
+            Broj dozvole za pristup serveru
+            </summary>
+        </member>
+        <member name="P:videozid.Models.DhmzAcc.Korisnik">
+            <summary>
+            Skup korisnika koji posjeduje račun
+            </summary>
+        </member>
+        <member name="T:videozid.Models.EkranZida">
+            <summary>
+            Podatkovni model ekrana videozida
+            </summary>
+        </member>
+        <member name="P:videozid.Models.EkranZida.Id">
+            <summary>
+            ID ekrana videozida
+            </summary>
+        </member>
+        <member name="P:videozid.Models.EkranZida.IdUredaja">
+            <summary>
+            ID ekrana videozida u tablici Uređaj
+            </summary>
+        </member>
+        <member name="P:videozid.Models.EkranZida.IdZida">
+            <summary>
+            Id videozida kojem pripada ovaj ekran
+            </summary>
+        </member>
+        <member name="P:videozid.Models.EkranZida.XKoord">
+            <summary>
+            X koordinata na kojoj se ekran zida nalazi
+            </summary>
+        </member>
+        <member name="P:videozid.Models.EkranZida.YKoord">
+            <summary>
+            Y koordinata na kojoj se ekran zida nalazi
+            </summary>
+        </member>
+        <member name="P:videozid.Models.EkranZida.IdUredajaNavigation">
+            <summary>
+            IdUredajaNavigation
+            </summary>
+        </member>
+        <member name="P:videozid.Models.EkranZida.IdZidaNavigation">
+            <summary>
+            IdZidaNavigation
+            </summary>
+        </member>
+        <member name="T:videozid.Models.FerWebAcc">
+            <summary>
+            Račun za prijavu na FerWeb
+            </summary>
+        </member>
+        <member name="M:videozid.Models.FerWebAcc.#ctor">
+            <summary>
+            Konstruktor
+            </summary>
+        </member>
+        <member name="P:videozid.Models.FerWebAcc.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:videozid.Models.FerWebAcc.Lozinka">
+            <summary>
+            Lozinka računa
+            </summary>
+        </member>
+        <member name="P:videozid.Models.FerWebAcc.KorisnickoIme">
+            <summary>
+            Korisničko ime računa
+            </summary>
+        </member>
+        <member name="P:videozid.Models.FerWebAcc.DozvolaServer">
+            <summary>
+            Broj dozvole za pristup serveru
+            </summary>
+        </member>
+        <member name="P:videozid.Models.FerWebAcc.Korisnik">
+            <summary>
+            Skup korisnika koji posjeduje račun
+            </summary>
+        </member>
+        <member name="T:videozid.Models.Korisnik">
+            <summary>
+            Korisnik aplikacije VideoZid
+            </summary>
+        </member>
+        <member name="M:videozid.Models.Korisnik.#ctor">
+            <summary>
+            Konstruktor
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Korisnik.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Korisnik.Ime">
+            <summary>
+            Ime
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Korisnik.Prezime">
+            <summary>
+            Prezime
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Korisnik.Email">
+            <summary>
+            Adresa elektroničke pošte korisnika
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Korisnik.Lozinka">
+            <summary>
+            Lozinka
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Korisnik.KorisnickoIme">
+            <summary>
+            Korisničko ime 
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Korisnik.DhmzId">
+            <summary>
+            Strani ključ na Dhmz račun, id računa
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Korisnik.FerId">
+            <summary>
+            Strani ključ na FerWeb račun, id računa
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Korisnik.Administrator">
+            <summary>
+            Skup korisnika koji su administratori
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Korisnik.SadrzajIdAutoraNavigation">
+            <summary>
+            Skup sadržaja kojima je korisnik autor
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Korisnik.SadrzajIdOdobrenOdNavigation">
+            <summary>
+            Skup sadržaja koje je korisnik odobrio
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Korisnik.Dhmz">
+            <summary>
+            Dhmz račun korisnika
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Korisnik.Fer">
+            <summary>
+            FerWeb račun korisnika
+            </summary>
+        </member>
+        <member name="T:videozid.Models.Uredaj">
+            <summary>
+            Podatkovni model uređaja
+            </summary>
+        </member>
+        <member name="M:videozid.Models.Uredaj.#ctor">
+            <summary>
+            Konstruktor
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.Id">
+            <summary>
+            ID uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.Naziv">
+            <summary>
+            Naziv uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.NabavnaCijena">
+            <summary>
+            Nabavna cijena uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.AktualnaCijena">
+            <summary>
+            Aktualna cijena uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.DatumNabavke">
+            <summary>
+            Datum nabavke uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.IdNadredeneKomponente">
+            <summary>
+            ID uređaja koji je nadređen ovom uređaju
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.IdZida">
+            <summary>
+            ID videozida kojemu ovaj uređaj pripada
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.IdStatusa">
+            <summary>
+            ID statusa kojeg je ovaj uređaj 
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.EkranZida">
+            <summary>
+            Ekran zida
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.Servisira">
+            <summary>
+            Lista servisera koji ovaj uređaj servisiraju
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.ZamjenskiUredajIdUredajaNavigation">
+            <summary>
+            ZamjenskiUredajIdUredajaNavigation
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.ZamjenskiUredajIdZamjenaZaNavigation">
+            <summary>
+            ZamjenskiUredajIdZamjenaZaNavigation
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.IdNadredeneKomponenteNavigation">
+            <summary>
+            IdNadredeneKomponenteNavigation        
+            /// </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.InverseIdNadredeneKomponenteNavigation">
+            <summary>
+            InverseIdNadredeneKomponenteNavigation
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.IdStatusaNavigation">
+            <summary>
+            IdStatusaNavigation
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Uredaj.IdZidaNavigation">
+            <summary>
+            IdZidaNavigation
+            </summary>
+        </member>
+        <member name="T:videozid.Models.Videozid">
+            <summary>
+            Podatkovni model videozida
+            </summary>
+        </member>
+        <member name="M:videozid.Models.Videozid.#ctor">
+            <summary>
+            KOnstruktor
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Videozid.Id">
+            <summary>
+            ID videozida
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Videozid.Naziv">
+            <summary>
+            Naziv videozida
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Videozid.Lokacija">
+            <summary>
+            Lokacija videozida
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Videozid.Sirina">
+            <summary>
+            Sirina vidoezida
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Videozid.Visina">
+            <summary>
+            Visina videozida
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Videozid.EkranZida">
+            <summary>
+            Lista ekrana videozida
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Videozid.Prikazuje">
+            <summary>
+            Lista shemi prikazivanja koje videozid prikazuje
+            </summary>
+        </member>
+        <member name="P:videozid.Models.Videozid.Uredaj">
+            <summary>
+            Lista uređaja koji su sastavni dio videozida
+            </summary>
+        </member>
+        <member name="T:videozid.Models.ZamjenskiUredaj">
+            <summary>
+            Podatkovni model Zamjenskog uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.Models.ZamjenskiUredaj.Id">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:videozid.Models.ZamjenskiUredaj.IdUredaja">
+            <summary>
+            ID zamjenskog uređaja u tablici Uređaj
+            </summary>
+        </member>
+        <member name="P:videozid.Models.ZamjenskiUredaj.IdZamjenaZa">
+            <summary>
+            ID uređaja u tablici Uređaj kojemu je ovaj uređaj zamjena
+            </summary>
+        </member>
+        <member name="P:videozid.Models.ZamjenskiUredaj.IdUredajaNavigation">
+            <summary>
+            Navigacijski atribut
+            </summary>
+        </member>
+        <member name="P:videozid.Models.ZamjenskiUredaj.IdZamjenaZaNavigation">
+            <summary>
+            Navigacijski atributs
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.Api.AccEditApiModel">
+            <summary>
+            Prezentacijski model za ažuriranje FerWeb i DHMZ računa
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.AccEditApiModel.Lozinka">
+            <summary>
+            Lozinka 
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.AccEditApiModel.DozvolaServer">
+            <summary>
+            Broj dozvole za pristup serveru FerWeba, DHMZ-a
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.Api.AccNewApiModel">
+            <summary>
+            Prezentacijski model za dodavanje FerWeb i DHMZ računa
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.AccNewApiModel.KorisnickoIme">
+            <summary>
+            Korisničko ime 
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.AccNewApiModel.Lozinka">
+            <summary>
+            Lozinka 
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.AccNewApiModel.DozvolaServer">
+            <summary>
+            Broj dozvole za pristup serveru FerWeba, DHMZ-a
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.Api.EkranZidaApiModel">
+            <summary>
+            Ekran videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.EkranZidaApiModel.Id">
+            <summary>
+            ID ekrana videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.EkranZidaApiModel.IdUredaja">
+            <summary>
+            ID uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.EkranZidaApiModel.Uredaj">
+            <summary>
+            Ime Uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.EkranZidaApiModel.IdZida">
+            <summary>
+            ID Videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.EkranZidaApiModel.Zid">
+            <summary>
+            Ime Zida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.EkranZidaApiModel.XKoord">
+            <summary>
+            X-koordinata
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.EkranZidaApiModel.YKoord">
+            <summary>
+            Y-koordinata
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.Api.IndexAccApiModel">
+            <summary>
+            Prezentacijski pogled za prikaz FerWeb i DHMZ računa s njihovim vlasnikom
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.IndexAccApiModel.Id">
+            <summary>
+            ID računa
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.IndexAccApiModel.KorisnickoIme">
+            <summary>
+            Korisničko ime FerWeb, DHMZ računa
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.IndexAccApiModel.Lozinka">
+            <summary>
+            Lozinka FerWeb, DHMZ računa
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.IndexAccApiModel.DozvolaServer">
+            <summary>
+            Broj dozvole za pristup serveru
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.IndexAccApiModel.Vlasnik">
+            <summary>
+            Korisnicko ime korisnika koji posjeduje taj FerWeb, DHMZ račun
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.Api.KategorijaApiModel">
+            <summary>
+            Kategorija
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KategorijaApiModel.Id">
+            <summary>
+            ID kategorije
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KategorijaApiModel.Vrsta">
+            <summary>
+            Vrsta kategorije
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.Api.KorisnikApiModel">
+            <summary>
+            Prezentacijski pogled koji objedinjuje tablice korisnik i administrator
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikApiModel.Id">
+            <summary>
+            ID korisnika
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikApiModel.Ime">
+            <summary>
+            Ime korisnika
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikApiModel.Prezime">
+            <summary>
+            Prezime korisnika
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikApiModel.Email">
+            <summary>
+            Email adresa 
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikApiModel.Lozinka">
+            <summary>
+            Lozinka 
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikApiModel.KorisnickoIme">
+            <summary>
+            Korisničko ime
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikApiModel.Admin">
+            <summary>
+            Zastavica koja obilježava da li je korisnik administrator
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.Api.KorisnikMDApiModel">
+            <summary>
+            Prezentacijski pogled koji objedinjuje tablice korisnik i administrator
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikMDApiModel.Id">
+            <summary>
+            ID korisnika
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikMDApiModel.Ime">
+            <summary>
+            Ime korisnika
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikMDApiModel.Prezime">
+            <summary>
+            Prezime korisnika
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikMDApiModel.Email">
+            <summary>
+            Email adresa 
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikMDApiModel.Lozinka">
+            <summary>
+            Lozinka 
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikMDApiModel.KorisnickoIme">
+            <summary>
+            Korisničko ime
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikMDApiModel.Admin">
+            <summary>
+            Zastavica koja obilježava da li je korisnik administrator
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikMDApiModel.Autor">
+            <summary>
+            Ekrani videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.KorisnikMDApiModel.Odobrio">
+            <summary>
+            Ekrani videozida
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.Api.PrezentacijaApiModel">
+            <summary>
+            Prezentacija
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.PrezentacijaApiModel.Id">
+            <summary>
+            ID prezentacije
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.PrezentacijaApiModel.XKoord">
+            <summary>
+            X koordinata
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.PrezentacijaApiModel.YKoord">
+            <summary>
+            Y koordinata
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.PrezentacijaApiModel.Sirina">
+            <summary>
+            Širina
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.PrezentacijaApiModel.Visina">
+            <summary>
+            Visina
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.PrezentacijaApiModel.IdSadrzaja">
+            <summary>
+            ID sadržaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.PrezentacijaApiModel.Sadrzaj">
+            <summary>
+            Ime sadržaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.PrezentacijaApiModel.IdKategorije">
+            <summary>
+            ID kategorije
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.PrezentacijaApiModel.Kategorija">
+            <summary>
+            Ime kategorije
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.PrezentacijaApiModel.KoristenOd">
+            <summary>
+            Koristi prezentaciju
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.Api.SadrzajApiModel">
+            <summary>
+            Sadržaj
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.SadrzajApiModel.Id">
+            <summary>
+            ID sadržaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.SadrzajApiModel.Ime">
+            <summary>
+            Ime sadržaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.SadrzajApiModel.Opis">
+            <summary>
+            Opis sadržaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.SadrzajApiModel.Url">
+            <summary>
+            URL sadržaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.SadrzajApiModel.JeOdobren">
+            <summary>
+            Odobren
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.SadrzajApiModel.IdAutora">
+            <summary>
+            ID autora
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.SadrzajApiModel.Autor">
+            <summary>
+            Ime autora
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.SadrzajApiModel.IdOdobrenOd">
+            <summary>
+            ID korisnika koji je odobrio sadržaj
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.SadrzajApiModel.OdobrenOd">
+            <summary>
+            Ime korisnika koji je odobrio sadržaj
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.SadrzajApiModel.IdTipa">
+            <summary>
+            ID tipa sadržaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.SadrzajApiModel.Tip">
+            <summary>
+            Ime tipa
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.SadrzajApiModel.Prezentacija">
+            <summary>
+            Prezentacija
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.TipSadrzajaApiModel.Id">
+            <summary>
+            ID tipa sadržaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.TipSadrzajaApiModel.Ime">
+            <summary>
+            Ime tipa sadržaja
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.Api.UredajApiModel">
+            <summary>
+            Uređaj
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.Id">
+            <summary>
+            ID uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.Naziv">
+            <summary>
+            Naziv uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.NabavnaCijena">
+            <summary>
+            Nabavna cijena uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.AktualnaCijena">
+            <summary>
+            Aktualna cijena uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.DatumNabavke">
+            <summary>
+            Datum nabavke uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.IdNadredeneKomponente">
+            <summary>
+            ID naređenog uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.NadredenaKomponenta">
+            <summary>
+            Naziv naređenog uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.IdZida">
+            <summary>
+            ID videozida kojem uređaj pripada
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.Zid">
+            <summary>
+            Naziv videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.IdStatusa">
+            <summary>
+            Status uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.Status">
+            <summary>
+            Naziv statusa
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.Zamjenski">
+            <summary>
+            Zamjenski uređaji
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.ZamjenaZa">
+            <summary>
+            Uređaji za koje je uređaj zamjenski
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.PodredeneKomponente">
+            <summary>
+            Uređaji za koji su podređeni uređaju
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.UredajApiModel.Servisi">
+            <summary>
+            Servisi koji su zaduženi za uređaj
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.Api.VideozidApiModel">
+            <summary>
+            Videozid
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.VideozidApiModel.Id">
+            <summary>
+            ID videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.VideozidApiModel.Naziv">
+            <summary>
+            Naziv videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.VideozidApiModel.Lokacija">
+            <summary>
+            Lokacija videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.VideozidApiModel.Sirina">
+            <summary>
+            Širina videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.VideozidApiModel.Visina">
+            <summary>
+            Visina videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.VideozidApiModel.Ekrani">
+            <summary>
+            Ekrani videozida
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.Api.ZamjenskiUredajApiModel">
+            <summary>
+            Zamjenski Uređaj
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.ZamjenskiUredajApiModel.Id">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.ZamjenskiUredajApiModel.IdUredaja">
+            <summary>
+            ID Uređaja u ulozi zamjenskog
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.ZamjenskiUredajApiModel.Uredaj">
+            <summary>
+            Ime Uređaja u ulozi zamjenskog
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.ZamjenskiUredajApiModel.IdZamjenaZa">
+            <summary>
+            ID Uređaja koji ima zamjenu
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.ZamjenskiUredajApiModel.Zamjena">
+            <summary>
+            IMe Uređaja koji ima zamjenu
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.Api.ImportExcelKorisnikViewModel">
+            <summary>
+            Prezentacijski pogled za uvoz korisnika kroz excel, objedinjuje tablice administrator i korisnik, te sadrži status ispravnosti uvezenih podataka
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.ImportExcelKorisnikViewModel.Status">
+            <summary>
+            Status koji obilježava da li je korisnik unesen ili ne
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.ImportExcelKorisnikViewModel.Ime">
+            <summary>
+            Ime korisnika
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.ImportExcelKorisnikViewModel.Prezime">
+            <summary>
+            Prezime korisnika
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.ImportExcelKorisnikViewModel.Email">
+            <summary>
+            Email adresa 
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.ImportExcelKorisnikViewModel.Lozinka">
+            <summary>
+            Lozinka 
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.ImportExcelKorisnikViewModel.KorisnickoIme">
+            <summary>
+            Korisničko ime 
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.Api.ImportExcelKorisnikViewModel.Admin">
+            <summary>
+            Zastavica koja obilježava da li je korisnik administrator
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.DhmzAccDetailsViewModel">
+            <summary>
+            Prezentacijski pogled za detaljni prikaz DHMZ računa
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.DhmzAccDetailsViewModel.racun">
+            <summary>
+            Dhmz račun
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.DhmzAccDetailsViewModel.korisnik">
+            <summary>
+            Vlasnik Dhmz računa
+            </summary>
+        </member>
+        <member name="M:videozid.ViewModels.DhmzAccDetailsViewModel.#ctor(videozid.Models.DhmzAcc,videozid.Models.Korisnik)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="racun">Dhmz račun</param>
+            <param name="korisnik">Korisnik koji je vlasnik tog Dhmz računa</param>
+        </member>
+        <member name="T:videozid.ViewModels.FerWebAccDetailsViewModel">
+            <summary>
+            Prezentacijski pogled za detaljni prikaz FerWeb računa
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.FerWebAccDetailsViewModel.racun">
+            <summary>
+            FerWeb račun
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.FerWebAccDetailsViewModel.korisnik">
+            <summary>
+            Vlasnik FerWeb računa
+            </summary>
+        </member>
+        <member name="M:videozid.ViewModels.FerWebAccDetailsViewModel.#ctor(videozid.Models.FerWebAcc,videozid.Models.Korisnik)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="racun">FerWeb račun</param>
+            <param name="korisnik">Korisnik koji je vlasnik tog FerWeb računa</param>
+        </member>
+        <member name="T:videozid.ViewModels.ImportExcelViewModel">
+            <summary>
+            Prezentacijski pogled za uvoz FerWeb ili Dhmz računa, sadrži status ispravnosti uvezenih podataka
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportExcelViewModel.Status">
+            <summary>
+            Status koji obilježava da li je račun unesen ili ne
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportExcelViewModel.KorisnickoIme">
+            <summary>
+            Korisničko ime 
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportExcelViewModel.Lozinka">
+            <summary>
+            Lozinka 
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportExcelViewModel.DozvolaServer">
+            <summary>
+            Broj dozvole za pristup serveru
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportExcelViewModel.Vlasnik">
+            <summary>
+            Korisnicko ime korisnika koji posjeduje račun
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.ImportUredajViewModel">
+            <summary>
+            Prezentacijski pogled za uvoz uredaja kroz excel, sadrži status ispravnosti uvezenih podataka
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportUredajViewModel.Status">
+            <summary>
+            Status ispravnosti uvezenih podataka
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportUredajViewModel.Naziv">
+            <summary>
+            Naziv uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportUredajViewModel.NabavnaCijena">
+            <summary>
+            Nabavna cijena uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportUredajViewModel.AktualnaCijena">
+            <summary>
+            Aktualna cijena uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportUredajViewModel.DatumNabavke">
+            <summary>
+            Datum nabavke uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportUredajViewModel.StatusUredaja">
+            <summary>
+            Status uređaja (aktivan ili zamjenski)
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportUredajViewModel.NadredenaKomponenta">
+            <summary>
+            Naziv nadređene komponenete uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportUredajViewModel.Videozid">
+            <summary>
+            Naziv videozida kojem je uređaj pridružen
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.ImportVideozidoviViewModel">
+            <summary>
+            Razred za uvoz videozidova s Excela
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportVideozidoviViewModel.Status">
+            <summary>
+            Status uvoza 
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportVideozidoviViewModel.Naziv">
+            <summary>
+            Naziv videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportVideozidoviViewModel.Lokacija">
+            <summary>
+            Lokacija videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportVideozidoviViewModel.Sirina">
+            <summary>
+            Širina videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.ImportVideozidoviViewModel.Visina">
+            <summary>
+            Visina videozida
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.KorisnikDetailsViewModel">
+            <summary>
+            Prezentacijski pogled za detaljni prikaz korisnika
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.KorisnikDetailsViewModel.korisnik">
+            <summary>
+            Instanca korisnika
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.KorisnikDetailsViewModel.Sadrzaji">
+            <summary>
+            Popis sadržaja gdje je korisnik autor istih
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.KorisnikDetailsViewModel.Odobrio">
+            <summary>
+            Sadržaji koje je korisnik odobrio za prikaz na videozid-u
+            </summary>
+        </member>
+        <member name="M:videozid.ViewModels.KorisnikDetailsViewModel.#ctor(videozid.Models.Korisnik,System.Collections.Generic.IEnumerable{videozid.Models.Sadrzaj},System.Collections.Generic.IEnumerable{videozid.Models.Sadrzaj})">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="korisnik">Primjerak korisnika</param>
+            <param name="sadrzaji">Autor sadržaja</param>
+            <param name="odobrio">Odobreni sadržaji</param>
+        </member>
+        <member name="T:videozid.ViewModels.KorisnikMasterDetailHelper">
+            <summary>
+            Sadrži osnovne informacije koje entitet pruža o objektima koje sadrži
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.KorisnikMasterDetailHelper.Id">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.KorisnikMasterDetailHelper.Name">
+            <summary>
+            Ime
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.MasterDetailHelper">
+            <summary>
+            Sadrži osnovne informacije koje entitet pruža o objektima koje sadrži
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.MasterDetailHelper.IdVeze">
+            <summary>
+            ID Veze
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.MasterDetailHelper.Id">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.MasterDetailHelper.Name">
+            <summary>
+            Ime
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.UredajDenorm">
+            <summary>
+            Razred za pripremu prikaza informacija o uređaju i njegov ispis u format PDF
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDenorm.Id">
+            <summary>
+            Id uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDenorm.Naziv">
+            <summary>
+            Naziv uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDenorm.NabavnaCijena">
+            <summary>
+            Nabavna cijena uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDenorm.AktualnaCijena">
+            <summary>
+            Aktualna cijena uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDenorm.DatumNabavke">
+            <summary>
+            Datum nabavke uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDenorm.NadredenaKomponenta">
+            <summary>
+            Nadređena komponenta uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDenorm.Zid">
+            <summary>
+            Videozid kojem uređaj pripada
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDenorm.Status">
+            <summary>
+            Status uređaja
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDenorm.ZamjenaZa">
+            <summary>
+            Lista uređaja kojim je uređaj zamjenski
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDenorm.Zamjena">
+            <summary>
+            Lista uređaja koji su zamjenski uređaju
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDenorm.Servisi">
+            <summary>
+            Lista servisa uređaja
+            </summary>
+        </member>
+        <member name="M:videozid.ViewModels.UredajDenorm.#ctor">
+            <summary>
+            Konstruktor
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.UredajDetailsViewModel">
+            <summary>
+            Razred za prikaz Uređaja i njemu pridruženih komponenti
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDetailsViewModel.Uredaj">
+            <summary>
+            Uređaj
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDetailsViewModel.ZamjenaZa">
+            <summary>
+            Lista Uređaja kojim je uređaj zamjena
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDetailsViewModel.Zamjena">
+            <summary>
+            Lista Uređaja koji se uređaju zamjena
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.UredajDetailsViewModel.Servisira">
+            <summary>
+            Lista servisa koji se servisiraju uređaj
+            </summary>
+        </member>
+        <member name="M:videozid.ViewModels.UredajDetailsViewModel.#ctor(videozid.Models.Uredaj,System.Collections.Generic.IEnumerable{videozid.Models.ZamjenskiUredaj},System.Collections.Generic.IEnumerable{videozid.Models.ZamjenskiUredaj},System.Collections.Generic.IEnumerable{videozid.Models.Servisira})">
+            <summary>
+            Konstruktor
+            </summary>
+        </member>
+        <member name="M:videozid.ViewModels.UredajDetailsViewModel.GetInfo">
+            <summary>
+            Postupak 
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.VideozidDenorm">
+            <summary>
+            Razred za prikaz videozida spremnog za ispis u PDF formatu
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.VideozidDenorm.Naziv">
+            <summary>
+            Naziv Videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.VideozidDenorm.Lokacija">
+            <summary>
+            LOkacija Videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.VideozidDenorm.Sirina">
+            <summary>
+            Sirina Videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.VideozidDenorm.Visina">
+            <summary>
+            Visina Videozida
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.VideozidDenorm.Ekrani">
+            <summary>
+            Ekrani Videozida
+            </summary>
+        </member>
+        <member name="M:videozid.ViewModels.VideozidDenorm.#ctor">
+            <summary>
+            Konstruktor
+            </summary>
+        </member>
+        <member name="T:videozid.ViewModels.VideozidDetailsViewModel">
+            <summary>
+            Prezentacijski model podataka koji sadrži osnovne informacije o vidoezidu kao i njegovim ekranima 
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.VideozidDetailsViewModel.Videozid">
+            <summary>
+            Videozid
+            </summary>
+        </member>
+        <member name="P:videozid.ViewModels.VideozidDetailsViewModel.Ekrani">
+            <summary>
+            Lista ekrana pridrućenih videozidu.
+            </summary>
+        </member>
+        <member name="M:videozid.ViewModels.VideozidDetailsViewModel.#ctor(videozid.Models.Videozid,System.Collections.Generic.IEnumerable{videozid.Models.EkranZida})">
+            <summary>
+            Konstruktor
+            </summary>
+        </member>
+        <member name="M:videozid.ViewModels.VideozidDetailsViewModel.GetInfo">
+            <summary>
+            Postupak za pripremu objekta za ispis u PDF formatu
+            </summary>
+        </member>
+        <member name="T:Firma.Mvc.Controllers.WebApi.AdministratorController">
+            <summary>
+            Web API servis za rad s korisničkim računima
+            </summary>
+        </member>
+        <member name="M:Firma.Mvc.Controllers.WebApi.AdministratorController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="context">VideozidContext za pristup bazi podataka</param>
+        </member>
+        <member name="M:Firma.Mvc.Controllers.WebApi.AdministratorController.AdminCreate(System.String)">
+            <summary>
+            Postupak kojim se dodaje novi administrator
+            </summary>
+            <param name="KorisnickoIme">Korisničko ime korisnika koji će postati administrator</param>
+            <returns>201 ako je korisnik uspješno pohranjen, te se ujedno vraća i spremljeni objekt, 400 u slučaju neispravnog modela</returns>
+        </member>
+        <member name="M:Firma.Mvc.Controllers.WebApi.AdministratorController.AdminUpdate(System.String)">
+            <summary>
+            Postupak kojim se ažurira administrator
+            </summary>
+            <param name="KorisnickoIme">Korisničko ime korisnika koji će postati administrator</param>
+            <returns>201 ako je korisnik uspješno pohranjen, te se ujedno vraća i spremljeni objekt, 400 u slučaju neispravnog modela</returns>
+        </member>
+        <member name="T:Firma.Mvc.Controllers.WebApi.KorisnikController">
+            <summary>
+            Web API servis za rad s korisničkim računima
+            </summary>
+        </member>
+        <member name="M:Firma.Mvc.Controllers.WebApi.KorisnikController.#ctor(videozid.Models.RPPP15Context)">
+            <summary>
+            Konstruktor
+            </summary>
+            <param name="context">VideozidContext za pristup bazi podataka</param>
+        </member>
+        <member name="M:Firma.Mvc.Controllers.WebApi.KorisnikController.KorisniciGet">
+            <summary>
+            Postupak za dohvat svih korisnika. 
+            </summary>
+            <returns>Popis svih korisnika sortiranih po prezimenu</returns>
+        </member>
+        <member name="M:Firma.Mvc.Controllers.WebApi.KorisnikController.WithoutDhmzGet">
+            <summary>
+            Postupak za dohvat svih korisnika bez Dhmz računa. 
+            </summary>
+            <returns>Popis svih korisnika bez Dhmz računa sortiran po korisničkom imenu</returns>
+        </member>
+        <member name="M:Firma.Mvc.Controllers.WebApi.KorisnikController.WithoutFerGet">
+            <summary>
+            Postupak za dohvat svih korisnika bez FerWweb računa. 
+            </summary>
+            <returns>Popis svih korisnika bez FerWeb računa sortiran po korisničkom imenu</returns>
+        </member>
+        <member name="M:Firma.Mvc.Controllers.WebApi.KorisnikController.KorisnikGet(System.String)">
+            <summary>
+            Postupak za dohvat korisnika čije je korisničko ime jednako poslanom parametru
+            </summary>
+            <param name="KorisnickoIme">Korisničko ime</param>
+            <returns>objekt tipa KorisnikApiModel ili NotFound ako korisnik s traženim korisničkim imenom ne postoji</returns>
+        </member>
+        <member name="M:Firma.Mvc.Controllers.WebApi.KorisnikController.KorisnikMDGet(System.String)">
+            <summary>
+            Postupak za dohvat korisnika čije je korisničko ime jednako poslanom parametru
+            </summary>
+            <param name="KorisnickoIme">Korisničko ime</param>
+            <returns>objekt tipa KorisnikApiModel ili NotFound ako korisnik s traženim korisničkim imenom ne postoji</returns>
+        </member>
+        <member name="M:Firma.Mvc.Controllers.WebApi.KorisnikController.KorisnikCreate(videozid.ViewModels.Api.KorisnikApiModel)">
+            <summary>
+            Postupak kojim se unosi novi korisnik
+            </summary>
+            <param name="model">Podaci o novom korisniku</param>
+            <returns>201 ako je korisnik uspješno pohranjen, te se ujedno vraća i spremljeni objekt, 400 u slučaju neispravnog modela</returns>
+        </member>
+        <member name="M:Firma.Mvc.Controllers.WebApi.KorisnikController.KorisnikDelete(System.String)">
+            <summary>
+            Briše korisnika s predanim korisničkim imenom u adresi zahtjeva
+            </summary>
+            <param name="KorisnickoIme">Korisničko ime korisnika kojeg je potrebno obrisati</param>
+            <returns>404 ili 204 ako je brisanje uspješno</returns>          
+        </member>
+        <member name="M:Firma.Mvc.Controllers.WebApi.KorisnikController.Update(System.String,videozid.ViewModels.Api.KorisnikApiModel)">
+            <summary>
+            Ažurira korisnika s temeljem parametera iz zahtjeva (korisničko ime)
+            </summary>
+            <param name="KorisnickoIme">Korisničko ime korisnika kojeg je potrebno ažurirati</param>
+            <param name="model">model s podacima o korisniku</param>
+            <returns>204 ako je korisnik uspješno ažuriran, 404 ako korisnik s traženim korisničkim imenom ne postoji ili 400 ako model nije ispravan</returns>
+        </member>
+    </members>
+</doc>

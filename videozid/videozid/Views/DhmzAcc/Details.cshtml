@@ -1,0 +1,47 @@
+﻿@model videozid.ViewModels.DhmzAccDetailsViewModel
+@{
+
+    ViewData["Title"] = "DHMZ račun";
+}
+<div class="row">
+    <br />
+    <div class="btn-group" role="group">
+        <a class="btn btn-warning" asp-action="Previous" asp-route-id="@Model.racun.Id">Prethodni</a>
+        <a class="btn btn-warning" asp-action="Next" asp-route-id="@Model.racun.Id">Sljedeći</a>
+    </div>
+    <h3>DHMZ račun</h3>
+    <hr />
+    <a class="btn btn-default btn-sm" asp-action="Edit" asp-route-id="@Model.racun.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model.racun.Id"><span class="glyphicon glyphicon-remove"></span></a>
+    <br />
+    <dl class="dl-horizontal col-md-offset-1 col-md-5">
+        <dt>Korisničko ime:</dt>
+        <dd>@Model.racun.KorisnickoIme</dd>
+
+        <dt>Lozinka:</dt>
+        <dd>@Model.racun.Lozinka</dd>
+
+        <dt>ID server dozvole:</dt>
+        @if (@Model.racun.DozvolaServer == null)
+        {
+
+            <dd>Ne posjeduje dozvolu.</dd>
+        }
+        else
+        {
+
+            <dd>@Model.racun.DozvolaServer</dd>
+        }
+
+    </dl>
+    <div class="col-md-5 col-md-offset-1">
+        <div class="row">
+            <p style="color:orangered"><strong>Pripada korisniku:</strong></p>
+            <dd></dd><a class="btn btn-default " asp-controller="Korisnik" asp-action="Details" asp-route-id="@Model.korisnik.Id">@Model.korisnik.KorisnickoIme </a></dd>
+        </div>
+    </div>
+</div>
+<div class="btn-group row" role="group">
+    <a class="btn btn-primary" asp-controller="DhmzAcc" asp-action="Index">DHMZ računi</a>
+    <a class="btn btn-primary" asp-controller="Korisnik" asp-action="Index">Popis korisnika</a>
+</div>

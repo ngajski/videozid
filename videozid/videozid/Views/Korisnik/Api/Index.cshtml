@@ -1,0 +1,282 @@
+﻿@{
+
+    ViewData["Title"] = "WEB API Korisnici";
+}
+
+<div class="row">
+    <br /> <br />
+    <a id="Create" class="btn btn-success">Novi korisnik</a>
+
+    <br /><br />
+    <div id="Create-content" class="row initially-hidden">
+        <div class="col-xs-12">
+            <hr />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Prezime</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="prezime" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Ime</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="ime" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Korisničko ime</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="korisnickoIme" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Email</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="email" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Lozinka</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="lozinka" />
+                </div>
+            </div>
+            <br /><br />
+            
+            <div class="form-group">
+                <label class="col-md-2 control-label">Administrator</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="admin">
+                        <option value=1>NE</option>
+                        <option value=2>DA</option>
+                    </select>
+                </div>
+            </div>
+            <br /><br />
+            <div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="submit" value="Stvori korisnika" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br /> <br />
+    <table class="table table-bordered table-striped text-center" id="tableKORISNIK">
+        <thead>
+            <tr>
+                <th class="text-center"> Prezime </th>
+                <th class="text-center"> Ime </th>
+                <th class="text-center"> Korisničko ime </th>
+                <th class="text-center"> Email </th>
+                <th class="text-center"> Lozinka</th>
+                <th class="text-center"> Admin</th>
+                <th class="text-center"> Brisanje</th>
+
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tableKORISNIK').DataTable();
+            getKorisnici();
+
+            $("#submit").click(create);
+
+            $("#Create").click(function () {
+                $("#Create-content").toggle(500);
+            });
+        });
+
+        function getKorisnici() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Korisnik/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+                    loadTable(data);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+
+        }
+
+        function loadTable(data) {
+            var html = "";
+            $.each(data, function () {
+                var a1, a2, a3, a4, a5, a6, a7;
+
+                a1 = '<b id="row-' + this.korisnickoIme + '" >' + this.prezime + '</b>';
+                a2 = this.ime;
+                a3 = this.korisnickoIme;
+                a4 = this.email;
+                a5 = this.lozinka;
+                if (this.admin == true) {
+                    a6 = "DA";
+                } else {
+                    a6 = "NE";
+                }
+                a7 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../Korisnik/ApiEdit/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../Korisnik/ApiDetails/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deleteKorisnik(\'' + this.korisnickoIme + '\' )"><span class="glyphicon glyphicon-remove"></span></a></div>';
+
+
+                $('#tableKORISNIK').DataTable().row.add([
+                    a1,
+                    a2,
+                    a3,
+                    a4,
+                    a5, 
+                    a6, 
+                    a7
+                ]).draw(false);
+            });
+
+        }
+
+        function deleteKorisnik(korisnickoIme) {
+            $.ajax({
+                type: "DELETE",
+                url: "../../api/Korisnik/Remove/" + korisnickoIme,
+                ajaxasync: true,
+                success: function (data) {
+                    $('#tableKorisnik').DataTable()
+                        .row(document.getElementById('row-'.concat(korisnickoIme)).parentElement.parentElement)
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+        function dodajAdmina(korisnickoIme) {
+            $.ajax({
+                type: "POST",
+                url: "../../api/Administrator/New/" + korisnickoIme,
+                ajaxasync: true,
+                success: function () {
+               
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function create() {
+            var prezime = $("#prezime")[0].value;
+            if (prezime == "") {
+                alert("Prezime je potrebno unijeti!");
+                $("#prezime")[0].select();
+                return;
+            }
+            var ime = $("#ime")[0].value;
+            if (ime == "") {
+                alert("Ime je potrebno unijeti!");
+                $("#ime")[0].select();
+                return;
+            }
+            var korisnickoIme = $("#korisnickoIme")[0].value;
+            if (korisnickoIme == "") {
+                alert("Korisničko ime je potrebno unijeti!");
+                $("#korisnickoIme")[0].select();
+                return;
+            }
+            var email = $("#email")[0].value;
+            if (email == "") {
+                alert("Adresu pošte je potrebno unijeti!");
+                $("#email")[0].select();
+                return;
+            }
+            var lozinka = $("#lozinka")[0].value;
+            if (lozinka == "") {
+                alert("Lozinku je potrebno unijeti!");
+                $("#lozinka")[0].select();
+                return;
+            }
+
+
+            var admin = $("#admin")[0];
+            var sel = admin.options[admin.selectedIndex];
+            admin = sel.value === "" ? null : sel.value;
+            if (admin == 2) {
+                admin = true;
+            } else {
+                admin = false;
+            }
+           
+            
+
+            var data = {
+                "KorisnickoIme": korisnickoIme,
+                "Lozinka": lozinka,
+                "Email": email,
+                "Admin": admin,
+                "Ime": ime,
+                "Prezime": prezime
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "../../api/Korisnik/New",
+                ajaxasync: true,
+                data: JSON.stringify(data),
+                processData: false,
+                contentType: 'application/json',
+                success: function (data) {
+                    alert("Račun uspješno dodan!");
+                    if (data.admin == true) {
+                        dodajAdmina(data.korisnickoIme);
+                    }
+                    var a1, a2, a3, a4, a5, a6, a7;
+
+                    a1 = '<b id="row-' + data.korisnickoIme + '" >' + data.prezime + '</b>';
+                    a2 = data.ime;
+                    a3 = data.korisnickoIme;
+                    a4 = data.email;
+                    a5 = data.lozinka;
+                    if (data.admin == true) {
+                        a6 = "DA";
+                    } else {
+                        a6 = "NE";
+                    }
+                    a7 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../Korisnik/ApiEdit/' + data.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../Korisnik/ApiDetails/' + data.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deleteKorisnik(\'' + data.korisnickoIme + '\' )"><span class="glyphicon glyphicon-remove"></span></a></div>';
+
+                    $('#tableKORISNIK').DataTable().row.add([
+                        a1,
+                        a2,
+                        a3,
+                        a4,
+                        a5,
+                        a6,
+                        a7
+                    ]).draw(false);
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+
+        }
+
+    </script>
+}

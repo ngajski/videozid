@@ -1,0 +1,72 @@
+@model IEnumerable<videozid.Models.ZamjenskiUredaj>
+
+@{
+
+    ViewData["Title"] = "Popis Zamjenskih";
+}
+
+<div class="row">
+    <br /> <br />
+    <p>
+        <a class="btn btn-primary" asp-action="Create">Dodaj novi zamjenski uredaj</a>
+    </p>
+    <br /><br />
+    <table class="table table-bordered table-striped text-center" id="tableZamjenski">
+        <thead>
+            <tr>
+                <th> Naziv Uredaja</th>
+                <th> Zamjena za</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="row-@item.Id">
+                    <td> <b> <a asp-controller="Uredaj" asp-action="Details" asp-route-id="@item.IdUredaja">@item.IdUredajaNavigation.Naziv </a> </b> </td>
+                    <td> <b> <a asp-controller="Uredaj" asp-action="Details" asp-route-id="@item.IdZamjenaZa">@item.IdZamjenaZaNavigation.Naziv </a> </b> </td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-default btn-sm" asp-action="Edit" asp-route-id="@item.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="btn btn-danger btn-sm" onclick="deleteZamjena(@item.Id)"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+    @section styles{
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+    }
+
+    @section scripts{
+        <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#tableZamjenski').DataTable();
+            });
+
+            function deleteZamjena(id) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete", "ZamjenskiUredaj")",
+                data: { id: id },
+                ajaxasync: true,
+                success: function (data) {
+                    $('#tableZamjenski').DataTable()
+                        .row(document.getElementById('row-'.concat(id)))
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert("Greska");
+                }
+             });
+
+        }
+        </script>
+    }

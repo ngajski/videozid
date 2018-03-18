@@ -1,0 +1,52 @@
+@model IEnumerable<videozid.Models.Uredaj>
+
+@{
+
+    ViewData["Title"] = "Popis uredaja";
+}
+
+<div class="row">
+    <br /> <br />
+    <div class="btn-group" role="group">
+        <a class="btn btn-primary" asp-action="Create">Dodaj novi uredaj</a>
+        <a class="btn btn-primary" asp-area="" asp-controller="ZamjenskiUredaj" asp-action="Index">Zamjenski Uredaji</a>
+    </div>
+
+    <br /> <br />
+    @await Html.PartialAsync("TableView")
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tableUredaji').DataTable();
+        });
+
+         function deleteUredaj(id) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete", "Uredaj")",
+                data: { id: id },
+                ajaxasync: true,
+                success: function (data) {
+                    $('#tableUredaji').DataTable()
+                        .row(document.getElementById('row-'.concat(id)))
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert("Greska");
+                }
+             });
+
+        }
+
+    </script>
+}

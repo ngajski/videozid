@@ -1,0 +1,51 @@
+﻿@model videozid.Models.DhmzAcc
+@{
+
+    ViewData["Title"] = "Dodaj DHMZ račun";
+}
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <br />
+        <h4>Dodaj DHMZ račun</h4>
+        <hr />
+        <div asp-validationsummary="ModelOnly" class="text-danger"></div>
+       
+        <div class="form-group">
+            <label asp-for="KorisnickoIme" class="col-md-2 control-label">Korisnicko ime</label>
+            <div class="col-md-10">
+                <input asp-for="KorisnickoIme" class="form-control" />
+                <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Lozinka" class="col-md-2 control-label">Lozinka</label>
+            <div class="col-md-10">
+                <input asp-for="Lozinka" class="form-control" />
+                <span asp-validation-for="Lozinka" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DozvolaServer" class="col-md-2 control-label">Broj dozvole za pristupanje serveru:</label>
+            <div class="col-md-10">
+                <input asp-for="DozvolaServer" class="form-control" />
+                <span asp-validation-for="DozvolaServer" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Dodaj račun" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a class="btn btn-primary" asp-controller="Korisnik" asp-action="Index">Povratak</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

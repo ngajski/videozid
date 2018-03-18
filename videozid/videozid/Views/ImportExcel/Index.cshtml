@@ -1,0 +1,20 @@
+﻿</br>
+</br>
+<strong>Uvoz FerWeb računa. Koristiti Microsoft Edge preglednik.</strong>
+<form method="post" asp-action="Index" asp-controller="ImportExcel" enctype="multipart/form-data">
+    <input type="file" name="files" multiple />
+    <input type="submit" value="Uvoz" />
+</form>
+
+</br>
+</br>
+<strong>Za unos FerWeb računa poželjno je koristiti sljedeći predložak</strong>
+<a class="btn btn-success" asp-controller="ImportExcel" asp-action="PredlozakFerWebAcc">Prezumi</a>
+</br>
+<strong>Primjer test datoteke za unos</strong>
+<a class="btn btn-success" asp-controller="ImportExcel" asp-action="TestAcc">Prezumi</a>
+
+</br></br>
+<a class="btn btn-primary btn-sm" asp-controller="FerWebAcc" asp-action="ApiIndex">Povratak na popis FerWeb računa</a>
+
+

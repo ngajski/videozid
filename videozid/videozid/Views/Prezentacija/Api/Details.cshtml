@@ -1,0 +1,73 @@
+﻿@{
+
+    ViewData["Title"] = "WEB API Prezentacije";
+}
+
+@model int
+
+<h4>Detalji prezentacije</h4>
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-5">
+        <div class="row">
+            <dl class="dl-horizontal well">
+                <dt> ID prezentacije</dt>
+                <dd id="id"></dd>
+
+                <dt> X Koordinata</dt>
+                <dd id="xkoord"></dd>
+
+                <dt>Y Koordinata</dt>
+                <dd id="ykoord"></dd>
+
+                <dt> Širina</dt>
+                <dd id="sirina"></dd>
+
+                <dt> Visina</dt>
+                <dd id="visina"></dd>
+
+                <dt> Sadržaj</dt>
+                <dd id="sadrzaj"></dd>
+
+                <dt> Kategorija</dt>
+                <dd id="kategorija"></dd>
+
+            </dl>
+        </div>
+
+        <br /><br />
+        <a class="btn btn-primary btn-sm" asp-action="ApiEdit" asp-route-id="@Model">Uredi osnovne informacije</a>
+    </div>
+</div>
+
+@section scripts { 
+    <script>
+            
+            $(document).ready(function () {
+                getPrezentacija();
+
+            });
+
+            function getPrezentacija() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Prezentacija/Get/"+ @Model,
+                ajaxasync: false,
+                success: function (data) {
+                    prez = data;
+                    console.log(data);
+                    $("#id")[0].innerHTML = prez.id;
+                    $("#xkoord")[0].innerHTML = prez.xKoord;
+                    $("#ykoord")[0].innerHTML = prez.yKoord;
+                    $("#sirina")[0].innerHTML = prez.sirina;
+                    $("#visina")[0].innerHTML = prez.visina;
+                    $("#sadrzaj")[0].innerHTML = prez.sadrzaj;
+                    $("#kategorija")[0].innerHTML = prez.kategorija;
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }       
+    </script>
+}

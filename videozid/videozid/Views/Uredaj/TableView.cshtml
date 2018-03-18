@@ -1,0 +1,59 @@
+﻿@model IEnumerable<videozid.Models.Uredaj>
+
+<table class="table table-bordered table-striped text-center" id="tableUredaji">
+    <thead>
+        <tr>
+            <th class="text-center"> Naziv Uredaja </th>
+            <th class="text-center"> Nabavna Cijena (kn)</th>
+            <th class="text-center"> Aktualna Cijena (kn)</th>
+            <th class="text-center"> Datum Nabavke </th>
+            <th class="text-center"> Nadredena Komponenta </th>
+            <th class="text-center"> Status </th>
+            <th class="text-center"> Pripadnost Videozidu </th>
+            <th class="text-center"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr id="row-@item.Id">
+                <td> <b>@item.Naziv</b></td>
+                <td> @item.NabavnaCijena </td>
+                <td> @item.AktualnaCijena </td>
+                <td> @item.DatumNabavke.Day.@item.DatumNabavke.Month.@item.DatumNabavke.Year</td>
+                <td>
+                    @if (item.IdNadredeneKomponenteNavigation == null)
+                    {
+                        <p>/</p>
+                    }
+                    else
+                    {
+                        <a id="nadredena-@item.IdNadredeneKomponente" asp-action="Details" asp-route-id="@item.IdNadredeneKomponente">@item.IdNadredeneKomponenteNavigation.Naziv</a>
+
+                    }
+                </td>
+                <td> @item.IdStatusaNavigation.Naziv </td>
+                <td>
+                    @if (item.IdZidaNavigation == null)
+                {
+                        <p>/</p>
+                    }
+                    else
+                    {
+                        <a asp-controller="Videozid" asp-action="Details" asp-route-id="@item.IdZida">@item.IdZidaNavigation.Naziv</a>
+
+                    }
+                </td>
+                <td style="width:8em">
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-default btn-sm" asp-action="Edit" asp-route-id="@item.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a class="btn btn-danger btn-sm" onclick="deleteUredaj(@item.Id)"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

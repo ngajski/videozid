@@ -1,0 +1,54 @@
+﻿@model videozid.Models.TipServisa
+
+@{
+    ViewData["Title"] = "Tip servisa";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detalji</title>
+
+    <script>
+        function changeWindow(action, id) {
+            var url = "/api/tipservisa/"
+            if (action != '') {
+                url += action + "/";
+            }
+
+            if (id != '') {
+                url += id;
+            }
+
+            window.location = url
+        }
+    </script>
+</head>
+<body>
+
+<div>
+    <h4>Datelji - tip Servisa</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Tip)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tip)
+        </dd>
+        <dt>
+            Ime servisa
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdServisNavigation.Ime)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary" onclick="changeWindow('edit',@Model.Id)">Uredi</a>
+    <a class="btn btn-primary" onclick="changeWindow('','')">Tipovi servisa</a>
+</div>
+</body>
+</html>

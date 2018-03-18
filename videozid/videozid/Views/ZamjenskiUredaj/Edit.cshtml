@@ -1,0 +1,43 @@
+@model videozid.Models.ZamjenskiUredaj
+
+@{
+
+    ViewData["Title"] = "Popis Zamjenskih";
+}
+
+<form asp-action="Edit">
+    <div class="form-horizontal  well">
+        <h4>ZamjenskiUredaj</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="IdUredaja" class="control-label col-md-2">Uredaj</label>
+            <div class="col-md-10">
+                <select asp-for="IdUredaja" class="form-control" asp-items="ViewBag.IdUredaja"></select>
+                <span asp-validation-for="IdUredaja" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdZamjenaZa" class="control-label col-md-2">Zamjena za</label>
+            <div class="col-md-10">
+                <select asp-for="IdZamjenaZa" class="form-control" asp-items="ViewBag.IdZamjenaZa"></select>
+                <span asp-validation-for="IdZamjenaZa" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="btn-group">
+    <a class="btn btn-primary" asp-action="Index">Natrag na popis</a>
+    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id" OnClick="if(!confirm('Jeste li sigurni da zelite ukloniti @Model.IdUredajaNavigation.Naziv kao zamjenu za uredaj @Model.IdZamjenaZaNavigation.Naziv?')) return false;">Obrisi</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

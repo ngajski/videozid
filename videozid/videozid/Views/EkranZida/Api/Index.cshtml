@@ -1,0 +1,258 @@
+@{
+
+    ViewData["Title"] = "WEB API Ekrani";
+}
+
+<div class="row">
+    <a id="Create" class="btn btn-primary">Definiraj novi ekran videozida</a>
+    <br /><br /><br /> <br />
+    <div id="Create-content" class="row initially-hidden">
+        <div class="col-xs-12">
+            <hr />
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">Ekran</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="ekran"></select>
+                </div>
+            </div>
+            <br /> <br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Videozid</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="zid"></select>
+                </div>
+            </div>
+            <br /> <br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">X koord</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="x" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Y koord</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="y" />
+                </div>
+            </div>
+            <br /> <br />
+            <div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="submit" value="Stvori novu vezu" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br /> <br />
+    <table class="table table-bordered table-striped text-center" id="tableEkran">
+        <thead>
+            <tr>
+                <th class="text-center"> Ekran</th>
+                <th class="text-center"> Videozid</th>
+                <th class="text-center"> X Koord</th>
+                <th class="text-center"> Y Koord</th>
+                <th class="text-center"></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('#tableEkran').DataTable();
+            getEkrani();
+            getUredaji();
+            getZidovi();
+
+            $("#submit").click(create);
+
+            $("#Create").click(function () {
+                $("#Create-content").toggle(500);
+            });
+            $("#Create-content").hide(0);
+        });
+
+        function getUredaji() {
+            $.ajax({
+                type: "GET",
+                url: "../api/Uredaj/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.naziv;
+                        document.getElementById("ekran").appendChild(opt);
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function getZidovi() {
+            $.ajax({
+                type: "GET",
+                url: "../api/Videozid/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.naziv + "("+this.sirina+","+this.visina+")";
+                        document.getElementById("zid").appendChild(opt);
+                    });
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function getEkrani() {
+            $.ajax({
+                type: "GET",
+                url: "../api/EkranZida/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+                    loadTable(data);
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function loadTable(data) {
+            var html = "";
+            $.each(data, function () {
+                console.log(this);
+                var a1, a2, a3, a4, a5;
+                a1 = '<b id="row-' + this.id + '">' + '<a href="../Uredaj/ApiDetails/' + this.idUredaja + '">' + this.uredaj + "</a>" + '</b>';
+                a2 = '<a href="../Videozid/ApiDetails/' + this.idZida + '">' + '<b>' + this.zid + '</b>' + "</a>";
+                a3 = '<b>' + this.xKoord + '</b>';
+                a4 = '<b>' + this.yKoord + '</b>';
+                a5 = '<a class="btn btn-danger btn-sm" onclick="deleteEkran(' + this.id + ')"><span class="glyphicon glyphicon-remove"></span></a>';
+
+                $('#tableEkran').DataTable().row.add([
+                    a1,
+                    a2,
+                    a3,
+                    a4,
+                    a5,
+                ]).draw(false);
+            });
+
+        }
+
+        function deleteEkran(id) {
+            $.ajax({
+                type: "DELETE",
+                url: "../api/EkranZida/Remove/" + id,
+                ajaxasync: true,
+                success: function (data) {
+
+                    $('#tableEkran').DataTable()
+                        .row(document.getElementById('row-'.concat(id)).parentElement.parentElement)
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function create() {
+            console.log("tro");
+            var ekran = $("#ekran")[0];
+            var sel1 = ekran.options[ekran.selectedIndex];
+            ekran = sel1.value === "" ? null : sel1.value;
+
+            var zid = $("#zid")[0];
+            var sel2 = zid.options[zid.selectedIndex];
+            zid = sel2.value === "" ? null : sel2.value;
+
+            var x = $("#x")[0].value;
+
+            if (x == "") {
+                alert("X koord je potrebno unijeti!");
+                $("#x")[0].select();
+                return;
+            } else if (x < 0) {
+                alert("X ne smije biti negativna");
+                $("#x")[0].select();
+                return;
+            }
+
+            var y = $("#y")[0].value;
+
+            if (y == "") {
+                alert("Y koord je potrebno unijeti!");
+                $("#y")[0].select();
+                return;
+            } else if (y < 0) {
+                alert("Y ne smije biti negativna");
+                $("#y")[0].select();
+                return;
+            }
+
+            var data = {
+                "IdUredaja": ekran,
+                "IdZida": zid,
+                "XKoord": x,
+                "YKoord": y,
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "../api/EkranZida/New/",
+                ajaxasync: true,
+                data: JSON.stringify(data),
+                processData: false,
+                contentType: 'application/json',
+                success: function (data) {
+                    alert("Uspjeh!");
+                    var id = data.id;;
+                    var name = data.name;
+                    var IdVeze = data.idVeze;
+
+                    var a1, a2, a3, a4, a5;
+                    a1 = '<b id="row-' + IdVeze + '">' + '<a href="../Uredaj/ApiDetails/' + ekran + '">' + sel1.innerHTML + "</a>" + '</b>';
+                    a2 = '<a href="../Videozid/ApiDetails/' + zid + '">' + '<b>' + sel2.innerHTML.substring(0, sel2.innerHTML.lastIndexOf("(")) + '</b>' + "</a>";
+                    a3 = '<b>' + x + '</b>';
+                    a4 = '<b>' + y + '</b>';
+                    a5 = '<a class="btn btn-danger btn-sm" onclick="deleteEkran(' + IdVeze + ')"><span class="glyphicon glyphicon-remove"></span></a>';
+
+                    $('#tableEkran').DataTable().row.add([
+                        a1,
+                        a2,
+                        a3,
+                        a4,
+                        a5,
+                    ]).draw(false);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+
+        }
+    </script>
+}

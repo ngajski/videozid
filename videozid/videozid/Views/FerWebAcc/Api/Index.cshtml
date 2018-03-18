@@ -1,0 +1,251 @@
+﻿@{
+
+    ViewData["Title"] = "WEB API FerWeb računi";
+}
+
+<div class="row">
+    <br /> <br /><br /> <br />
+    <a id="Create" class="btn btn-success">Dodaj novi račun</a>
+    <a class="btn btn-info" asp-controller="ReportKorisnici" asp-action="FerWebAccExcel">Excel (izvoz)</a>
+    <a class="btn btn-info" asp-controller="ImportExcel" asp-action="Index">Excel (uvoz)</a>
+    <br /><br />
+    <div id="Create-content" class="row initially-hidden">
+        <div class="col-xs-12">
+            <hr />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Korisničko ime</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="korisnickoIme" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Lozinka</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="lozinka" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Dozvola server</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="dozvolaServer" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Vlasnik računa</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="vlasnik">
+                        <option value="">--</option>
+                    </select>
+                </div>
+            </div>
+
+            <br /><br />
+            <div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="submit" value="Stvori novi račun" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br /> <br />
+    <table class="table table-bordered table-striped text-center" id="tableFER">
+        <thead>
+            <tr>
+                <th class="text-center"> Korisničko ime </th>
+                <th class="text-center"> Lozinka</th>
+                <th class="text-center"> Dozvola server</th>
+                <th class="text-center"> Vlasnik </th>
+                <th class="text-center"> Brisanje</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tableFER').DataTable();
+            getFer();
+            getKorisnici();
+
+            $("#submit").click(create);
+
+            $("#Create").click(function () {
+                $("#Create-content").toggle(500);
+            });
+        });
+
+        function getKorisnici() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Korisnik/WithoutFer",
+                ajaxasync: true,
+                success: function (data) {
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.korisnickoIme;
+                        opt.innerHTML = this.korisnickoIme;
+                        document.getElementById("vlasnik").appendChild(opt);
+                    });
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function getFer() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/FerWebAcc/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+                    loadTable(data);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+
+        }
+
+        function loadTable(data) {
+            var html = "";
+            $.each(data, function () {
+                var a1, a2, a3, a4, a5;
+
+                a1 = '<b id="row-' + this.korisnickoIme + '" >' + this.korisnickoIme + '</b>';
+                a2 = this.lozinka;
+                a3 = this.dozvolaServer;
+                a4 = this.vlasnik;
+                a5 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../FerWebAcc/ApiEdit/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../FerWebAcc/ApiDetails/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deleteFer(\'' + this.korisnickoIme + '\' )"><span class="glyphicon glyphicon-remove"></span></a></div>';
+
+
+                $('#tableFER').DataTable().row.add([
+                    a1,
+                    a2,
+                    a3,
+                    a4,
+                    a5
+                ]).draw(false);
+            });
+
+        }
+
+        function deleteFer(korisnickoIme) {
+            $.ajax({
+                type: "DELETE",
+                url: "../../api/FerWebAcc/Remove/" + korisnickoIme,
+                ajaxasync: true,
+                success: function (data) {
+                    //dodati ga na listu
+                    var myNode = document.getElementById("vlasnik");
+                    while (myNode.firstChild) {
+                        myNode.removeChild(myNode.firstChild);
+                    }
+
+                    getKorisnici();
+
+
+                    $('#tableFER').DataTable()
+                        .row(document.getElementById('row-'.concat(korisnickoIme)).parentElement.parentElement)
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function create() {
+            var korisnickoIme = $("#korisnickoIme")[0].value;
+            if (korisnickoIme == "") {
+                alert("Korisničko ime je potrebno unijeti!");
+                $("#korisnickoIme")[0].select();
+                return;
+            }
+            var lozinka = $("#lozinka")[0].value;
+            if (lozinka == "") {
+                alert("Lozinku je potrebno unijeti!");
+                $("#lozinka")[0].select();
+                return;
+            }
+
+
+            var dozvolaServer = $("#dozvolaServer")[0].value;
+            if (dozvolaServer == "") {
+                dozvolaServer = null;
+            }
+
+            var vlasnik = $("#vlasnik")[0];
+            var sel = vlasnik.options[vlasnik.selectedIndex];
+            vlasnik = sel.value === "" ? null : sel.value;
+
+
+            var data = {
+                "KorisnickoIme": korisnickoIme,
+                "Lozinka": lozinka,
+                "DozvolaServer": dozvolaServer,
+                "Vlasnik": vlasnik
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "../../api/FerWebAcc/New/" + vlasnik,
+                ajaxasync: true,
+                data: JSON.stringify(data),
+                processData: false,
+                contentType: 'application/json',
+                success: function (data) {
+                    alert("Račun uspješno dodan!");
+                    //maknuti ga s liste
+                    var myNode = document.getElementById("vlasnik");
+                    while (myNode.firstChild) {
+                        myNode.removeChild(myNode.firstChild);
+                    }
+
+                    getKorisnici();
+
+
+                    var a1, a2, a3, a4, a5;
+
+                    a1 = '<b id="row-' + data.korisnickoIme + '" >' + data.korisnickoIme + '</b>';
+                    a2 = data.lozinka;
+                    a3 = data.dozvolaServer;
+                    a4 = vlasnik;
+                    a5 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../FerWebAcc/ApiEdit/' + data.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../FerWebAcc/ApiDetails/' + data.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deleteFer(\'' + data.korisnickoIme + '\' )"><span class="glyphicon glyphicon-remove"></span></a></div>';
+
+                    $('#tableFER').DataTable().row.add([
+                        a1,
+                        a2,
+                        a3,
+                        a4,
+                        a5
+                    ]).draw(false);
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+
+        }
+
+    </script>
+}

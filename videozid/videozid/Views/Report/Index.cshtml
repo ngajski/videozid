@@ -1,0 +1,67 @@
+﻿@{
+
+    ViewData["Title"] = "Izvjesća";
+}
+
+<div class="row">
+    <div class="col-md-5 col-md-offset-1">
+        <h4>Josip Grgic</h4>
+        <ul class="list-group">
+            <a class="list-group-item" target="_blank" asp-action="Uredaji">Popis svih uredaja (PDF)</a>
+            <a class="list-group-item" target="_blank" asp-action="Videozidovi">Popis svih videozidova (PDF)</a>
+            <a class="list-group-item" target="_blank" asp-action="UredajiExcel">Popis svih uredaja (Excel)</a>
+            <a class="list-group-item" target="_blank" asp-action="VideozidoviExcel">Popis svih videozidova (Excel)</a>
+            <a class="list-group-item" asp-controller="ImportExcel" asp-action="IndexUredaji">Uvoz uredaja (Excel)</a>
+            <a class="list-group-item" asp-controller="ImportExcel" asp-action="IndexVideozidovi">Uvoz videozidova (Excel)</a>
+        </ul>
+    </div>
+
+
+
+    <div class="col-md-5 col-md-offset-1">
+        <h4>Nikola Gajski</h4>
+        <ul class="list-group">
+            <a class="list-group-item" target="_blank" asp-controller ="ReportServis" asp-action="Servisi">Popis svih servisa (PDF) </a>
+            <a class="list-group-item" asp-controller="Excel" asp-action="ServisiExport">Popis svih servisa (Excel MD))</a>
+            <a class="list-group-item" asp-controller="Excel" asp-action="ServiseriExport">Popis svih servisera (Excel)</a>
+            <a class="list-group-item"  asp-controller="Excel" asp-action="Index">Uvoz servisera (Excel)</a>
+            
+        </ul>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-5 col-md-offset-1">
+        <h4>Mislav Brusac</h4>
+        <ul class="list-group">
+            <a class="list-group-item" target="_blank" asp-controller="Sadrzaj" asp-action="Report">Popis sadrzaja</a>
+            <a class="list-group-item" target="_blank" asp-controller="Prezentacija" asp-action="Report">Popis prezentacija</a>
+            <a class="list-group-item" href="/api/excel/prezentacije">Popis prezentacija (Excel)</a>
+            <a class="list-group-item" href="/api/excel/sadrzaji">Popis sadržaja (Excel MD)</a>
+            <a class="list-group-item" asp-controller="ImportExcel" asp-action="IndexPrezentacije">Unos prezentacija (Excel import)</a>
+        </ul>
+    </div>
+
+
+
+    <div class="col-md-5 col-md-offset-1">
+        <h4>Tin Ceraj</h4>
+        <ul class="list-group">
+            <a class="list-group-item" target="_blank" asp-controller="ShemaPrikazivanja" asp-action="Report">Popis shema</a>
+            <a class="list-group-item" target="_blank" asp-controller="PodshemaPrikazivanja" asp-action="Report">Popis podshema</a>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5 col-md-offset-1">
+        <h4>Robert Holovka</h4>
+        <ul class="list-group">
+            <a class="list-group-item" target="_blank" asp-controller="ReportKorisnici" asp-action="Korisnici">Popis korisnika(PDF)</a>
+            <a class="list-group-item" target="_blank" asp-controller="ReportKorisnici" asp-action="KorisniciExcel">Popis korisnika(excel, Master-Detail)</a>
+            <a class="list-group-item" target="_blank" asp-controller="ImportExcel" asp-action="IndexKorisnici">Uvoz korisnika(excel)</a>
+        </ul>
+    </div>
+</div>
+

@@ -1,0 +1,333 @@
+@{
+
+    ViewData["Title"] = "WEB API Uredaji";
+}
+
+<div class="row">
+    <br /> <br />
+    <a id="Create" class="btn btn-primary">Dodaj novi uredaj</a>
+    <a class="btn btn-primary" target="_blank"asp-controller="Report" asp-action="UredajiExcel">Popis svih uredaja (Excel)</a>
+    <a class="btn btn-primary" asp-controller="ImportExcel" asp-action="IndexUredaji">Uvoz uredaja (Excel)</a>
+    <br /><br />
+    <div id="Create-content" class="row initially-hidden">
+        <div class="col-xs-12">
+            <hr />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Naziv Uredaja</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="name"/>
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Nabavna Cijena</label>
+                <div class="col-md-10">
+                    <input  class="form-control" id="nabavna"/>
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Aktualna Cijena</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="aktualna"/>
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Datum Nabavke</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="datum"/>
+                </div>
+            </div>
+            <br /><br />
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">Podkomponenta od</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="podkomponenta">
+                        <option value="">--</option>
+                    </select>
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Pripadnost Videozidu</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="zid">
+                        <option value="">--</option>
+                    </select>
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Status</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="status">
+                        <option value=1>aktivan</option>
+                        <option value=2>zamjenski</option>
+                    </select>
+                </div>
+            </div>
+            <br /><br />
+            <div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="submit" value="Stvori novi uredaj" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+        </div>
+
+    <br /> <br />
+    <table class="table table-bordered table-striped text-center" id="tableUredaji">
+        <thead>
+            <tr>
+                <th class="text-center"> Naziv Uredaja </th>
+                <th class="text-center"> Nabavna Cijena (kn)</th>
+                <th class="text-center"> Aktualna Cijena (kn)</th>
+                <th class="text-center"> Datum Nabavke </th>
+                <th class="text-center"> Nadredena Komponenta </th>
+                <th class="text-center"> Status </th>
+                <th class="text-center"> Pripadnost Videozidu </th>
+                <th class="text-center"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tableUredaji').DataTable();
+            getUredaji();
+            getZidovi();
+            
+            $("#submit").click(create);
+
+            $("#Create").click(function () {
+                $("#Create-content").toggle(500);
+            });
+            $("#Create-content").hide(0);
+
+        });
+
+        function deleteUredaj(id) {
+            $.ajax({
+                type: "DELETE",
+                url: "../api/Uredaj/Remove/" + id,
+                ajaxasync: true,
+                success: function (data) {
+
+                    $('#tableUredaji').DataTable()
+                        .row(document.getElementById('row-'.concat(id)).parentElement.parentElement)
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function getUredaji() {
+            $.ajax({
+                type: "GET",
+                url: "../api/Uredaj/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+                    loadTable(data);
+
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.naziv;
+                        document.getElementById("podkomponenta").appendChild(opt);
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+
+        }
+
+        function getZidovi() {
+            $.ajax({
+                type: "GET",
+                url: "../api/Videozid/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.naziv;
+                        document.getElementById("zid").appendChild(opt);
+                    });
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function loadTable(data) {
+            $.each(data, function () {
+                var a1, a2, a3, a4, a5, a6, a7, a8;
+
+                a1 = '<b id="row-' + this.id + '" >' + this.naziv + '</b>';
+                a2 = this.nabavnaCijena;
+                a3 = this.aktualnaCijena;
+                a4 = this.datumNabavke;
+
+                if (this.nadredenaKomponenta === "/") {
+                    a5 = this.nadredenaKomponenta;
+
+                } else {
+                    a5 = '<a href="../Uredaj/ApiDetails/' + this.idNadredeneKomponente + '">' + '<b>' + this.nadredenaKomponenta + '</b>' + "</a>";
+
+                }
+
+                a6 = this.status;
+
+                if (this.zid === "/") {
+                    a7 = this.zid;
+
+
+                } else {
+                    a7 = '<a href="../Videozid/ApiDetails/' + this.idZida + '">' + '<b>' + this.zid + '</b>' + "</a>";
+
+                }
+
+                a8 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../Uredaj/ApiEdit/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../Uredaj/ApiDetails/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deleteUredaj(' + this.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+
+                $('#tableUredaji').DataTable().row.add([
+                    a1,
+                    a2,
+                    a3,
+                    a4,
+                    a5,
+                    a6,
+                    a7,
+                    a8,
+                ]).draw(false);
+            });
+
+        }
+
+        function create() {
+            var name = $("#name")[0].value;
+            if (name == "") {
+                alert("Ime je potrebno unijeti!");
+                $("#name")[0].select();
+                return;
+            }
+
+            var nabavna = $("#nabavna")[0].value;
+            if (nabavna == "") {
+                alert("Nabavnu cijenu je potrebno unijeti!");
+                $("#nabavna")[0].select();
+                return;
+            }
+
+            var aktualna = $("#aktualna")[0].value;
+            if (aktualna == "") {
+                alert("Aktualnu cijenu je potrebno unijeti!");
+                $("#aktualna")[0].select();
+                return;
+            }
+
+            var datum = $("#datum")[0].value;
+            if (datum == "") {
+                datum = null;
+            }
+
+            var podkom = $("#podkomponenta")[0];
+            var sel = podkom.options[podkom.selectedIndex];
+            podkom = sel.value === "" ? null: sel.value;
+
+            var zid = $("#zid")[0];
+            var sel = zid.options[zid.selectedIndex];
+            zid = sel.value === "" ? null : sel.value;
+
+            var status = $("#status")[0];
+            var sel = status.options[status.selectedIndex];    
+            status = sel.value === "" ? null : sel.value;
+
+            var data = {
+                "Naziv": name,
+                "DatumNabavke": datum,
+                "NabavnaCijena": nabavna,
+                "AktualnaCijena": aktualna,
+                "IdNadredeneKomponente": podkom,
+                "IdZida": zid,
+                "IdStatusa": status
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "../api/Uredaj/New",
+                ajaxasync: true,
+                data: JSON.stringify(data),
+                processData: false,
+                contentType: 'application/json',
+                success: function (data) {
+                    alert("Uspjeh!");
+                    var a1, a2, a3, a4, a5, a6, a7, a8;
+
+                    a2 = '<b id ="row-' + data.id + '" >' + data.naziv + '</b>';
+                    a3 = data.nabavnaCijena;
+                    a4 = data.aktualnaCijena;
+                    a5 = data.datumNabavke;
+
+                    if (data.nadredenaKomponenta === "/") {
+                        a6 = data.nadredenaKomponenta;
+
+                    } else {
+                        a6 = '<a href="../Uredaj/ApiDetails/' + data.idNadredeneKomponente + '">' + '<b>' + data.nadredenaKomponenta + '</b>' + "</a>";
+
+                    }
+
+                    a7 = data.status;
+
+                    if (data.zid === "/") {
+                        a8 = data.zid;
+
+
+                    } else {
+                        a8 = '<a href="../Videozid/ApiDetails/' + data.idZida + '">' + '<b>' + data.zid + '</b>' + "</a>";
+
+                    }
+
+                    a9 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../Uredaj/ApiEdit/' + data.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../Uredaj/ApiDetails/' + data.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deleteUredaj(' + data.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+
+                    $('#tableUredaji').DataTable().row.add([
+                        a2,
+                        a3,
+                        a4,
+                        a5,
+                        a6,
+                        a7,
+                        a8,
+                        a9
+                    ]).draw(false);
+                    
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+
+        }
+
+    </script>
+}

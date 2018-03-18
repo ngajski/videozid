@@ -1,0 +1,50 @@
+﻿@model videozid.Models.Servis
+
+@{
+    ViewData["Title"] = "Servis";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Obriši servis</title>
+</head>
+<body>
+
+<h3>Jeste li sigurni da želite pobrisati servis</h3>
+<div>
+    <h4>Servis</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <input type="hidden" asp-for="Id" />
+        <dt>
+            @Html.DisplayNameFor(model => model.Ime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ZiroRacun)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ZiroRacun)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Opis)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Opis)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Obriši" class="btn btn-danger" /> |
+            <a class="btn btn-primary" asp-action="Index">Servisi</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

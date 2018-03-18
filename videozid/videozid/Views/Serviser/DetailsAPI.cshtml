@@ -1,0 +1,87 @@
+﻿@{
+
+    ViewData["Title"] = "WEB API Uredaji";
+}
+
+@model int
+
+<h4>Detalji servisa</h4>
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-5">
+        <div class="row">
+            <dl class="dl-horizontal well">
+                <dt>Ime </dt>
+                <dd id="ime"></dd>
+
+                <dt> Prezime</dt>
+                <dd id="prezime"></dd>
+
+                <dt>Opis</dt>
+                <dd id="opis"></dd>
+
+                <dt>Servis</dt>
+                <dd id="servis"></dd>
+
+            </dl>
+        </div>
+            
+        <br /><br />
+        <div class="btn-group">
+            <a class="btn btn-danger btn-sm" id="delete">Obriši</a>
+            <a class="btn btn-primary btn-sm" asp-action="EditAPI" asp-route-id="@Model">Uredi</a>
+            <a class="btn btn-primary btn-sm" asp-action="IndexAPI">Serviseri</a>
+        </div>
+       
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+            $(document).ready(function () {
+                getServiser();
+
+                $("#delete").click(function () {
+                    if (confirm('Jeste li sigurani da želit obrisati servisera?')) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "../../api/serviser/delete/" + @Model,
+                            ajaxasync: false,
+                            success: function (data) {
+                                window.location.replace("../IndexAPI");
+                            },
+                            error: function (data) {
+                                alert("Greška!");
+                            }
+                        });
+                    }
+                    })
+            });
+
+            function getServiser() {
+                $.ajax({
+                    type: "GET",
+                    url: "../../api/serviser",
+                    ajaxasync: false,
+                    success: function (data) {
+                         $.each(data, function () {
+                             if (this.id === @Model){
+                                $("#ime")[0].innerHTML = this.ime;
+                                $("#prezime")[0].innerHTML = this.prezime;
+                                if (data.opis == null) $("#opis")[0].innerHTML = " - ";
+                                else $("#opis")[0].innerHTML = this.opis;
+                                $("#servis")[0].innerHTML = this.servis;
+                            }
+                        });
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+
+
+    </script>
+}

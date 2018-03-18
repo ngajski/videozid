@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewData["Title"] = "Servisi";
+}
+
+
+<form asp-action="Show" method="get">
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Pregledaj zapise za dan (yyyy-mm-dd):</label>
+        <div class="col-sm-2">
+            <input name="dan" class="form-control datum" />
+        </div>
+               
+        <div>
+            <div class="col-sm-1">
+                <button type="submit" class="btn btn-xs btn-primary save" title="Spremi"><span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </div>
+    </div>
+    @*<div class="form-group row">
+        <div class="radio">
+            <label><input name="option" type="radio" value="1" checked="checked">Trace</label>
+        </div>
+        <div class="radio">
+            <label><input name="option" type="radio" value="2">Ostalo</label>
+        </div>
+        <div class="radio">
+            <label><input name="option" type="radio" value="3">Baza</label>
+        </div>
+    </div>*@
+</form>
+
+
+
+@section styles{
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+}
+
+@section scripts{
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="~/lib/jquery-ui/ui/i18n/datepicker-hr.js"></script>
+    <script>
+        $(".datum").datepicker({
+            dateFormat: "yy-mm-dd" //da se može prenijeti u get zahtjevu
+        });
+    </script>
+}

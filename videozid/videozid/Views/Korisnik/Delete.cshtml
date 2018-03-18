@@ -1,0 +1,152 @@
+﻿@model videozid.ViewModels.KorisnikDetailsViewModel
+@{
+
+    ViewData["Title"] = "Brisanje korisnika";
+}
+
+
+<h3 style="color:red">Jeste li sigurni da želite obrisati ovog korisnika?</h3>
+<div class="row">
+
+    <br />
+    @if (Model.korisnik.Administrator.Where(a => a.IdKorisnika.Equals(Model.korisnik.Id)).Any())
+    {
+        <h3 style="color:red"><strong>ADMINISTRATOR</strong></h3>
+
+    }
+    <h3>Korisnik-detalji</h3>
+    <hr />
+
+
+    <dl class="dl-horizontal col-md-offset-1 col-md-5">
+
+
+        <dt>Korisničko ime:</dt>
+        <dd>@Model.korisnik.KorisnickoIme</dd>
+
+        <dt>Lozinka:</dt>
+        <dd>@Model.korisnik.Lozinka</dd>
+
+        <dt>Ime:</dt>
+        <dd>@Model.korisnik.Ime</dd>
+
+        <dt>Prezime:</dt>
+        <dd>@Model.korisnik.Prezime</dd>
+
+        <dt>Email:</dt>
+        <dd>@Model.korisnik.Email</dd>
+    </dl>
+
+    <div class="col-md-5 col-md-offset-1">
+
+        <div class="list-group">
+            @if (!Model.Sadrzaji.Any())
+            {
+                <h4>Korisnik nije autor sadržaja.</h4>
+
+            }
+            else
+            {
+                <h4>Autor slijedećih sadržaja:</h4>
+                @foreach (var sadrzaj in Model.Sadrzaji)
+                {
+                    <a class="list-group-item" asp-controller="Sadrzaj" asp-action="Details" asp-route-id="@sadrzaj.Id"> @sadrzaj.Opis </a>
+
+                }
+            }
+
+        </div>
+    </div>
+    <div class="col-md-5 col-md-offset-7">
+
+        <div class="list-group">
+            @if (!Model.Sadrzaji.Any())
+            {
+                <h4>Korisnik nije odobrio sadržaje.</h4>
+
+            }
+            else
+            {
+                <h4>Odobrio slijedeće sadržaja:</h4>
+                @foreach (var sadrzaj in Model.Odobrio)
+                {
+                    <a class="list-group-item" asp-controller="Sadrzaj" asp-action="Details" asp-route-id="@sadrzaj.Id"> @sadrzaj.Opis </a>
+
+                }
+            }
+
+        </div>
+    </div>
+
+</div>
+
+@if (Model.korisnik.Fer != null)
+{
+    <div class="row">
+        <br />
+        <h3>FerWeb račun</h3>
+        <hr />
+
+        <dl class="dl-horizontal col-md-offset-1 col-md-5">
+
+
+            <dt>Korisničko ime:</dt>
+            <dd>@Model.korisnik.Fer.KorisnickoIme</dd>
+
+            <dt>Lozinka:</dt>
+            <dd>@Model.korisnik.Fer.KorisnickoIme</dd>
+
+            <dt>Dozvola od servera:</dt>
+            @if (@Model.korisnik.Fer.DozvolaServer == null)
+            {
+
+                <dd>Ne posjeduje dozvolu.</dd>
+            }
+            else
+            {
+
+                <dd>@Model.korisnik.Fer.DozvolaServer</dd>
+            }
+        </dl>
+    </div>
+
+}
+@if (Model.korisnik.Dhmz != null)
+{
+    <div class="row">
+        <br />
+        <h3>DHMZ račun</h3>
+        <hr />
+
+        <dl class="dl-horizontal col-md-offset-1 col-md-5">
+
+
+            <dt>Korisničko ime:</dt>
+            <dd>@Model.korisnik.Dhmz.KorisnickoIme</dd>
+
+            <dt>Lozinka:</dt>
+            <dd>@Model.korisnik.Dhmz.KorisnickoIme</dd>
+
+            <dt>Dozvola od servera:</dt>
+            @if (@Model.korisnik.Dhmz.DozvolaServer == null)
+            {
+
+                <dd>Ne posjeduje dozvolu.</dd>
+            }
+            else
+            {
+
+                <dd>@Model.korisnik.Dhmz.DozvolaServer</dd>
+            }
+        </dl>
+    </div>
+}
+
+<div>
+    <form asp-action="Delete">
+        <div class="form-actions no-color btn-group" role="group">
+            <input type="submit" value="Izbriši" class="btn btn-danger" />
+            <a class="btn btn-primary" asp-action="Index">Natrag</a>
+        </div>
+    </form>
+</div>

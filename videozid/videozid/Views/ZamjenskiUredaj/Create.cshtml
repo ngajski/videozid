@@ -1,0 +1,40 @@
+@model videozid.Models.ZamjenskiUredaj
+
+@{
+
+    ViewData["Title"] = "Popis Zamjenskih";
+}
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <br />
+        <h4>ZamjenskiUredaj</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="IdUredaja" class="col-md-2 control-label">Uredaj</label>
+            <div class="col-md-10">
+                <select asp-for="IdUredaja" class ="form-control" asp-items="ViewBag.IdUredaja"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdZamjenaZa" class="col-md-2 control-label">Zamjena za</label>
+            <div class="col-md-10">
+                <select asp-for="IdZamjenaZa" class ="form-control" asp-items="ViewBag.IdZamjenaZa"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Stvori novu vezu" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a class="btn btn-primary" asp-action="Index">Natrag na popis</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

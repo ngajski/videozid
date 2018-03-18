@@ -1,0 +1,65 @@
+﻿@model videozid.ViewModels.ServisiDetailsModel
+
+@{
+    ViewData["Title"] = "Servisi";
+}
+
+<!DOCTYPE html>
+<meta charset="ISO-8859-1"> 
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Servisi</title>
+
+</head>
+<body>
+
+    <div class="row">
+        <br /> <br />
+        <h3>Servisi</h3>
+        <br />
+    </div>
+
+    <div class="row" id="filterDiv">
+        <h4>Filter</h4>
+        @Html.Partial("Filter",Model.filter)
+    </div>
+    
+
+    <div page-info="@Model.PagingInfo" page-action="Index" page-classes-enabled="true"
+         page-class="btn" page-class-normal="btn-default"
+         page-class-selected="btn-primary" class="btn-group pull-right">
+
+        @for (int i = 0; i < Model.PagingInfo.TotalPages; i++)
+            {
+                int j = i + 1;
+            <a class="btn btn-primary" asp-route-page=@j>@j</a>
+        }
+    </div>
+    
+    <br /><br />
+
+    <div class="row" id="tableDiv">
+        @Html.Partial("TableView")
+    </div>
+
+    <div class="row">
+        <p>
+            <a class="btn btn-primary" asp-action="Create">Novi servis</a>
+        </p>
+    </div>
+
+</body>
+</html>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="~/lib/jquery-ui/ui/i18n/datepicker-hr.js"></script>
+    <script src="~/js/autocomplete.js"></script>
+}
+

@@ -1,0 +1,167 @@
+﻿@{
+
+    ViewData["Title"] = "WEB API Korisnik";
+}
+
+@model string
+
+
+<h4>Korisnik detalji</h4>
+<br />
+<div class="row">
+    <div class="col-md-offset-1 col-md-5">
+        <div class="row">
+            <dl class="dl-horizontal well">
+                <dt>Prezime</dt>
+                <dd id="prezime"></dd>
+
+                <dt>Ime</dt>
+                <dd id="ime"></dd>
+
+                <dt>Korisničko ime</dt>
+                <dd id="korisnickoIme"></dd>
+
+                <dt>Email</dt>
+                <dd id="email"></dd>
+
+                <dt>Lozinka</dt>
+                <dd id="lozinka"></dd>
+
+                <dt>Administrator</dt>
+                <dd id="admin"></dd>
+
+            </dl>
+
+            <br />
+            <a class="btn btn-primary btn-sm" asp-action="ApiEdit" asp-route-id="@ViewBag.id">Uredi osnovne informacije</a>
+        </div>
+    </div>
+
+    <div class="col-md-offset-1 col-md-5">
+        <div class="row">
+            <p><b>Autor sadržaja:</b></p>
+            <ul id="autor" class="list-group"></ul>
+
+            <div class="text-center">
+                <a id="add-autor" class="btn btn-info btn-xs">Dodaj</a>
+                <br /><br />
+                <div id="autor-content" class="row initially-hidden">
+                    <div class="col-xs-8 col-xs-offset-2">
+                        <select class="form-control" id="autor-dropdown"></select>
+                    </div>
+                    <br /><br />
+                    <a id="autor-submit" class="btn btn-success btn-xs">Potvrdi</a>
+                    <br /><br />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-offset-1 col-md-5">
+        <div class="row">
+            <p><b>Odobrio sadržaje:</b></p>
+            <ul id="odobrio" class="list-group"></ul>
+
+            <div class="text-center">
+                <a id="add-odobrio" class="btn btn-info btn-xs">Dodaj</a>
+                <br /><br />
+                <div id="odobrio-content" class="row initially-hidden">
+                    <div class="col-xs-8 col-xs-offset-2">
+                        <select class="form-control" id="odobrio-dropdown"></select>
+                    </div>
+                    <br /><br />
+                    <a id="odobrio-submit" class="btn btn-success btn-xs">Potvrdi</a>
+                    <br /><br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+
+        var korisnik;
+        $(document).ready(function () {
+                getKorisnik();
+            });
+
+            function getKorisnik() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Korisnik/GetMD/"+ "@Model",
+                ajaxasync: false,
+                success: function (data) {
+                    korisnik= data;
+
+                    $("#ime")[0].innerHTML = korisnik.ime;
+                    $("#prezime")[0].innerHTML = korisnik.prezime;
+                    $("#korisnickoIme")[0].innerHTML = korisnik.korisnickoIme;
+                    $("#email")[0].innerHTML = korisnik.email;
+                    $("#lozinka")[0].innerHTML = korisnik.lozinka;
+                    if (korisnik.admin) {
+
+                        $("#admin")[0].innerHTML = "DA";
+                    } else {
+
+                        $("#admin")[0].innerHTML = "NE";
+                    }
+                    $.each(korisnik.autor, function () {
+                        var html = "";
+                        html += '<div class="list-group-item" id="listAutor-' + this.id + '"><a href="../../Sadrzaj/ApiDetails/' + this.id + '">' + this.name + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deleteSadrzajAutor(' + this.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                        $('#autor')[0].innerHTML += html;
+                    });
+                    $.each(korisnik.odobrio, function () {
+                        var html = "";
+                        html += '<div class="list-group-item" id="listOdobrio-' + this.id + '"><a href="../../Sadrzaj/ApiDetails/' + this.id + '">' + this.name + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deleteSadrzajOdobrio(' + this.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                        $('#odobrio')[0].innerHTML += html;
+                    });
+                    
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+                });
+        }
+
+            function deleteSadrzajAutor(id) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "../../api/Sadrzaj/Remove/" + id,
+                    ajaxasync: true,
+                    success: function (data) {
+
+                        document.getElementById('listAutor-'.concat(id)).style.display = "none";
+                        if (document.getElementById('listOdobrio-'.concat(id))){
+                            document.getElementById('listOdobrio-'.concat(id)).style.display = "none";
+                        }
+
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+            function deleteSadrzajOdobrio(id) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "../../api/Sadrzaj/Remove/" + id,
+                    ajaxasync: true,
+                    success: function (data) {
+
+                        document.getElementById('listOdobrio-'.concat(id)).style.display = "none";
+                        if (document.getElementById('listAutor-'.concat(id))) {
+                            document.getElementById('listAutor-'.concat(id)).style.display = "none";
+                        }
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+
+
+    </script>
+}

@@ -1,0 +1,64 @@
+@model videozid.Models.Serviser
+
+@{
+    ViewData["Title"] = "Serviser";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Novi serviser</title>
+</head>
+<body>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>Serviser</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="IdServis" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="IdServis" class ="form-control" asp-items="ViewBag.IdServis"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Ime" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Ime" class="form-control" required/>
+                <span asp-validation-for="Ime" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Prezime" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Prezime" class="form-control" required/>
+                <span asp-validation-for="Prezime" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Opis" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Opis" class="form-control" />
+                <span asp-validation-for="Opis" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Stvori" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a class="btn btn-primary" asp-action="Index"> Serviseri</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</body>
+</html>

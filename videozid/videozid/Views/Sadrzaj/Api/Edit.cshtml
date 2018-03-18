@@ -1,0 +1,264 @@
+﻿@{
+
+    ViewData["Title"] = "WEB API Sadržaji";
+}
+
+@model int
+
+<h4>Uredi osnovne informacije o sadržaju</h4>
+
+<div class="col-xs-12">
+    <hr />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Ime</label>
+        <div class="col-md-10">
+            <input class="form-control" id="ime" />
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Opis</label>
+        <div class="col-md-10">
+            <input class="form-control" id="opis" />
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <label class="col-md-2 control-label">URL</label>
+        <div class="col-md-10">
+            <input class="form-control" id="url" />
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Odobren</label>
+        <div class="col-md-10">
+            <select class="form-control" id="jeOdobren">
+                <option value="true" selected="selected">Odobren</option>
+                <option value="false">Nije</option>
+            </select>
+        </div>
+    </div>
+    <br /><br />
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Autor</label>
+        <div class="col-md-10">
+            <select class="form-control" id="autor">
+                <option value="">--</option>
+            </select>
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Odobren Od</label>
+        <div class="col-md-10">
+            <select class="form-control" id="odobrenOd">
+                <option value="">--</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Tip</label>
+        <div class="col-md-10">
+            <select class="form-control" id="tip">
+                <option value="">--</option>
+            </select>
+        </div>
+    </div>
+    <br /><br />
+
+
+    <div class="btn-group">
+        <input id="submit" value="Gotovo" class="btn btn-success btn-sm" />
+        <a class="btn btn-danger btn-sm" id="delete">Ukloni</a>
+        <a class="btn btn-primary btn-sm" asp-controller="Sadrzaj" asp-action="ApiDetails" asp-route-id="@Model">Detalji</a>
+        <a class="btn btn-primary btn-sm" asp-controller="Sadrzaj" asp-action="ApiIndex">Natrag na popis</a>
+    </div>
+    <hr />
+</div>
+
+@section scripts {
+    <script>
+        var sadrzaj;
+        $(document).ready(function () {
+            getAutori();
+            getOdobreni();
+            getTipovi();
+            getSadrzaj();
+            $("#submit").click(update);
+
+            $("#delete").click(function () {
+                if (confirm('Jesi li siguran?')) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "../../api/Sadrzaj/Remove/" + @Model,
+                        ajaxasync: false,
+                        success: function (data) {
+
+                        },
+                        error: function (data) {
+                        }
+                    });
+                    window.location.replace("../ApiIndex")
+                }
+
+            })
+
+        });
+
+
+        function getSadrzaj() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Sadrzaj/Get/" + @Model,
+                ajaxasync: false,
+                success: function (data) {
+
+                    sadrzaj = data;
+                    $("#ime")[0].value = sadrzaj.ime;
+                    $("#opis")[0].value = sadrzaj.opis;
+                    $("#url")[0].value = sadrzaj.url;
+                    $("#jeOdobren")[0].value = sadrzaj.jeOdobren;
+                    $("#autor")[0].value = sadrzaj.autor;
+                    $("#odobrenOd")[0].value = sadrzaj.odobrenOd;
+                    $("#tip")[0].value = sadrzaj.tip;
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function getAutori() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Korisnik/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.ime + " " + this.prezime;
+                        document.getElementById("autor").appendChild(opt);
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function getOdobreni() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Korisnik/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.ime + " " + this.prezime;
+                        document.getElementById("odobrenOd").appendChild(opt);
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function getTipovi() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/TipSadrzaja/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.ime;
+                        document.getElementById("tip").appendChild(opt);
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        
+        function update() {
+            var ime = $("#ime")[0].value;
+            if (ime == "") {
+                alert("Ime je potrebno unijeti!");
+                $("#ime")[0].select();
+                return;
+            }
+
+            var opis = $("#opis")[0].value;
+            if (opis == "") {
+                alert("Opis je potrebno unijeti!");
+                $("#opis")[0].select();
+                return;
+            }
+
+            var url = $("#url")[0].value;
+            if (url == "") {
+                alert("URL je potrebno unijeti!");
+                $("#url")[0].select();
+                return;
+            }
+
+            var jeodobren = $("#jeOdobren")[0];
+            var sel = jeodobren.options[jeodobren.selectedIndex];
+            jeodobren = sel.value === true ? true : false;
+
+            var autor = $("#autor")[0];
+            var sel = autor.options[autor.selectedIndex];
+            autor = sel.value === "" ? null : sel.value;
+
+            var odobrenOd = $("#odobrenOd")[0];
+            var sel = odobrenOd.options[odobrenOd.selectedIndex];
+            odobrenOd = sel.value === "" ? null : sel.value;
+
+            var tip = $("#tip")[0];
+            var sel = tip.options[tip.selectedIndex];
+            tip = sel.value === "" ? null : sel.value;
+
+
+            var data = {
+                "Id": @Model,
+                "Ime": ime,
+                "Opis": opis,
+                "URL": url,
+                "JeOdobren": jeodobren,
+                "IdAutora": autor,
+                "IdOdobrenOd": odobrenOd,
+                "IdTipa": tip
+            }
+
+            console.log(data);
+            $.ajax({
+                type: "PUT",
+                url: "../../api/Sadrzaj/Update",
+                ajaxasync: true,
+                data: JSON.stringify(data),
+                processData: false,
+                contentType: 'application/json',
+                success: function (data) {
+                    alert("Uspjeh!");
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+
+        }
+    </script>
+}

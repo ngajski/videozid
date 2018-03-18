@@ -1,0 +1,70 @@
+﻿@model videozid.Models.Servisira
+
+@{
+    ViewData["Title"] = "Servisira";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detalji</title>
+
+    <script>
+        function changeWindow(action, id) {
+            var url = "/api/servisira/"
+            if (action != '') {
+                url += action + "/";
+            }
+
+            if (id != '') {
+                url += id;
+            }
+
+            window.location = url
+        }
+
+        function deleteServisira(id) {
+            $.ajax({
+                type: "DELETE",
+                url: "/api/servisira/delete/" + id,
+                data: { id: id },
+                ajaxasync: true,
+                success: function (data) {
+                    changeWindow('', '');
+                },
+                error: function (data) {
+                    alert(data);;
+                }
+            });
+
+        }
+    </script>
+</head>
+<body>
+
+<div>
+    <h4>Servisira - detalji</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Servis
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdServisNavigation.Ime)
+        </dd>
+        <dt>
+            Uređaj
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdUredajNavigation.Naziv)
+        </dd>
+    </dl>
+</div>
+    <div>
+        <a class="btn btn-primary" onclick="changeWindow('edit',@Model.Id)">Uredi</a>
+        <a class="btn btn-danger" onclick="deleteServisira('@Model.Id')">Obriši</a>
+    </div>
+</body>
+</html>

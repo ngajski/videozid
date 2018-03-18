@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewData["Title"] = "EditAPI";
+}
+
+<h2>Uređivanje servisera API</h2>
+
+@{
+
+    ViewData["Title"] = "WEB API serviser";
+}
+
+@model int
+
+<h4>Uredi osnovne informacije o servisu</h4>
+
+<div class="col-xs-12">
+    <hr />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Ime</label>
+        <div class="col-md-10">
+            <input class="form-control" id="ime" />
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Prezime</label>
+        <div class="col-md-10">
+            <input class="form-control" id="prezime" />
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Opis</label>
+        <div class="col-md-10">
+            <input class="form-control" id="opis" />
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Servis</label>
+        <div class="col-md-10">
+            <select class="form-control" id="servis">
+                @*<option value="">--</option>*@
+            </select>
+        </div>
+    </div>
+
+    <br /><br />
+    <div class="btn-group">
+        <input id="submit" value="Spremi" class="btn btn-success btn-sm" />
+        <a class="btn btn-danger btn-sm" id="delete">Obriši</a>
+        <a class="btn btn-primary btn-sm" asp-controller="Serviser" asp-action="DetailsApi" asp-route-id="@Model">Detalji</a>
+        <a class="btn btn-primary btn-sm" asp-controller="Serviser" asp-action="IndexApi">Serviseri</a>
+    </div>
+    <hr />
+</div>
+
+@section scripts {
+    <script>
+        var uredaj;
+        $(document).ready(function () {
+            getServisi();
+            getServiseri()
+            $("#submit").click(update);
+
+            $("#delete").click(function () {
+                if (confirm('Jeste li sigurani da želite obrisati servisera?')) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "../../api/serviser/delete/" + @Model,
+                        ajaxasync: false,
+                        success: function (data) {
+                            window.location.replace("../IndexAPI");
+                        },
+                        error: function (data) {
+                            alert("Greška!");
+                        }
+                    });
+
+                }
+            })
+        });
+
+        function getServisi() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/servis",
+                ajaxasync: false,
+                success: function (data) {
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.ime;
+                        document.getElementById("servis").appendChild(opt);
+                        }
+                    );
+                },
+
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+         function getServiseri() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/serviser",
+                ajaxasync: false,
+                success: function (data) {
+                    $.each(data, function () {
+                        if (this.id === @Model){
+                            $('#servis option[value=' + this.idServis + ']').attr('selected', 'selected');
+                            $("#ime")[0].value = this.ime;
+                            $("#prezime")[0].value = this.prezime;
+                            $("#opis")[0].value = this.opis.trim() == "" ? "-" : this.opis;
+                        }
+                    });
+                },
+
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+         function update() {
+             
+            var ime = $("#ime")[0].value;
+            if (ime == "") {
+                alert("Ime serviseera ne smije biti prazno");
+                $("#ime")[0].select();
+                return;
+            }
+            
+
+            var opis = $("#opis")[0].value;
+
+            var prezime = $("#prezime")[0].value;
+            if (prezime == "") {
+                alert("Prezime servisera ne smije biti prazno!");
+                $("#prezime")[0].select();
+                return;
+            } 
+            
+            var servis = $("#servis")[0];
+            var sel = servis.options[servis.selectedIndex];
+            servis = sel.value === "" ? null : sel.value;
+
+            var data = {
+                "Ime": ime,
+                "Prezime": prezime,
+                "Opis": opis,
+                "IdServis": servis
+            }
+
+            $.ajax({
+                type: "PUT",
+                url: "../../api/serviser/" + @Model,
+                ajaxasync: true,
+                data: JSON.stringify(data),
+                processData: false,
+                contentType: 'application/json',
+                success: function (data) {
+                    alert("Serviser uspješno izmijenjen!");
+                    $("#ime")[0].value = data.ime;
+                    $("#prezime")[0].value = data.prezime;
+                    $("#opis")[0].value = data.opis.trim() == "" ? "-" : data.opis;
+                    $("#servis").data("selected", data.idServis);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+    </script>
+}

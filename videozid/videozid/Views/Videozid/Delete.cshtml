@@ -1,0 +1,50 @@
+@model videozid.Models.Videozid
+
+@{
+
+    ViewData["Title"] = "Popis uredaja";
+}
+
+<!DOCTYPE html>
+
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Videozid - @Model.Naziv</h4>
+    <hr />
+    <dl class="dl-horizontal col-md-offset-1">
+        <dt>
+            @Html.DisplayNameFor(model => model.Naziv)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Naziv)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Lokacija)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Lokacija)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Sirina)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Sirina)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Visina)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Visina)
+        </dd>
+    </dl>
+    
+    <div>
+        <form asp-action="Delete">
+            <div class="form-actions no-color btn-group" role="group">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a class="btn btn-primary" asp-action="Index">Natrag na popis</a>
+            </div>
+        </form>
+    </div>
+</div>

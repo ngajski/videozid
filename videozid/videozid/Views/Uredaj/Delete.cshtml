@@ -1,0 +1,65 @@
+@model videozid.Models.Uredaj
+@{
+
+    ViewData["Title"] = "Popis uredaja";
+}
+
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <br />
+    <h4>Uredaj - @Model.Naziv</h4>
+    <hr />
+    <dl class="dl-horizontal col-md-offset-1">
+        <dt>Naziv Uredaja</dt>
+        <dd>@Model.Naziv</dd>
+
+        <dt> Nabavna Cijena</dt>
+        <dd>@Model.NabavnaCijena kn</dd>
+
+        <dt>Aktualna Cijena</dt>
+        <dd>@Model.AktualnaCijena kn</dd>
+
+        <dt>Datum Nabavke</dt>
+        <dd>@Model.DatumNabavke.Day.@Model.DatumNabavke.Month.@Model.DatumNabavke.Year</dd>
+
+        <dt>Podkomponenta od</dt>
+        <dd>
+            @if (Model.IdNadredeneKomponente == null)
+                {
+                <span>/</span>
+
+            }
+            else
+            {
+                @Model.IdNadredeneKomponenteNavigation.Naziv
+
+            }
+        </dd>
+
+        <dt>Status</dt>
+        <dd>@Model.IdStatusaNavigation.Naziv</dd>
+
+        <dt>Pripadnost Videozidu</dt>
+        <dd>
+            @if (Model.IdZida == null)
+                {
+                <span>/</span>
+
+            }
+            else
+            {
+                @Model.IdZidaNavigation.Naziv
+
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <form asp-action="Delete">
+        <div class="form-actions no-color btn-group" role="group"> 
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a class="btn btn-primary" asp-action="Index">Natrag na popis</a>
+        </div>
+    </form>
+</div>

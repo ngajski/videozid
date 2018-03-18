@@ -1,0 +1,11 @@
+C:\Users\nikol\Documents\tfsrpp\RPPP\RPPP-15\ZI\videozid\videozid\bin\Debug\netcoreapp1.1\nlog.config
+C:\Users\nikol\Documents\tfsrpp\RPPP\RPPP-15\ZI\videozid\videozid\bin\Debug\netcoreapp1.1\videozid.deps.json
+C:\Users\nikol\Documents\tfsrpp\RPPP\RPPP-15\ZI\videozid\videozid\bin\Debug\netcoreapp1.1\videozid.runtimeconfig.json
+C:\Users\nikol\Documents\tfsrpp\RPPP\RPPP-15\ZI\videozid\videozid\bin\Debug\netcoreapp1.1\videozid.runtimeconfig.dev.json
+C:\Users\nikol\Documents\tfsrpp\RPPP\RPPP-15\ZI\videozid\videozid\bin\Debug\netcoreapp1.1\videozid.xml
+C:\Users\nikol\Documents\tfsrpp\RPPP\RPPP-15\ZI\videozid\videozid\bin\Debug\netcoreapp1.1\videozid.dll
+C:\Users\nikol\Documents\tfsrpp\RPPP\RPPP-15\ZI\videozid\videozid\bin\Debug\netcoreapp1.1\videozid.pdb
+C:\Users\nikol\Documents\tfsrpp\RPPP\RPPP-15\ZI\videozid\videozid\obj\Debug\netcoreapp1.1\videozid.csprojResolveAssemblyReference.cache
+C:\Users\nikol\Documents\tfsrpp\RPPP\RPPP-15\ZI\videozid\videozid\obj\Debug\netcoreapp1.1\videozid.AssemblyInfo.cs
+C:\Users\nikol\Documents\tfsrpp\RPPP\RPPP-15\ZI\videozid\videozid\obj\Debug\netcoreapp1.1\videozid.dll
+C:\Users\nikol\Documents\tfsrpp\RPPP\RPPP-15\ZI\videozid\videozid\obj\Debug\netcoreapp1.1\videozid.pdb

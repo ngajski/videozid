@@ -1,0 +1,79 @@
+@model videozid.Models.Uredaj
+@{
+
+    ViewData["Title"] = "Popis uredaja";
+}
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <br />
+        <h4>Novi Uredaj</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Naziv" class="col-md-2 control-label">Naziv Uredaja</label>
+            <div class="col-md-10">
+                <input asp-for="Naziv" class="form-control" />
+                <span asp-validation-for="Naziv" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="NabavnaCijena" class="col-md-2 control-label">Nabavna Cijena</label>
+            <div class="col-md-10">
+                <input asp-for="NabavnaCijena" class="form-control" />
+                <span asp-validation-for="NabavnaCijena" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AktualnaCijena" class="col-md-2 control-label">Aktualna Cijena</label>
+            <div class="col-md-10">
+                <input asp-for="AktualnaCijena" class="form-control" />
+                <span asp-validation-for="AktualnaCijena" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DatumNabavke" class="col-md-2 control-label">Datum Nabavke</label>
+            <div class="col-md-10">
+                <input asp-for="DatumNabavke" class="form-control" />
+                <span asp-validation-for="DatumNabavke" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="IdNadredeneKomponente" class="col-md-2 control-label">Podkomponenta od</label>
+            <div class="col-md-10">
+                <select asp-for="IdNadredeneKomponente" class ="form-control" asp-items="ViewBag.IdNadredeneKomponente">
+                    <option value="">--</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdZida" class="col-md-2 control-label">Pripadnost Videozidu</label>
+            <div class="col-md-10">
+                <select asp-for="IdZida" class ="form-control" asp-items="ViewBag.IdZida">
+                    <option value="">--</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdStatusa" class="col-md-2 control-label">Status</label>
+            <div class="col-md-10">
+                <select asp-for="IdStatusa" class ="form-control" asp-items="ViewBag.IdStatusa"></select>
+            </div>
+        </div>
+          
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Stvori novi uredaj" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a class="btn btn-primary" asp-action="Index">Natrag na popis</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,48 @@
+@model videozid.ViewModels.PodshemaPrikazivanjaDetailsViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+
+<div>
+    <h4>PodshemaPrikazivanja</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PodshemaPrikazivanja.Naziv)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PodshemaPrikazivanja.Naziv)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Prezentacije)
+        </dt>
+        @foreach (var item in Model.Prezentacije)
+            {
+            <dd>@item.IdPrezentacijeNavigation.Id</dd>
+                <dd>Od : @item.Od</dd>
+                <dd>Do : @item.Do</dd>
+
+        }
+        <dt>
+            @Html.DisplayNameFor(model => model.PodshemaPrikazivanja.Opis)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PodshemaPrikazivanja.Opis)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PodshemaPrikazivanja.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+</body>
+</html>

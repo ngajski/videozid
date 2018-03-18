@@ -1,0 +1,30 @@
+@model videozid.Models.ZamjenskiUredaj
+
+@{
+
+    ViewData["Title"] = "Popis Zamjenskih";
+}
+
+<div>
+    <h4>ZamjenskiUredaj</h4>
+    <hr />
+    <dl class="dl-horizontal well">
+        <dt> Uredaj</dt>
+        <dd> <b> <a asp-controller="Uredaj" asp-action="Details" asp-route-id="@Model.IdUredaja">@Model.IdUredajaNavigation.Naziv </a> </b> </dd>
+
+        <dt> Zamjena za </dt>
+        <dd> <b> <a asp-controller="Uredaj" asp-action="Details" asp-route-id="@Model.IdZamjenaZa">@Model.IdZamjenaZaNavigation.Naziv </a> </b> </dd>
+    </dl>
+</div>
+
+<div class="row">
+    <div class="btn-group row" role="group">
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <a class="btn btn-primary" asp-action="Index">Natrag na popis</a>
+    </div>
+
+    <div class="btn-group col-md-offset-1" role="group">
+        <a class="btn btn-primary" asp-action="Previous" asp-route-id="@Model.Id">Prijasnji</a>
+        <a class="btn btn-primary" asp-action="Next" asp-route-id="@Model.Id">Sljedeci</a>
+    </div>
+</div>

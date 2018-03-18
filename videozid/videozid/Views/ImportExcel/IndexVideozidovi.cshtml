@@ -1,0 +1,17 @@
+@{
+
+    ViewData["Title"] = "Uvoz videozidova";
+}
+
+<br /><br />
+<p>Uvoz videozidova</p>
+<form method="post" asp-action="IndexVideozidovi" asp-controller="ImportExcel" enctype="multipart/form-data">
+    <input type="file" name="files" multiple />
+    <input type="submit" value="Uvoz" />
+</form>
+
+<br /><br />
+<p>Za unos videozidova pozeljno je koristiti sljedeci predlozak</p>
+<a class="btn btn-success" asp-controller="ImportExcel" asp-action="PredlozakVideozidovi">Prezumi</a>
+
+

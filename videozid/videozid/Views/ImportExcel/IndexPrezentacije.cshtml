@@ -1,0 +1,15 @@
+﻿@{
+
+    ViewData["Title"] = "Uvoz prezentacija";
+}
+
+<br /><br />
+<p>Uvoz prezentacija. Koristiti Microsoft Edge browser.</p>
+<form method="post" asp-action="IndexPrezentacije" asp-controller="ImportExcel" enctype="multipart/form-data">
+    <input type="file" name="files" multiple />
+    <input type="submit" value="Uvoz" />
+</form>
+
+<br /><br />
+<p>Za unos prezentacija pozeljno je koristiti sljedeci predlozak</p>
+<a class="btn btn-success" asp-controller="ImportExcel" asp-action="PredlozakPrezentacija">Preuzmi</a>

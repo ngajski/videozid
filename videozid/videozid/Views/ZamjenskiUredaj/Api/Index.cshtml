@@ -1,0 +1,196 @@
+@{
+
+    ViewData["Title"] = "WEB API Zamjenski";
+}
+
+<div class="row">
+    <a id="Create" class="btn btn-primary">Definiraj novu vezu zamjene</a>
+    <br /><br /><br /> <br />
+    <div id="Create-content" class="row initially-hidden">
+        <div class="col-xs-12">
+            <hr />
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">Uredaj</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="uredaj">
+                    </select>
+                </div>
+            </div>
+            <br /> <br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Zamjena za</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="zamjena"></select>
+                </div>
+            </div>
+            <br /> <br />
+            <div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="submit" value="Stvori novu vezu" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br /> <br />
+    <table class="table table-bordered table-striped text-center" id="tableZamjenski">
+        <thead>
+            <tr>
+                <th class="text-center"> Uredaj
+                <th class="text-center"> Zamjena Za</th>
+                <th class="text-center"></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('#tableZamjenski').DataTable();
+            getZamjenski();
+            getUredaji();
+
+            $("#submit").click(create);
+
+            $("#Create").click(function () {
+                $("#Create-content").toggle(500);
+            });
+            $("#Create-content").hide(0);
+        });
+
+        function getUredaji() {
+            $.ajax({
+                type: "GET",
+                url: "../api/Uredaj/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.naziv;
+                        document.getElementById("uredaj").appendChild(opt);
+
+                        opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.naziv;
+                        document.getElementById("zamjena").appendChild(opt);
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+
+        }
+
+        function getZamjenski() {
+            $.ajax({
+                type: "GET",
+                url: "../api/ZamjenskiUredaj/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+                   loadTable(data);
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function loadTable(data) {
+            $.each(data, function () {
+                console.log(this);
+                var a1, a2, a3;
+                a1 = '<b id="row-' + this.id + '">' + '<a href="../Uredaj/ApiDetails/' + this.idUredaja + '">' + this.uredaj + "</a>" + '</b>';
+                a2 = '<a href="../Uredaj/ApiDetails/' + this.idZamjenaZa + '">' + '<b>' + this.zamjena + '</b>' + '</a>';
+                a3 = '<a class="btn btn-danger btn-sm" onclick="deleteZamjenski(' + this.id + ')"><span class="glyphicon glyphicon-remove"></span></a>';
+
+                $('#tableZamjenski').DataTable().row.add([
+                    a1,
+                    a2,
+                    a3,
+                ]).draw(false);
+            });
+
+            }
+
+        function deleteZamjenski(id) {
+            $.ajax({
+                type: "DELETE",
+                url: "../api/ZamjenskiUredaj/Remove/" + id,
+                ajaxasync: true,
+                success: function (data) {
+
+                    $('#tableZamjenski').DataTable()
+                        .row(document.getElementById('row-'.concat(id)).parentElement.parentElement)
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function create() {
+
+            var uredaj = $("#uredaj")[0];
+            var sel = uredaj.options[uredaj.selectedIndex];
+            uredaj = sel.value === "" ? null : sel.value;
+
+            var zamjena = $("#zamjena")[0];
+            var sel = zamjena.options[zamjena.selectedIndex];
+            zamjena = sel.value === "" ? null : sel.value;
+
+            if (uredaj === zamjena) {
+                alert("Uredaj ne moze biti sam sebi zamjena!");
+                return;
+
+            }
+
+            var data = {
+                "IdUredaja": uredaj,
+                "IdZamjenaZa": zamjena,
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "../api/ZamjenskiUredaj/New",
+                ajaxasync: true,
+                data: JSON.stringify(data),
+                processData: false,
+                contentType: 'application/json',
+                success: function (data) {
+                    alert("Uspjeh!");
+                    a1 = '<b id="row-' + data.idVeze + '">' + '<a href="../Uredaj/ApiDetails/' + data.id1 + '">' + data.n1 + "</a>" + '</b>';
+                    a2 = '<a href="../Uredaj/ApiDetails/' + data.id2 + '">' + '<b>' + data.n2 + '</b>' + '</a>';
+                    a3 = '<a class="btn btn-danger btn-sm" onclick="deleteZamjenski(' + data.idVeze + ')"><span class="glyphicon glyphicon-remove"></span></a>';
+
+                    $('#tableZamjenski').DataTable().row.add([
+                        a1,
+                        a2,
+                        a3,
+                    ]).draw(false);
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+
+        }
+    </script>
+}

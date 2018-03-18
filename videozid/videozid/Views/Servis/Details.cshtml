@@ -1,0 +1,150 @@
+﻿@model videozid.ViewModels.ServisDetailsViewModel
+@{
+
+    ViewData["Title"] = "Servis";
+}
+
+<html>
+    <head>
+        <script>
+            function deleteServiser(id) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("DeleteAsync", "Serviser")",
+                data: { id: id },
+                ajaxasync: true,
+                success: function (data) {
+                    document.getElementById("list-".concat(id)).outerHTML = '';
+                },
+                error: function (data) {
+                    alert("Greska");
+                }
+             });
+
+            }
+
+            function deleteServsira(idServis, idUredaj) {
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteForServisAndUredaj", "Servisira")",
+                data: {
+                    idServis: idServis,
+                    idUredaj: idUredaj
+                },
+                ajaxasync: true,
+                success: function (data) {
+                    document.getElementById("list-".concat(idServis).concat('-').concat(idUredaj)).outerHTML = '';
+                },
+                error: function (data) {
+                    alert("Greska");
+                }
+             });
+            }
+
+
+
+        </script>
+    </head>
+
+    <body>
+        <div class="row">
+            <br />
+            <h3>@Model.Servis.Ime</h3>
+            <hr />
+            <dl class="dl-horizontal col-md-offset-1 col-md-5">
+                <dt>Naziv servisa</dt>
+                <dd>@Model.Servis.Ime</dd>
+
+                <dt>Broj žiro računa</dt>
+                <dd>@Model.Servis.ZiroRacun</dd>
+
+                <dt>Detaljan opis servisa</dt>
+                @if (Model.Servis.Opis == null)
+                {
+                    <dd> / </dd>
+                }
+                else
+                {
+                    <dd>@Model.Servis.Opis</dd>
+                }
+
+                <dt>Tip servisa</dt>
+                @if (Model.TipServisa == null)
+                {
+                    <dd> / </dd>
+                }
+                else
+                {
+                    <dd>@Model.TipServisa.Tip</dd>
+                }
+
+            </dl>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-md-offset-1">
+
+                <h4>Zaposlenici</h4>
+                <div class="list-group">
+                    @if (Model.Serviseri.Count() != 0)
+            {
+                        @foreach (var serviser in Model.Serviseri)
+                        {
+
+                            <div class="list-group-item" id="list-@serviser.Id">
+                                <a asp-controller="Serviser" asp-action="Details" asp-route-id="@serviser.Id">
+                                    @serviser.Ime @serviser.Prezime
+                                </a>
+                                <a class="btn btn-danger btn-xs pull-right" onclick="deleteServiser(@serviser.Id)"><span class="glyphicon glyphicon-remove"></span></a>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Trenutno nema zaposlenih</p>
+
+                    }
+
+                </div>
+            </div>
+
+            <div class="col-md-5 col-md-offset-1">
+
+                <h4>Uređaji</h4>
+                <div class="list-group">
+                    @if (Model.Uredaji.Count() != 0)
+            {
+                        @foreach (var uredaj in Model.Uredaji)
+                        {
+                            <div class="list-group-item" id="list-@Model.Servis.Id-@uredaj.Id">
+                                <a asp-controller="Uredaj" asp-action="Details" asp-route-id="@uredaj.Id">@uredaj.Naziv</a>
+                                <a class="btn btn-danger btn-xs pull-right" onclick="deleteServsira(@Model.Servis.Id,@uredaj.Id)"><span class="glyphicon glyphicon-remove"></span></a>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Servis ne servisira niti jedan uređaj</p>
+                    }
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="btn-group" role="group">
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Servis.Id">Uredi</a>
+                <a class="btn btn-primary" asp-action="Index">Servisi</a>
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Servis.Id">Obriši</a>
+            </div>
+            <br /><br />
+
+            <div class="btn-group" role="group">
+                <a class="btn btn-primary" asp-action="PreviousServis" asp-route-id="@Model.Servis.Id">Prijašnji</a>
+                <a class="btn btn-primary" asp-action="NextServis" asp-route-id="@Model.Servis.Id">Sljedeći</a>
+            </div>
+        </div>
+    </body>
+</html>
+

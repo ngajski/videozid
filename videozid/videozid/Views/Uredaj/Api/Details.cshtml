@@ -1,0 +1,482 @@
+    @{
+
+        ViewData["Title"] = "WEB API Uredaji";
+    }
+
+    @model int
+
+    <h4>Detalji uredaja</h4>
+
+    <div class="row">
+        <div class="col-md-offset-1 col-md-5">
+            <div class="row">
+                <dl class="dl-horizontal well">
+                    <dt>Naziv Uredaja</dt>
+                    <dd id="name"></dd>
+
+                    <dt> Nabavna Cijena</dt>
+                    <dd id="nabavna"></dd>
+
+                    <dt>Aktualna Cijena</dt>
+                    <dd id="aktualna"></dd>
+
+                    <dt>Datum Nabavke</dt>
+                    <dd id="datum"></dd>
+
+                    <dt>Podkomponenta od</dt>
+                    <dd id="podkom"></dd>
+
+                    <dt>Status</dt>
+                    <dd id="status"></dd>
+
+                    <dt>Pripadnost Videozidu</dt>
+                    <dd id="zid"></dd>
+                </dl>
+
+                <br /><br />
+                <a class="btn btn-primary btn-sm" asp-action="ApiEdit" asp-route-id="@Model">Uredi osnovne informacije</a>
+            </div>
+
+            <div class="row">
+                <br /><br />
+                <p><b>Podredeni uredaji</b></p>
+                <ul id="podredeni" class="list-group"></ul>
+
+                <div class="text-center">
+                    <a id="add-podredeni" class="btn btn-primary btn-xs">Dodaj</a>
+                    <br /><br />
+                    <div id="podredeni-content" class="row initially-hidden">
+                        <div class="col-xs-8 col-xs-offset-2">
+                            <select class="form-control" id="podredeni-dropdown"></select>
+                        </div>
+                        <br /><br />
+                        <a id="podredeni-submit" class="btn btn-success btn-xs">Potvrdi</a>
+                        <br /><br />
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+
+        <div class="col-md-offset-1 col-md-5">
+            <div class="row">
+                <p><b>Zamjenski uredaji</b></p>
+                <ul id="zamjenski" class="list-group"></ul>
+
+                <div class="text-center">
+                    <a id="add-zamjenski" class="btn btn-primary btn-xs">Dodaj</a>
+                    <br /><br />
+                    <div id="zamjenski-content" class="row initially-hidden">
+                        <div class="col-xs-8 col-xs-offset-2">
+                            <select class="form-control" id="zamjenski-dropdown"></select>
+                        </div>
+                        <br /><br />
+                        <a id="zamjenski-submit" class="btn btn-success btn-xs">Potvrdi</a>
+                        <br /><br /> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <p><b>Zamjena za</b></p>
+                <ul id="zamjena" class="list-group"></ul>
+
+                <div class="text-center">
+                    <a id="add-zamjena" class="btn btn-primary btn-xs">Dodaj</a>
+                    <br /><br />
+                    <div id="zamjena-content" class="row initially-hidden">
+                        <div class="col-xs-8 col-xs-offset-2">
+                            <select class="form-control" id="zamjena-dropdown"></select>
+                        </div>
+                            <br /><br />
+                            <a id="zamjena-submit" class="btn btn-success btn-xs">Potvrdi</a>
+                            <br /><br />
+                        </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <p><b>Servisi</b></p>
+                <ul id="servisi" class="list-group"></ul>
+
+                <div class="text-center">
+                    <a id="add-servis" class="btn btn-primary btn-xs">Dodaj</a>
+                    <br /><br />
+                    <div id="servis-content" class="row initially-hidden">
+                        <div class="col-xs-8 col-xs-offset-2">
+                            <select class="form-control" id="servis-dropdown"></select>
+                        </div>
+                            <br /><br />
+                            <a id="servis-submit" class="btn btn-success btn-xs">Potvrdi</a>
+                            <br /><br />
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    @section scripts{
+        <script>
+
+            var uredaj;
+            var uredaji;
+            var servisi;
+            $(document).ready(function () {
+                getUredaj();
+
+
+                $("#add-zamjenski").click(function () {
+                    $("#zamjenski-content").toggle(500);
+                    $("#servis-content").hide(500);
+                    $("#zamjena-content").hide(500);
+                    $("#podredeni-content").hide(500);
+                });
+
+                $("#add-zamjena").click(function () {
+                    $("#zamjena-content").toggle(500);
+                    $("#zamjenski-content").hide(500);
+                    $("#servis-content").hide(500);
+                    $("#podredeni-content").hide(500);
+                });
+
+                $("#add-servis").click(function () {
+                    $("#servis-content").toggle(500);
+                    $("#zamjenski-content").hide(500);
+                    $("#zamjena-content").hide(500);
+                    $("#podredeni-content").hide(500);
+                });
+
+                $("#add-podredeni").click(function () {
+                    $("#podredeni-content").toggle(500);
+                    $("#zamjenski-content").hide(500);
+                    $("#zamjena-content").hide(500);
+                    $("#servis-content").hide(500);
+                });
+
+                $("#podredeni-content").hide(0);
+                $("#zamjenski-content").hide(0);
+                $("#zamjena-content").hide(0);
+                $("#servis-content").hide(0);
+
+                $("#zamjenski-submit").click(addZamjenski);
+
+                $("#zamjena-submit").click(addZamjena);
+
+                $("#servis-submit").click(addServis);
+
+                $("#podredeni-submit").click(addPodredeni);
+
+            });
+
+            function getUredaj() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Uredaj/Get/"+ @Model,
+                ajaxasync: false,
+                success: function (data) {
+                    uredaj = data;
+                    initDropdowns();
+                    console.log(data);
+                    $("#name")[0].innerHTML = uredaj.naziv;
+                    $("#nabavna")[0].innerHTML = uredaj.nabavnaCijena;
+                    $("#aktualna")[0].innerHTML = uredaj.aktualnaCijena;
+                    $("#datum")[0].innerHTML = uredaj.datumNabavke;
+                    $("#podkom")[0].innerHTML = uredaj.nadredenaKomponenta === null ? "/" : '<a href="../ApiDetails/' + uredaj.idNadredeneKomponente + '">' + uredaj.nadredenaKomponenta + "</a>";
+                    $("#status")[0].innerHTML = uredaj.status;
+                    $("#zid")[0].innerHTML = uredaj.zid === null ? "/" : '<a href="../../Videozid/ApiDetails/' + uredaj.idZida + '">' + uredaj.zid + "</a>";
+
+                    $.each(uredaj.zamjenski, function () {
+                        var html = "";
+                        html += '<div class="list-group-item" id="list-' + this.idVeze + '"><a href="../ApiDetails/' + this.id + '">' + this.name + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deleteZamjena(' + this.idVeze + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                        $('#zamjenski')[0].innerHTML += html;
+                    });
+
+                    $.each(uredaj.zamjenaZa, function () {
+                        var html = "";
+                        html += '<div class="list-group-item" id="list-' + this.idVeze + '"><a href="../ApiDetails/' + this.id + '">' + this.name + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deleteZamjena(' + this.idVeze + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                        $('#zamjena')[0].innerHTML += html;
+                    });
+
+                    $.each(uredaj.servisi, function () {
+                        var html = "";
+                        html += '<div class="list-group-item" id="listServis-' + this.idVeze + '"><a href="../ApiDetails/' + this.id + '">' + this.name + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deleteServis(' + this.idVeze + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                        $('#servisi')[0].innerHTML += html;
+                    });
+
+                    $.each(uredaj.podredeneKomponente, function () {
+                        var html = "";
+                        html += '<div class="list-group-item" id="listPodredeni-' + this.id + '"><a href="../ApiDetails/' + this.id + '">' + this.name + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deletePodredeni(' + this.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                        $('#podredeni')[0].innerHTML += html;
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+            }
+
+            function deleteZamjena(id) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "../../api/ZamjenskiUredaj/Remove/" + id,
+                        ajaxasync: true,
+                        success: function (data) {
+
+                            document.getElementById('list-'.concat(id)).style.display = "none";
+                        },
+                        error: function (data) {
+                            alert(data.responseText);
+                        }
+                    });
+            }
+
+            function deleteServis(id) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "../../api/Uredaj/RemoveServis/" + id,
+                    ajaxasync: true,
+                    success: function (data) {
+
+                        document.getElementById('listServis-'.concat(id)).style.display = "none";
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+
+            function deletePodredeni(id) {
+                var data = {
+                    "IdVeze": uredaj.id,
+                    "Id": id,
+                }
+
+                $.ajax({
+                    type: "PUT",
+                    url: "../../api/Uredaj/RemovePodredeni/",
+                    ajaxasync: true,
+                    data: JSON.stringify(data),
+                    processData: false,
+                    contentType: 'application/json',
+                    success: function (data) {
+
+                        document.getElementById('listPodredeni-'.concat(id)).style.display = "none";
+
+                        var opt = document.createElement('option');
+                        opt.value = id;
+                        var name = "";
+
+                        $.each(uredaji, function () { 
+                            if (this.id === id)
+                                name = this.naziv;
+                        });
+
+                        opt.innerHTML = name;
+                        document.getElementById("podredeni-dropdown").appendChild(opt);
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+
+            function initDropdowns() {
+
+                $.ajax({
+                    type: "GET",
+                    url: "../../api/Uredaj/GetAll",
+                    ajaxasync: true,
+                    success: function (data) {
+                        uredaji = data;
+                        $.each(data, function () {
+                            if (this.id !== uredaj.id) {
+                                var opt = document.createElement('option');
+                                opt.value = this.id;
+                                opt.innerHTML = this.naziv;
+                                document.getElementById("zamjenski-dropdown").appendChild(opt);
+
+                                opt = document.createElement('option');
+                                opt.value = this.id;
+                                opt.innerHTML = this.naziv;
+                                document.getElementById("zamjena-dropdown").appendChild(opt);
+
+                                if (this.idNadredeneKomponente === null && this.id !== uredaj.idNadredeneKomponente) {
+                                    var opt = document.createElement('option');
+                                    opt.value = this.id;
+                                    opt.innerHTML = this.naziv;
+                                    document.getElementById("podredeni-dropdown").appendChild(opt);
+
+                                }
+                            }
+                        });
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+
+                $.ajax({
+                    type: "GET",
+                    url: "../../api/Uredaj/GetServisi",
+                    ajaxasync: true,
+                    success: function (data) {
+                        $.each(data, function () {
+                            var opt = document.createElement('option');
+                            opt.value = this.id;
+                            opt.innerHTML = this.name;
+                            document.getElementById("servis-dropdown").appendChild(opt);
+                        });
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+
+            function addZamjenski() {
+                var d = $("#zamjenski-dropdown")[0];
+                var sel = d.options[d.selectedIndex];
+                var val = sel.value === "" ? null : sel.value;
+
+                var data = {
+                    "IdUredaja": val,
+                    "IdZamjenaZa": uredaj.id,
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "../../api/ZamjenskiUredaj/New/",
+                    ajaxasync: true,
+                    data: JSON.stringify(data),
+                    processData: false,
+                    contentType: 'application/json',
+                    success: function (data) {
+                        var id;
+                        var name;
+
+                        if (data.Id1 === uredaj.id) {
+                            id = data.id2;
+                            name = data.n2;
+                        } else {
+                            id = data.id1;
+                            name = data.n1
+                        }
+
+                        var IdVeze = data.idVeze;
+
+                        console.log(id);
+                        console.log(name);
+                        console.log(IdVeze);
+
+                        var html = "";
+                        html += '<div class="list-group-item" id="list-' + IdVeze + '"><a href="../ApiDetails/' + id + '">' + name + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deleteZamjena(' + IdVeze + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                        $('#zamjenski')[0].innerHTML += html;
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+
+            function addZamjena() {
+                var d = $("#zamjena-dropdown")[0];
+                var sel = d.options[d.selectedIndex];
+                var val = sel.value === "" ? null : sel.value;
+
+                var data = {
+                    "IdUredaja": uredaj.id,
+                    "IdZamjenaZa": val,
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "../../api/ZamjenskiUredaj/New/",
+                    ajaxasync: true,
+                    data: JSON.stringify(data),
+                    processData: false,
+                    contentType: 'application/json',
+                    success: function (data) {
+                        var id;
+                        var name;
+
+                        if (data.id1 === uredaj.id) {
+                            id = data.id2;
+                            name = data.n2;
+                        } else {
+                            id = data.id1;
+                            name = data.n1
+                        }
+
+                        var IdVeze = data.idVeze;
+
+                        var html = "";
+                        html += '<div class="list-group-item" id="list-' + IdVeze + '"><a href="../ApiDetails/' + id + '">' + name + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deleteZamjena(' + IdVeze + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                        $('#zamjena')[0].innerHTML += html;
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+
+            function addServis() {
+                var d = $("#servis-dropdown")[0];
+                var sel = d.options[d.selectedIndex];
+                var val = sel.value === "" ? null : sel.value;
+
+                var data = {
+                    "IdUredaj": uredaj.id,
+                    "IdServis": val,
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "../../api/Uredaj/AddServis/",
+                    ajaxasync: true,
+                    data: JSON.stringify(data),
+                    processData: false,
+                    contentType: 'application/json',
+                    success: function (data) {
+                        var html = "";
+                        html += '<div class="list-group-item" id="listServis-' + data.idVeze + '"><a href="../../Servis/Details/' + data.id + '">' + data.name + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deleteServis(' + data.idVeze + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                        $('#servisi')[0].innerHTML += html;
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+
+            function addPodredeni() {
+                var d = $("#podredeni-dropdown")[0];
+                var sel = d.options[d.selectedIndex];
+                var val = sel.value === "" ? null : sel.value;
+                var name = sel.innerHTML;
+
+                var data = {
+                    "IdVeze": uredaj.id,
+                    "Id": val,
+                }
+
+                $.ajax({
+                    type: "PUT",
+                    url: "../../api/Uredaj/AddPodredeni/",
+                    ajaxasync: true,
+                    data: JSON.stringify(data),
+                    processData: false,
+                    contentType: 'application/json',
+                    success: function (data) {
+                        var html = "";
+                        html += '<div class="list-group-item" id="listPodredeni-' + val + '"><a href="../ApiDetails/' + val + '">' + name + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deletePodredeni(' + val + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                        $('#podredeni')[0].innerHTML += html;
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+        </script>
+    }

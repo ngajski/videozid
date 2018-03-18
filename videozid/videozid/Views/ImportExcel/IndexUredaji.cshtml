@@ -1,0 +1,17 @@
+@{
+
+    ViewData["Title"] = "Uvoz uredaja";
+}
+
+<br /><br />
+<p>Uvoz uredaja</p>
+<form method="post" asp-action="IndexUredaji" asp-controller="ImportExcel" enctype="multipart/form-data">
+    <input type="file" name="files" multiple />
+    <input type="submit" value="Uvoz" />
+</form>
+
+<br /><br />
+<p>Za unos uredaja pozeljno je koristiti sljedeci predlozak</p>
+<a class="btn btn-success" asp-controller="ImportExcel" asp-action="PredlozakUredaji">Prezumi</a>
+
+

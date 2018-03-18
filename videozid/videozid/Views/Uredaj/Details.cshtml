@@ -1,0 +1,195 @@
+@model videozid.ViewModels.UredajDetailsViewModel
+@{
+
+    ViewData["Title"] = "Popis uredaja";
+}
+
+<div class="row">
+    <br />
+    <h4>Uredaj - @Model.Uredaj.Naziv</h4>
+    <hr />
+    <div class="col-md-offset-1 col-md-5">
+        <div class="row">
+            <dl class="dl-horizontal well">
+                <dt>Naziv Uredaja</dt>
+                <dd>@Model.Uredaj.Naziv</dd>
+
+                <dt> Nabavna Cijena</dt>
+                <dd>@Model.Uredaj.NabavnaCijena kn</dd>
+
+                <dt>Aktualna Cijena</dt>
+                <dd>@Model.Uredaj.AktualnaCijena kn</dd>
+
+                <dt>Datum Nabavke</dt>
+                <dd>@Model.Uredaj.DatumNabavke.Day.@Model.Uredaj.DatumNabavke.Month.@Model.Uredaj.DatumNabavke.Year</dd>
+
+                <dt>Podkomponenta od</dt>
+                <dd>
+                    @if (Model.Uredaj.IdNadredeneKomponente == null)
+            {
+                        <span>/</span>
+
+                    }
+                    else
+                    {
+                        @Model.Uredaj.IdNadredeneKomponenteNavigation.Naziv
+
+                    }
+                </dd>
+
+                <dt>Status</dt>
+                <dd>@Model.Uredaj.IdStatusaNavigation.Naziv</dd>
+
+                <dt>Pripadnost Videozidu</dt>
+                <dd>
+                    @if (Model.Uredaj.IdZida == null)
+            {
+                        <span>/</span>
+
+                    }
+                    else
+                    {
+                        @Model.Uredaj.IdZidaNavigation.Naziv
+
+                    }
+                </dd>
+            </dl>
+        </div>
+
+        <div class="row">
+            <div class="btn-group" role="group">
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Uredaj.Id">Edit</a>
+                <a class="btn btn-primary" asp-action="Index">Natrag na popis</a>
+            </div>
+
+            <div class="btn-group col-md-offset-1" role="group">
+                <a class="btn btn-primary" asp-action="Previous" asp-route-id="@Model.Uredaj.Id">Prijasnji</a>
+                <a class="btn btn-primary" asp-action="Next" asp-route-id="@Model.Uredaj.Id">Sljedeci</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5 col-md-offset-1">
+        <div class="row">
+
+            @if (@Model.Uredaj.IdStatusaNavigation.Naziv.Equals("zamjenski"))
+            {
+                <h4>Popis uredaja ciji je @Model.Uredaj.Naziv zamjenski</h4>
+                <div class="just-padding">
+
+                    <div class="list-group">
+                        <b>
+                            <a href="#zamjenaZa" class="list-group-item" data-toggle="collapse">
+                                <i class="glyphicon glyphicon-chevron-right"></i>Vidi
+                            </a>
+                        </b>
+                        <div class="list-group collapse" id="zamjenaZa">
+                            @foreach (var z in Model.ZamjenaZa)
+                            {
+                                <div class="list-group-item" id="list-@z.Id">
+                                    <a asp-route-id="@z.IdZamjenaZaNavigation.Id">@z.IdZamjenaZaNavigation.Naziv</a>
+                                    <a class="btn btn-danger btn-xs pull-right" onclick="deleteZamjena(@z.Id)"><span class="glyphicon glyphicon-remove"></span></a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <h4>Popis zamjenskih uredaja</h4>
+                <div class="just-padding">
+
+                    <div class="list-group">
+                        <b>
+                            <a href="#zamjena" class="list-group-item" data-toggle="collapse">
+                                <i class="glyphicon glyphicon-chevron-right"></i>Vidi
+                            </a>
+                        </b>
+                        <div class="list-group collapse" id="zamjena">
+                            @foreach (var z in Model.Zamjena)
+                            {
+                                <div class="list-group-item" id="list-@z.Id">
+                                    <a asp-route-id="@z.IdUredajaNavigation.Id">@z.IdUredajaNavigation.Naziv</a>
+                                    <a class="btn btn-danger btn-xs pull-right" onclick="deleteZamjena(@z.Id)"><span class="glyphicon glyphicon-remove"></span></a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+
+
+        <div class="row">
+            <h4>Popis servisera za @Model.Uredaj.Naziv</h4>
+            <div class="just-padding">
+
+                <div class="list-group">
+                    <b>
+                        <a href="#servis" class="list-group-item" data-toggle="collapse">
+                            <i class="glyphicon glyphicon-chevron-right"></i>Vidi
+                        </a>
+                    </b>
+                    <div class="list-group collapse" id="servis">
+                        @foreach (var s in Model.Servisira)
+                        {
+                            <a class="list-group-item" asp-controller="Servis" asp-action="Details" asp-route-id="@s.IdServis">@s.IdServisNavigation.Ime</a>
+                        }
+                    </div>
+
+
+
+                </div>
+            </div>
+
+                </div>
+            </div>
+        </div>
+
+@section scripts{ 
+    <script type="text/javascript">
+        function deleteZamjena(id) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete", "ZamjenskiUredaj")",
+                data: { id: id },
+                ajaxasync: true,
+                success: function (data) {
+                    document.getElementById("list-".concat(id)).outerHTML = '';
+                },
+                error: function (data) {
+                    alert("Greska");
+                }
+             });
+
+        }
+
+        @*function deleteServis(id) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteConfirmed", "Servis")",
+                data: { id: id },
+                ajaxasync: true,
+                success: function (data) {
+                    document.getElementById("listServis-".concat(id)).outerHTML = '';
+                },
+                error: function (data) {
+                    alert("Greska");
+                }
+             });
+
+        }*@
+
+        $(function () {
+
+            $('.list-group-item').on('click', function () {
+                $('.glyphicon', this)
+                    .toggleClass('glyphicon-chevron-right')
+                    .toggleClass('glyphicon-chevron-down');
+            });
+
+        });
+    </script>
+}

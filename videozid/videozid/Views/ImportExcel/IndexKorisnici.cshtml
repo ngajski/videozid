@@ -1,0 +1,13 @@
+﻿</br>
+</br>
+Uvoz korisnika
+<form method="post" asp-action="IndexKorisnici" asp-controller="ImportExcel" enctype="multipart/form-data">
+    <input type="file" name="files" multiple />
+    <input type="submit" value="Uvoz" />
+</form>
+
+</br>
+</br>
+Za unos korisnika poželjno je koristiti sljedeći predložak
+<a class="btn btn-success" asp-controller="ImportExcel" asp-action="PredlozakKorisnici">Prezumi</a>
+

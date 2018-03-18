@@ -1,0 +1,295 @@
+﻿@{
+
+    ViewData["Title"] = "WEB API Prezentacije";
+}
+
+<div class="row">
+    <br /> <br />
+    <a id="Create" class="btn btn-primary">Dodaj novu prezentaciju</a>
+    <br /><br />
+    <div id="Create-content" class="row initially-hidden">
+        <div class="col-xs-12">
+            <hr />
+            <div class="form-group">
+                <label class="col-md-2 control-label">X koordinata</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="xkoord" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Y koordinata</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="ykoord" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Širina</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="sirina" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Visina</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="visina" />
+                </div>
+            </div>
+            <br /><br />
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">Sadrzaj</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="sadrzaj">
+                        <option value="">--</option>
+                    </select>
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Kategorija</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="kategorija">
+                        <option value="">--</option>
+                    </select>
+                </div>
+            </div>
+            <br /><br />
+            <div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="submit" value="Stvori novu prezentaciju" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br /> <br />
+    <table class="table table-bordered table-striped text-center" id="tablePrezentacije">
+        <thead>
+            <tr>
+                <th class="text-center"> ID </th>
+                <th class="text-center"> X koordinata </th>
+                <th class="text-center"> Y koordinata</th>
+                <th class="text-center"> Sirina</th>
+                <th class="text-center"> Visina </th>
+                <th class="text-center"> Sadrzaj </th>
+                <th class="text-center"> Kategorija </th>
+                <th class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tablePrezentacije').DataTable();
+            getPrezentacije();
+            getKategorije();
+            getSadrzaji();
+
+            $("#submit").click(create);
+
+            $("#Create").click(function () {
+                $("#Create-content").toggle(500);
+            });
+
+        });
+
+        function deletePrezentacija(id) {
+            $.ajax({
+                type: "DELETE",
+                url: "../../api/Prezentacija/Remove/" + id,
+                ajaxasync: true,
+                success: function (data) {
+
+                    $('#tablePrezentacije').DataTable()
+                        .row(document.getElementById('row-'.concat(id)).parentElement.parentElement)
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function getPrezentacije() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Prezentacija/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+                    loadTable(data);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+
+        }
+
+        function getKategorije() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Kategorija/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.vrsta;
+                        document.getElementById("kategorija").appendChild(opt);
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function getSadrzaji() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Sadrzaj/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.ime;
+                        document.getElementById("sadrzaj").appendChild(opt);
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+       
+        function loadTable(data) {
+            var html = "";
+            $.each(data, function () {
+                var a0, a1, a2, a3, a4, a5, a6, a7;
+                a0 = '<span id ="row-'+this.id+'">' + this.id + '</span>';
+                a1 = this.xKoord;
+                a2 = this.yKoord;
+                a3 = this.sirina;
+                a4 = this.visina;
+                a5 = '<a href="../Sadrzaj/ApiDetails/' + this.idSadrzaja + '">' + '<b>' + this.sadrzaj + '</b>' + "</a>";
+                a6 = this.kategorija;
+                a7 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../Prezentacija/ApiEdit/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../Prezentacija/ApiDetails/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deletePrezentacija(' + this.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div></td>';
+
+                $('#tablePrezentacije').DataTable().row.add([
+                    a0,
+                    a1,
+                    a2,
+                    a3,
+                    a4,
+                    a5,
+                    a6,
+                    a7,
+                ]).draw(false);
+            });
+
+        }
+
+        function create() {
+            var xkoord = $("#xkoord")[0].value;
+            if (xkoord == "") {
+                alert("Koordinatu je potrebno unijeti!");
+                $("#xkoord")[0].select();
+                return;
+            }
+
+            var ykoord = $("#ykoord")[0].value;
+            if (ykoord == "") {
+                alert("Koordinatu je potrebno unijeti!");
+                $("#ykoord")[0].select();
+                return;
+            }
+
+            var sirina = $("#sirina")[0].value;
+            if (sirina == "") {
+                alert("Sirinu je potrebno unijeti!");
+                $("#sirina")[0].select();
+                return;
+            }
+
+            var visina = $("#visina")[0].value;
+            if (visina == "") {
+                alert("Visinu je potrebno unijeti!");
+                $("#visina")[0].select();
+                return;
+            }
+
+            var sadrzaj = $("#sadrzaj")[0];
+            var sel = sadrzaj.options[sadrzaj.selectedIndex];
+            sadrzaj = sel.value === "" ? null : sel.value;
+
+            var kategorija = $("#kategorija")[0];
+            var sel = kategorija.options[kategorija.selectedIndex];
+            kategorija = sel.value === "" ? null : sel.value;
+
+            var data = {
+                "X koordinata": xkoord,
+                "Y Koordinata": ykoord,
+                "Sirina": sirina,
+                "Visina": visina,
+                "IdSadrzaja": sadrzaj,
+                "IdKategorije": kategorija
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "../../api/Prezentacija/New",
+                ajaxasync: true,
+                data: JSON.stringify(data),
+                processData: false,
+                contentType: 'application/json',
+                success: function (data) {
+                    alert("Uspjeh!");
+                    var a0, a1, a2, a3, a4, a5, a6, a7;
+                    a0 = '<span id ="row-' + data.id + '">' + data.id + '</span>';
+                    a1 = data.xKoord;
+                    a2 = data.yKoord;
+                    a3 = data.sirina;
+                    a4 = data.visina;
+                    a5 = '<a href="../Sadrzaj/ApiDetails/' + data.idSadrzaja + '">' + '<b>' + data.sadrzaj + '</b>' + "</a>";
+                    a6 = data.kategorija;
+                    a7 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../Prezentacija/ApiEdit/' + data.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../Prezentacija/ApiDetails/' + data.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deletePrezentacija(' + data.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div></td>';
+
+                    $('#tablePrezentacije').DataTable().row.add([
+                        a0,
+                        a1,
+                        a2,
+                        a3,
+                        a4,
+                        a5,
+                        a6,
+                        a7,
+                    ]).draw(false);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+       
+    </script>
+}

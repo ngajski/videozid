@@ -1,0 +1,214 @@
+@{
+
+    ViewData["Title"] = "WEB API Videozidovi";
+}
+
+@model int
+
+<h4>Detalji videozida</h4>
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-5">
+        <div class="row">
+            <dl class="dl-horizontal well">
+                <dt> Naziv Videozida</dt>
+                <dd id="name"></dd>
+
+                <dt> Lokacija</dt>
+                <dd id="lokacija"></dd>
+
+                <dt>Sirina</dt>
+                <dd id="sirina"></dd>
+
+                <dt> Visina</dt>
+                <dd id="visina"></dd>
+
+            </dl>
+        </div>
+
+        <br /><br />
+        <a class="btn btn-primary btn-sm" asp-action="ApiEdit" asp-route-id="@Model">Uredi osnovne informacije</a>
+    </div>
+
+    <div class="col-md-offset-1 col-md-5">
+        <div class="row">
+            <p><b>Ekrani videozida</b></p>
+            <ul id="ekran" class="list-group"></ul>
+
+            <div class="text-center">
+                <a id="add-ekran" class="btn btn-primary btn-xs">Dodaj</a>
+                <br /><br />
+                <div id="ekran-content" class="row initially-hidden">
+                    <div class="col-xs-8 col-xs-offset-2">
+                        <select class="form-control" id="ekran-dropdown"></select>
+                    </div>
+                    <br /><br />
+                    <div class="col-xs-12">
+                        <div class="row">
+
+                            <div class="row">
+                                <div class="col-xs-4 col-xs-offset-4">
+                                    <label class="control-label">X koord</label>
+                                    <input class="form-control" id="x" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-4 col-xs-offset-4">
+                                    <label class="control-label">Y koord</label>
+                                    <input class="form-control" id="y" />
+                                </div>
+                            </div>
+                        </div>
+                        <br /><br />
+                    </div>
+                    <br /><br />
+                    <a id="ekran-submit" class="btn btn-success btn-xs">Potvrdi</a>
+                    <br /><br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+            var ekrani;
+            $(document).ready(function () {
+                getZid();
+
+
+                $("#add-ekran").click(function () {
+                    $("#ekran-content").toggle(500);
+                });
+                $("#ekran-content").hide(0);
+
+                $("#ekran-submit").click(addEkran);
+
+            });
+
+            function getZid() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Videozid/Get/"+ @Model,
+                ajaxasync: false,
+                success: function (data) {
+                    zid = data;
+                    console.log(data);
+                    $("#name")[0].innerHTML = zid.naziv;
+                    $("#lokacija")[0].innerHTML = zid.lokacija;
+                    $("#visina")[0].innerHTML = zid.visina;
+                    $("#sirina")[0].innerHTML = zid.sirina;
+                    initDropdowns();
+                    $.each(zid.ekrani, function () {
+                        var html = "";
+                        html += '<div class="list-group-item" id="list-' + this.idVeze + '"><a href="../../Uredaj/ApiDetails/' + this.id + '">' + this.name + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deleteEkran(' + this.idVeze + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                        $('#ekran')[0].innerHTML += html;
+                    });
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+            }
+
+            function initDropdowns() {
+                $.ajax({
+                    type: "GET",
+                    url: "../../api/Uredaj/GetAll",
+                    ajaxasync: true,
+                    success: function (data) {
+                        $.each(data, function () {
+                                var opt = document.createElement('option');
+                                opt.value = this.id;
+                                opt.innerHTML = this.naziv;
+                                document.getElementById("ekran-dropdown").appendChild(opt);
+
+                        }
+                        );
+
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+
+            }
+
+            function deleteEkran(id) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "../../api/EkranZida/Remove/" + id,
+                        ajaxasync: true,
+                        success: function (data) {
+
+                            document.getElementById('list-'.concat(id)).style.display = "none";
+                        },
+                        error: function (data) {
+                            alert(data.responseText);
+                        }
+                    });
+            }
+
+            function addEkran() {
+                var d = $("#ekran-dropdown")[0];
+                var sel = d.options[d.selectedIndex];
+                var val = sel.value === "" ? null : sel.value;
+
+                var x = $("#x")[0].value;
+
+                if (x == "") {
+                    alert("X koord je potrebno unijeti!");
+                    $("#x")[0].select();
+                    return;
+                } else if (x < 0) {
+                    alert("X ne smije biti negativna");
+                    $("#x")[0].select();
+                    return;
+                }
+
+                var y = $("#y")[0].value;
+
+                if (y == "") {
+                    alert("Y koord je potrebno unijeti!");
+                    $("#y")[0].select();
+                    return;
+                } else if (y < 0) {
+                    alert("Y ne smije biti negativna");
+                    $("#y")[0].select();
+                    return;
+                }
+
+                var data = {
+                    "IdUredaja": val,
+                    "IdZida": @Model,
+                    "XKoord": x,
+                    "YKoord": y,
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "../../api/EkranZida/New/",
+                    ajaxasync: true,
+                    data: JSON.stringify(data),
+                    processData: false,
+                    contentType: 'application/json',
+                    success: function (data) {
+                        var id = data.id;;
+                        var name = data.name;
+                        var IdVeze = data.idVeze;
+
+                        var html = "";
+                        html += '<div class="list-group-item" id="list-' + IdVeze + '"><a href="../../Uredaj/ApiDetails/' + id + '">' + name + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deleteEkran(' + IdVeze + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                        $('#ekran')[0].innerHTML += html;
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+    </script>
+}

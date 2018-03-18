@@ -1,0 +1,28 @@
+﻿@model videozid.ViewModels.ServisFilter
+
+<form id="filterform" asp-action="Filter" method="post">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Najmanji ID</label>
+        <div class="col-sm-3">
+            <input asp-for="IdStart" class="form-control datum" />
+        </div>
+
+        <br /><br />
+
+        <label class="col-sm-2 col-form-label">Najveći ID</label>
+        <div class="col-sm-3">
+            <input asp-for="IdStop" prefix="Filter" class="form-control datum" />
+        </div>
+
+        @*<br /><br />*@
+        <div class="btn-group" role="group" >
+            <button type="submit" class="btn btn-xs btn-primary" title="Postavi filter"><span class="glyphicon glyphicon-filter"></span></button>
+
+
+            <a class="btn btn-xs btn-primary" asp-action="Index" title="Ukloni filter">
+                <span class="glyphicon glyphicon-trash"></span>
+            </a>
+        </div>
+    </div>
+
+</form>

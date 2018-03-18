@@ -1,0 +1,166 @@
+﻿@{
+
+    ViewData["Title"] = "WEB API Sadržaji";
+}
+
+@model int
+
+<h4>Detalji sadržaja</h4>
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-5">
+        <div class="row">
+            <dl class="dl-horizontal well">
+                <dt> ID sadržaja</dt>
+                <dd id="id"></dd>
+
+                <dt> Ime</dt>
+                <dd id="ime"></dd>
+
+                <dt>Opis</dt>
+                <dd id="opis"></dd>
+
+                <dt> URL</dt>
+                <dd id="url"></dd>
+
+                <dt> Odobren</dt>
+                <dd id="jeodobren"></dd>
+
+                <dt> Autor</dt>
+                <dd id="autor"></dd>
+
+                <dt> Odobren od</dt>
+                <dd id="odobrenod"></dd>
+
+                <dt> Tip</dt>
+                <dd id="tip"></dd>
+            </dl>
+
+            <br /><br />
+            <a class="btn btn-primary btn-sm" asp-action="ApiEdit" asp-route-id="@Model">Uredi osnovne informacije</a>
+        </div>
+    </div>
+
+    <div class="col-md-offset-1 col-md-5">
+        <div class="row">
+            <p><b>Prezentacije koje ga koriste:</b></p>
+            <ul id="prez" class="list-group"></ul>
+            </div>
+
+        <div class="text-center">
+            <a id="add-prezentacija" class="btn btn-primary btn-xs">Dodaj</a>
+            <br /><br />
+            <div id="prezentacija-content" class="row initially-hidden">
+                <div class="col-xs-8 col-xs-offset-2">
+                    <select class="form-control" id="prezentacija-dropdown"></select>
+                </div>
+                <br /><br />
+                <div class="col-xs-12">
+                    <div class="row">
+
+                        <div class="row">
+                            <div class="col-xs-4 col-xs-offset-4">
+                                <label class="control-label">X koord</label>
+                                <input class="form-control" id="xkoord" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4 col-xs-offset-4">
+                                <label class="control-label">Y koord</label>
+                                <input class="form-control" id="ykoord" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4 col-xs-offset-4">
+                                <label class="control-label">Širina</label>
+                                <input class="form-control" id="sirina" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4 col-xs-offset-4">
+                                <label class="control-label">Visina</label>
+                                <input class="form-control" id="visina" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Kategorija</label>
+                            <div class="col-md-10">
+                                <select class="form-control" id="kategorija">
+                                    <option value="">--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br /><br />
+                </div>
+                <a id="prezentacija-submit" class="btn btn-success btn-xs">Potvrdi</a>
+                <br /><br />
+            </div>
+        </div>
+        </div>
+
+
+        </div>
+
+        @section scripts {
+            <script>
+
+                $(document).ready(function () {
+                    getSadrzaj();
+
+                });
+
+                function deletePrezentacija(id) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "../../api/Prezentacija/Remove/" + id,
+                        ajaxasync: true,
+                        success: function (data) {
+                            document.getElementById('listPrezentacija-'.concat(id)).style.display = "none";
+                        },
+                        error: function (data) {
+                            alert(data.responseText);
+                        }
+                    });
+                }
+
+
+                function getSadrzaj() {
+                    $.ajax({
+                        type: "GET",
+                        url: "../../api/Sadrzaj/Get/" + @Model,
+                ajaxasync: false,
+                success: function (data) {
+                    sadr = data;
+                    console.log(data);
+                    $("#id")[0].innerHTML = sadr.id;
+                    $("#ime")[0].innerHTML = sadr.ime;
+                    $("#opis")[0].innerHTML = sadr.opis;
+                    $("#url")[0].innerHTML = sadr.url;
+                    $("#jeodobren")[0].innerHTML = sadr.jeOdobren;
+                    $("#autor")[0].innerHTML = sadr.autor;
+                    $("#odobrenod")[0].innerHTML = sadr.odobrenOd;
+                    $("#tip")[0].innerHTML = sadr.tip
+
+                    $.each(sadr.prezentacija, function () {
+                        var html = "";
+                        html += '<div class="list-group-item" id="listPrezentacija-' + this.id + '"><a href="../../Prezentacija/ApiDetails/' + this.id + '">' + "Prezentacija " + this.id + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deletePrezentacija(' + this.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div></div>';
+                        $('#prez')[0].innerHTML += html;
+
+                    });
+
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+                    });
+                }
+
+                
+            </script>
+        }

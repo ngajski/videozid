@@ -1,0 +1,65 @@
+@model videozid.Models.Sadrzaj
+
+@{
+    ViewData["Title"] = "Brisanje";
+}
+
+<h2>Brisanje</h2>
+
+<h3>Jeste li sigurni da ovo zelite izbrisati?</h3>
+<div>
+    <h4>Sadrzaj</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <input type="hidden" asp-for="Id" />
+        <dt>
+            @Html.DisplayNameFor(model => model.Ime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Opis)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Opis)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Url)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Url)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.JeOdobren)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.JeOdobren)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdAutoraNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdAutoraNavigation.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdOdobrenOdNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdOdobrenOdNavigation.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdTipaNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdTipaNavigation.Ime)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Izbrisi" class="btn btn-danger" /> 
+            <a class="btn btn-primary" asp-action="Index">Povratak</a>
+        </div>
+    </form>
+</div>

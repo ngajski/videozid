@@ -1,0 +1,149 @@
+@{
+
+    ViewData["Title"] = "WEB API Videozidovi";
+}
+
+@model int
+
+<h4>Uredi osnovne informacije o videozidu</h4>
+
+<div class="col-xs-12">
+    <hr />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Naziv Uredaja</label>
+        <div class="col-md-10">
+            <input class="form-control" id="name" />
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Lokacija</label>
+        <div class="col-md-10">
+            <input class="form-control" id="lokacija" />
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Visina</label>
+        <div class="col-md-10">
+            <input class="form-control" id="visina" />
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Sirina</label>
+        <div class="col-md-10">
+            <input class="form-control" id="sirina" />
+        </div>
+    </div>
+    <br /><br />
+
+    <div class="btn-group">
+        <input id="submit" value="Gotovo" class="btn btn-success btn-sm" />
+        <a class="btn btn-danger btn-sm" id="delete">Ukloni</a>
+        <a class="btn btn-primary btn-sm" asp-controller="Videozid" asp-action="ApiDetails" asp-route-id="@Model">Detalji</a>
+        <a class="btn btn-primary btn-sm" asp-controller="Videozid" asp-action="ApiIndex">Natrag na popis</a>
+    </div>
+    <hr />
+</div>
+
+@section scripts {
+    <script>
+        var zid;
+        $(document).ready(function () {
+            getZid();
+            $("#submit").click(update);
+
+            $("#delete").click(function () {
+                if (confirm('Jesi li siguran?')) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "../../api/Videozid/Remove/" + @Model,
+                        ajaxasync: false,
+                        success: function (data) {
+
+                        },
+                        error: function (data) {
+                        }
+                    });
+                    window.location.replace("../ApiIndex")
+                }
+
+            })
+
+        });
+
+
+        function getZid() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Videozid/Get/" + @Model,
+                ajaxasync: false,
+                success: function (data) {
+                    zid = data;
+                    $("#name")[0].value = zid.naziv;
+                    $("#lokacija")[0].value = zid.lokacija;
+                    $("#sirina")[0].value = zid.sirina;
+                    $("#visina")[0].value = zid.visina;
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function update() {
+            var name = $("#name")[0].value;
+            if (name == "") {
+                alert("Ime je potrebno unijeti!");
+                $("#name")[0].select();
+                return;
+            }
+
+            var lokacija = $("#lokacija")[0].value;
+            if (lokacija == "") {
+                alert("Lokaciju je potrebno unijeti!");
+                $("#lokacija")[0].select();
+                return;
+            }
+
+            var sirina = $("#sirina")[0].value;
+            if (sirina == "") {
+                alert("Sirinu je potrebno unijeti!");
+                $("#sirina")[0].select();
+                return;
+            }
+
+            var visina = $("#visina")[0].value;
+            if (visina == "") {
+                alert("Visinu je potrebno unijeti!");
+                $("#visina")[0].select();
+                return;
+            }
+
+            var data = {
+                "Id": @Model,
+                "Naziv": name,
+                "Lokacija": lokacija,
+                "Sirina": sirina,
+                "Visina": visina,
+            }
+            console.log(data);
+
+            $.ajax({
+                type: "PUT",
+                url: "../../api/Videozid/Update",
+                ajaxasync: true,
+                data: JSON.stringify(data),
+                processData: false,
+                contentType: 'application/json',
+                success: function (data) {
+                    alert("Uspjeh!");
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+    </script>
+}

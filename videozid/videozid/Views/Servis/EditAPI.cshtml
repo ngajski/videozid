@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewData["Title"] = "EditAPI";
+}
+
+<h2>Uređivanje servisa API</h2>
+
+@{
+
+    ViewData["Title"] = "WEB API Servisi";
+}
+
+@model int
+
+<h4>Uredi osnovne informacije o servisu</h4>
+
+<div class="col-xs-12">
+    <hr />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Ime</label>
+        <div class="col-md-10">
+            <input class="form-control" id="ime" />
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Opis</label>
+        <div class="col-md-10">
+            <input class="form-control" id="opis" />
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Žiro račun</label>
+        <div class="col-md-10">
+            <input class="form-control" id="racun" />
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Tip servisa</label>
+        <div class="col-md-10">
+            <input class="form-control" id="tipServisa" />
+        </div>
+    </div>
+    <br /><br />
+    <div class="btn-group">
+        <input id="submit" value="Spremi" class="btn btn-success btn-sm" />
+        <a class="btn btn-danger btn-sm" id="delete">Obriši</a>
+        <a class="btn btn-primary btn-sm" asp-controller="Servis" asp-action="DetailsApi" asp-route-id="@Model">Detalji</a>
+        <a class="btn btn-primary btn-sm" asp-controller="Servis" asp-action="IndexApi">Servisi</a>
+    </div>
+    <hr />
+</div>
+
+@section scripts {
+    <script>
+        var uredaj;
+        $(document).ready(function () {
+            getServisi();
+            $("#submit").click(update);
+
+            $("#delete").click(function () {
+                if (confirm('Jeste li sigurani da želit obrisati servis?')) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "../../api/servis/delete/" + @Model,
+                        ajaxasync: false,
+                        success: function (data) {
+                            window.location.replace("../IndexAPI");
+                        },
+                        error: function (data) {
+                            alert("Greška!");
+                        }
+                    });
+                  
+                }
+
+            })
+
+        });
+
+
+        function getServisi() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/servis",
+                ajaxasync: false,
+                success: function (data) {
+                    $.each(data, function () {
+                        if (this.id === @Model){
+                            $("#ime")[0].value = this.ime;
+                            $("#racun")[0].value = this.racun;
+                            $("#tipServisa")[0].value = this.tipServisa;
+                            $("#opis")[0].value = this.opis.trim() == "" ? "-" : this.opis;
+                        }
+                    });
+                },
+
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function update() {
+            var ime = $("#ime")[0].value;
+            if (ime == "") {
+                alert("Ime servise ne smije biti prazno");
+                $("#ime")[0].select();
+                return;
+            }
+
+            var opis = $("#opis")[0].value;
+
+            var racun = $("#racun")[0].value;
+            if (racun == "") {
+                alert("Žiro račun servisa je potrebno unijeti!");
+                $("#racun")[0].select();
+                return;
+            } else if (!checkIBAN(racun)) {
+                alert("Žiro račun mora biti u formatu HR*******************");
+                $("#racun")[0].select();
+                return;
+            }
+
+            var tipServisa = $("#tipServisa")[0].value;
+            if (tipServisa == "") {
+                alert("Tip servisa je potrebno unijeti!");
+                $("#tipServisa")[0].select();
+                return;
+            }
+
+            var data = {
+                "Ime": ime,
+                "Racun": racun,
+                "Opis": opis,
+                "TipServisa": tipServisa
+            }
+
+            $.ajax({
+                type: "PUT",
+                url: "../../api/servis/" + @Model,
+                ajaxasync: true,
+                data: JSON.stringify(data),
+                processData: false,
+                contentType: 'application/json',
+                success: function (data) {
+                    alert("Servis uspješno izmijenjen!");
+                    $("#ime")[0].value = data.ime;
+                    $("#racun")[0].value = data.racun;
+                    $("#tipServisa")[0].value = data.tipServisa;
+                    $("#opis")[0].value = data.opis.trim() == "" ? "-" : data.opis;
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function checkIBAN(racun) {
+            if (racun.length != 21) {
+                return false;
+            } else if (!racun.toUpperCase().startsWith("HR")) {
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+}

@@ -1,0 +1,99 @@
+﻿@{
+
+    ViewData["Title"] = "Home Page";
+}
+<br /><br />
+
+<a class="btn btn-sm btn-primary" asp-controller="Report" asp-action="Index">Izvjesca i Excel uvoz/izvoz</a>
+<a class="btn btn-sm btn-info" asp-controller="swagger"> WebApi dokumentacija </a>
+<a class="btn btn-sm btn-info" asp-controller="Log"> Praćenje rada aplikacije </a>
+
+<h3>Raspodjela problemskih podrucja:</h3>
+   <div class="row">
+       <div class="col-md-5 col-md-offset-1">
+           <h4><b>Josip Grgić</b></h4>
+           <ul class="list-group">
+               <a class="list-group-item" asp-controller="Uredaj" asp-action="Index">Uređaj</a>
+               <a class="list-group-item" asp-controller="Videozid" asp-action="Index">Videozid</a>
+               <a class="list-group-item" asp-controller="ZamjenskiUredaj" asp-action="Index">Zamjenski Uređaj</a>
+               <a class="list-group-item" asp-controller="EkranZida" asp-action="Index">Ekran Zida</a>
+           </ul>
+           <h5>WEB API SERVISI</h5>
+           <ul class="list-group">
+               <a class="list-group-item" asp-controller="Uredaj" asp-action="ApiIndex">Uređaj API</a>
+               <a class="list-group-item" asp-controller="Videozid" asp-action="ApiIndex">Videozid API</a>
+               <a class="list-group-item" asp-controller="ZamjenskiUredaj" asp-action="ApiIndex">Zamjenski Uređaj API</a>
+               <a class="list-group-item" asp-controller="EkranZida" asp-action="ApiIndex">Ekran Zida API</a>
+           </ul>
+       </div>
+
+       <div class="col-md-5 col-md-offset-1">
+           <h4><b>Nikola Gajski</b></h4>
+           <ul class="list-group">
+               <a class="list-group-item" asp-controller="Servis" asp-action="Index">Servis</a>
+               <a class="list-group-item" asp-controller="Serviser" asp-action="Index">Serviser</a>
+               <a class="list-group-item" asp-controller="TipServisa" asp-action="Index">TipServisa</a>
+               <a class="list-group-item" asp-controller="Servisira" asp-action="Index">Servisira</a>
+               @*<a class="list-group-item" asp-controller="LogEntries" asp-action="Index">Logovi</a>*@
+           </ul>
+           <h5>WEB API SERVISI</h5>
+           <ul class="list-group">
+               <a class="list-group-item" asp-controller="Servis" asp-action="IndexAPI">Servis API</a>
+               <a class="list-group-item" asp-controller="Serviser" asp-action="IndexAPI">Serviser API</a>
+               <a class="list-group-item" onclick="callApiUrl('tipservisa')">TipServisa API</a>
+               <a class="list-group-item" onclick="callApiUrl('servisira')">Servisira API</a>
+           </ul>
+       </div>
+
+       <div class="col-md-5 col-md-offset-1">
+           <h4><b>Mislav Brusač</b></h4>
+           <ul class="list-group">
+               <a class="list-group-item" asp-controller="Sadrzaj" asp-action="Index">Sadrzaj</a>
+               <a class="list-group-item" asp-controller="TipSadrzaja" asp-action="Index">TipSadrzaja</a>
+               <a class="list-group-item" asp-controller="Kategorija" asp-action="Index">Kategorija</a>
+               <a class="list-group-item" asp-controller="Prezentacija" asp-action="Index">Prezentacija</a>
+           </ul>
+           <ul class="list-group">
+               <a class="list-group-item" asp-controller="Kategorija" asp-action="ApiIndex">KategorijaAPI</a>
+               <a class="list-group-item" asp-controller="TipSadrzaja" asp-action="ApiIndex">TipSadrzajaAPI</a>
+               <a class="list-group-item" asp-controller="Prezentacija" asp-action="ApiIndex">PrezentacijaAPI</a>
+               <a class="list-group-item" asp-controller="Sadrzaj" asp-action="ApiIndex">SadrzajAPI</a>
+           </ul>
+       </div>
+
+       <div class="col-md-5 col-md-offset-1">
+           <h4><b>Robert Holovka</b></h4>
+           <ul class="list-group">
+               <a class="list-group-item" asp-controller="Korisnik" asp-action="Index">Korisnici</a>
+               <a class="list-group-item" asp-controller="Administrator" asp-action="Index">Administratori</a>
+               <a class="list-group-item" asp-controller="FerWebAcc" asp-action="Index">FerWeb računi</a>
+               <a class="list-group-item" asp-controller="DhmzAcc" asp-action="Index">DHMZ računi</a>
+           </ul>
+           <h5>WEB API SERVISI</h5>
+           <ul class="list-group">
+               <a class="list-group-item" asp-controller="Korisnik" asp-action="ApiIndex">Korisnici</a>
+               <a class="list-group-item" asp-controller="DhmzAcc" asp-action="ApiIndex">Dhmz računi</a>
+               <a class="list-group-item" asp-controller="FerWebAcc" asp-action="ApiIndex">FerWeb računi</a>
+
+           </ul>
+       </div>
+
+       <div class="col-md-5 col-md-offset-1">
+           <h4><b></b></h4>
+           <ul class="list-group">
+               <a class="list-group-item" asp-controller="" asp-action="Index"></a>
+               <a class="list-group-item" asp-controller="" asp-action="Index"></a>
+               <a class="list-group-item" asp-controller="" asp-action="Index"></a>
+               <a class="list-group-item" asp-controller="" asp-action="Index"></a>
+           </ul>
+       </div>
+   </div>
+
+<script>
+
+    function callApiUrl(controller) {
+        window.location = "api/" + controller;
+    }
+     
+</script>
+

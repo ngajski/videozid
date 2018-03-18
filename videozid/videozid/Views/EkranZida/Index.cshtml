@@ -1,0 +1,77 @@
+@model IEnumerable<videozid.Models.EkranZida>
+
+@{
+
+    ViewData["Title"] = "Popis Ekrana";
+}
+
+<p>
+    <br /> <br />
+    <a class="btn btn-primary" asp-action="Create">Dodaj novi ekran zida</a>
+</p>
+<div class="row">
+    <br /> <br />
+    <table class="table table-bordered table-striped text-center" id="tableEkrani">
+        <thead>
+            <tr>
+                <th class="text-center"> Naziv Ekrana </th>
+                <th class="text-center"> Naziv Videozida </th>
+                <th class="text-center"> X - koord </th>
+                <th class="text-center"> Y - koord </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="row-@item.Id">
+                    <td> <b> <a asp-controller="Uredaj" asp-action="Details" asp-route-id="@item.IdUredaja"> @item.IdUredajaNavigation.Naziv </a></b> </td>
+                    <td> <b> <a asp-controller="Videozid" asp-action="Details" asp-route-id="@item.IdZida"> @item.IdZidaNavigation.Naziv </a></b> </td>
+                    <td> @item.XKoord</td>
+                    <td> @item.YKoord</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-default btn-sm" asp-action="Edit" asp-route-id="@item.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="btn btn-danger btn-sm" onclick="deleteEkran(@item.Id)"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tableEkrani').DataTable();
+        });
+
+        function deleteEkran(id) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete", "EkranZida")",
+                data: { id: id },
+                ajaxasync: true,
+                success: function (data) {
+                    $('#tableEkrani').DataTable()
+                        .row(document.getElementById('row-'.concat(id)))
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert("Greska");
+                }
+             });
+
+        }
+    </script>
+}

@@ -1,0 +1,75 @@
+﻿@model videozid.Models.Korisnik
+@{
+
+    ViewData["Title"] = "Stvori korisnika";
+}
+
+
+
+<form asp-action="Create" method="post">
+    <div class="form-horizontal">
+        <br />
+        <h4>Novi Korisnik</h4>
+        <hr />
+        <div asp-validationsummary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label" style="color:red">Administrator</label>
+            <input id="responsable" name="checkAdmin" value="true" type="checkbox" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Ime" class="col-md-2 control-label">Ime korisnika</label>
+            <div class="col-md-10">
+                <input asp-for="Ime" class="form-control" />
+                <span asp-validation-for="Ime" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Prezime" class="col-md-2 control-label">Prezime</label>
+            <div class="col-md-10">
+                <input asp-for="Prezime" class="form-control" />
+                <span asp-validation-for="Prezime" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="col-md-2 control-label">Email</label>
+            <div class="col-md-10">
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="KorisnickoIme" class="col-md-2 control-label">Korisnicko ime</label>
+            <div class="col-md-10">
+                <input asp-for="KorisnickoIme" class="form-control" />
+                <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Lozinka" class="col-md-2 control-label">Lozinka</label>
+            <div class="col-md-10">
+                <input asp-for="Lozinka" class="form-control" />
+                <span asp-validation-for="Lozinka" class="text-danger"></span>
+            </div>
+        </div>
+
+        
+       
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Dodaj" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a class="btn btn-primary" asp-action="Index">Natrag na popis</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

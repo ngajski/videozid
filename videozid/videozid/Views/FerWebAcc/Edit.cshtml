@@ -1,0 +1,58 @@
+﻿@model videozid.Models.FerWebAcc
+
+@{
+
+    ViewData["Title"] = "Uređivanje FerWeb računa";
+}
+
+<!DOCTYPE html>
+
+<br />
+<br />
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <br />
+        <br />
+        <h3>Uredivanje FerWeb računa</h3>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+      
+        <div class="form-group">
+            <label asp-for="KorisnickoIme" class="col-md-2 control-label">Korisnicko ime</label>
+            <div class="col-md-10">
+                <input asp-for="KorisnickoIme" class="form-control" />
+                <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Lozinka" class="col-md-2 control-label">Lozinka</label>
+            <div class="col-md-10">
+                <input asp-for="Lozinka" class="form-control" />
+                <span asp-validation-for="Lozinka" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DozvolaServer" class="col-md-2 control-label">ID server dozvole</label>
+            <div class="col-md-10">
+                <input asp-for="DozvolaServer" class="form-control" />
+                <span asp-validation-for="DozvolaServer" class="text-danger"></span>
+            </div>
+        </div>
+     
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Spremi" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="btn-group row" role="group">
+    <a class="btn btn-primary" asp-controller="FerWebAcc" asp-action="Index">FerWeb računi</a>
+    <a class="btn btn-primary" asp-action="Details" asp-route-id="@Model.Id">Detalji</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

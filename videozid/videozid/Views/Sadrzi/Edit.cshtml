@@ -1,0 +1,66 @@
+@model videozid.Models.Sadrzi
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Sadrzi</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="IdSheme" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="IdSheme" class="form-control" asp-items="ViewBag.IdSheme"></select>
+                <span asp-validation-for="IdSheme" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdPodsheme" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="IdPodsheme" class="form-control" asp-items="ViewBag.IdPodsheme"></select>
+                <span asp-validation-for="IdPodsheme" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Od" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Od" class="form-control" />
+                <span asp-validation-for="Od" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Do" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Do" class="form-control" />
+                <span asp-validation-for="Do" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</body>
+</html>

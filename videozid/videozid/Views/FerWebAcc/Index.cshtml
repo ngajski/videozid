@@ -1,0 +1,99 @@
+﻿@model IEnumerable<videozid.Models.FerWebAcc>
+
+@{
+    ViewData["Title"] = "Popis FerWeb računa";
+}
+<br />
+<br />
+<div class="btn-group row" role="group">
+    <a class="btn btn-success" asp-action="Create2">Dodaj novi račun</a>
+    <a class="btn btn-warning" asp-controller="DhmzAcc" asp-action="Index">DHMZ računi</a>
+</div>
+<br />
+<h3 class="text-center"><strong>Popis FerWeb računa</strong></h3>
+
+<div class="row">
+    <br />
+    <table class="table table-bordered table-striped text-center" id="tableFER">
+        <thead>
+            <tr>
+                <th class="text-center"> Korisničko ime</th>
+                <th class="text-center"> Lozinka</th>
+                <th class="text-center"> Dozvola server</th>
+                <th class="text-center"> Pripada korisniku</th>
+                <th class="text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var racun in Model)
+            {
+                <tr>
+                    <td>
+                        <b><b> <a asp-controller="FerWebAcc" asp-action="Details" asp-route-id="@racun.Id">@racun.KorisnickoIme </a></b></b>
+                    </td>
+                    <td> @racun.Lozinka</td>
+
+                    @if (!racun.DozvolaServer.HasValue)
+                    {
+                        <td>Nema dozvolu!</td>
+                    }
+                    else
+                    {
+                        <td>@racun.DozvolaServer</td>
+                    }
+
+
+                    <td>
+
+                        <b><b> <a asp-controller="Korisnik" asp-action="Details" asp-route-id="@racun.Korisnik.Where(k=> k.FerId.Equals(racun.Id)).First().Id">@racun.Korisnik.Where(k => k.FerId.Equals(racun.Id)).First().KorisnickoIme </a></b></b>
+                    </td>
+                    <td style="width:8em">
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-default btn-sm" asp-action="Edit" asp-route-id="@racun.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="btn btn-danger btn-sm" onclick="deleteAcc2(@racun.Id)"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+@section scripts{
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tableFER').DataTable();
+        });
+
+        function deleteAcc2(id) {
+            if (confirm("Obrisati zapis?")) {
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete", "FerWebAcc")",
+                data: { id: id },
+                ajaxasync: true,
+                success: function (data) {
+                    $('#tableFER').DataTable()
+                        .row(document.getElementById('row-'.concat(id)))
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert("Greska");
+                }
+            });
+
+            }
+
+        }
+
+    </script>
+}

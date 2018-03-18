@@ -1,0 +1,85 @@
+﻿@using videozid.Models
+
+@model IEnumerable<Log>
+    @{
+        ViewData["Title"] = "Pregled traga rada aplikacije";
+    }
+
+    <br />
+    <br />
+    <h2>Trag rada aplikacije @*@(((DateTime)ViewBag.Dan).ToString("dd.MM.yyyy."))*@</h2>
+
+    <table class="table table-striped" id="logtable">
+        <thead>
+            <tr>
+                <th>Vrijeme</th>
+                <th>Razina</th>
+                <th>Poruka</th>
+                <th>Pozivatelj</th>
+                <th>Iznimka</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in Model)
+            {
+                if (entry.Level == "Error")
+                {
+                    <tr class="alert-danger">
+                        <td class="text-center">@entry.Logged.ToString("HH:mm:ss")</td>
+                        <td class="text-center">@entry.Level</td>
+                        <td class="text-center">@entry.Message></td>
+                        <td class="text-center">@entry.Callsite</td>
+                        <td class="text-center">@entry.Exception</td>
+                    </tr>
+
+                }
+                else if (entry.Level == "Info")
+                {
+                    <tr class="alert-info">
+                        <td class="text-center">@entry.Logged.ToString("HH:mm:ss")</td>
+                        <td class="text-center">@entry.Level</td>
+                        <td class="text-center">@entry.Message></td>
+                        <td class="text-center">@entry.Callsite</td>
+                        <td class="text-center">@entry.Exception</td>
+                    </tr>
+
+                }
+                else if (entry.Level == "Warn")
+                {
+                    <tr class="alert-warning">
+                        <td class="text-center">@entry.Logged.ToString("HH:mm:ss")</td>
+                        <td class="text-center">@entry.Level</td>
+                        <td class="text-center">@entry.Message></td>
+                        <td class="text-center">@entry.Callsite</td>
+                        <td class="text-center">@entry.Exception</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td class="text-center">@entry.Logged.ToString("HH:mm:ss")</td>
+                        <td class="text-center">@entry.Level</td>
+                        <td class="text-center">@entry.Message></td>
+                        <td class="text-center">@entry.Callsite</td>
+                        <td class="text-center">@entry.Exception</td>
+                    </tr>
+                }
+
+
+
+            }
+        </tbody>
+    </table>
+
+    @section styles{
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+    }
+
+    @section scripts{
+        <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+        <script>
+  $(document).ready(function(){
+    $('#logtable').DataTable();
+  });
+        </script>
+    }

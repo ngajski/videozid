@@ -1,0 +1,40 @@
+﻿@model videozid.Models.TipServisa
+
+@{
+    ViewData["Title"] = "Tip servisa";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detalji</title>
+</head>
+<body>
+
+<div>
+    <h4>Datelji - tip Servisa</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Tip)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tip)
+        </dd>
+        <dt>
+            Ime servisa
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdServisNavigation.Ime)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Uredi</a>
+    <a class="btn btn-primary" asp-action="Index">Tipovi servisa</a>
+    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Obriši</a>
+</div>
+</body>
+</html>

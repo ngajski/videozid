@@ -1,0 +1,76 @@
+@model IEnumerable<videozid.Models.Videozid>
+
+
+@{
+
+    ViewData["Title"] = "Popis videozidova";
+}
+
+<div class="row">
+    <br /> <br />
+        <div class="btn-group" role="group">
+            <a class="btn btn-primary" asp-action="Create">Dodaj novi videozid</a>
+            <a class="btn btn-primary" asp-area="" asp-controller="EkranZida" asp-action="Index">Ekrani Zidova</a>
+        </div>
+    <br /><br />
+        <table class="table table-bordered table-striped text-center" id="tableVideozidovi">
+            <thead>
+                <tr>
+                    <th class="text-center"> Naziv Zida
+                    <th class="text-center"> Lokacija</th>
+                    <th class="text-center"> Dimenzije</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr id="row-@item.Id">
+                        <td><b> @item.Naziv</b> </td>
+                        <td> @item.Lokacija </td>
+                        <td><span>  @item.Visina X @item.Sirina </span></td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-default btn-sm" asp-action="Edit" asp-route-id="@item.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+                                <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger btn-sm" onclick="deleteZid(@item.Id)"><span class="glyphicon glyphicon-remove"></span></a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    @section styles{
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+    }
+
+    @section scripts{
+        <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#tableVideozidovi').DataTable();
+            });
+
+             function deleteZid(id) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete", "Videozid")",
+                data: { id: id },
+                ajaxasync: true,
+                success: function (data) {
+                    $('#tableVideozidovi').DataTable()
+                        .row(document.getElementById('row-'.concat(id)))
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert("Greska");
+                }
+             });
+
+        }
+        </script>
+    }

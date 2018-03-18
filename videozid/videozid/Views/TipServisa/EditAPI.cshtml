@@ -1,0 +1,72 @@
+@model videozid.Models.TipServisa
+
+@{
+    ViewData["Title"] = "Uredi";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+
+    <script>
+        function changeWindow(action, id) {
+            var url = "/api/tipservisa/"
+            if (action != '') {
+                url += action + "/";
+            }
+
+            if (id != '') {
+                url += id;
+            }
+
+            window.location = url
+        }
+    </script>
+
+</head>
+<body>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Uredi - Tip servisa</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+
+        <div class="form-group">
+            <label asp-for="IdServis" class="control-label col-md-2">Servis</label>
+            <div class="col-md-10">
+                <select asp-for="IdServis" class="form-control" asp-items="ViewBag.IdServis"></select>
+                <span asp-validation-for="IdServis" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Tip" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Tip" class="form-control" required/>
+                <span asp-validation-for="Tip" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Spremi" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<div>
+    <a class="btn btn-primary"  asp-action="Index">Tipovi servisa</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</body>
+</html>

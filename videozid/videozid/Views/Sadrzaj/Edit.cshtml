@@ -1,0 +1,78 @@
+@model videozid.Models.Sadrzaj
+
+@{
+    ViewData["Title"] = "Uredivanje";
+}
+
+<h2>Uredivanje</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Sadrzaj</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="IdAutora" class="control-label col-md-2">Autor</label>
+            <div class="col-md-10">
+                <select asp-for="IdAutora" class="form-control" asp-items="ViewBag.IdAutora"></select>
+                <span asp-validation-for="IdAutora" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdOdobrenOd" class="control-label col-md-2">Odobren od</label>
+            <div class="col-md-10">
+                <select asp-for="IdOdobrenOd" class="form-control" asp-items="ViewBag.IdOdobrenOd"></select>
+                <span asp-validation-for="IdOdobrenOd" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdTipa" class="control-label col-md-2">Tip</label>
+            <div class="col-md-10">
+                <select asp-for="IdTipa" class="form-control" asp-items="ViewBag.IdTipa"></select>
+                <span asp-validation-for="IdTipa" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Ime" class="col-md-2 control-label">Ime</label>
+            <div class="col-md-10">
+                <input asp-for="Ime" class="form-control" />
+                <span asp-validation-for="Ime" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Opis" class="col-md-2 control-label">Opis</label>
+            <div class="col-md-10">
+                <input asp-for="Opis" class="form-control" />
+                <span asp-validation-for="Opis" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Url" class="col-md-2 control-label">URL</label>
+            <div class="col-md-10">
+                <input asp-for="Url" class="form-control" />
+                <span asp-validation-for="Url" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="JeOdobren" class="col-md-2 control-label">Odobren</label>
+            <div class="col-md-10">
+                <input asp-for="JeOdobren" class="form-control" />
+                <span asp-validation-for="JeOdobren" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Spremi" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a class="btn btn-primary" asp-action="Index">Povratak</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,188 @@
+﻿@model videozid.ViewModels.KorisnikDetailsViewModel
+@{
+
+    ViewData["Title"] = "Korisnik detalji";
+}
+<br />
+<div class="row">
+    <div class="btn-group row" role="group">
+        <a class="btn btn-warning" asp-action="Previous" asp-route-id="@Model.korisnik.Id">Prethodni</a>
+        <a class="btn btn-warning" asp-action="Next" asp-route-id="@Model.korisnik.Id">Sljedeći</a>
+    </div>
+
+    <div class="btn-group col-md-offset-1" role="group">
+        @if (Model.korisnik.Fer == null)
+        {
+            <a class="btn btn-success" asp-controller="FerWebAcc" asp-route-id="@Model.korisnik.Id" asp-action="Create">Napravi FerWeb račun</a>
+        }
+        @if (Model.korisnik.Dhmz == null)
+        {
+            <a class="btn btn-success" asp-controller="DhmzAcc" asp-route-id="@Model.korisnik.Id" asp-action="Create">Napravi DHMZ račun</a>
+        }
+    </div>
+</div>
+
+
+
+<div class="row">
+   
+    <br />
+    @if (Model.korisnik.Administrator.Where(a => a.IdKorisnika.Equals(Model.korisnik.Id)).Any())
+    {
+        <h3 style="color:red"><strong>ADMINISTRATOR</strong></h3>
+
+    }
+    <h3>Korisnik-detalji</h3>
+    <hr />
+    @if (!Model.korisnik.KorisnickoIme.Equals("sadrzaj"))
+    {
+        <a class="btn btn-default btn-sm" asp-action="Edit" asp-route-id="@Model.korisnik.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model.korisnik.Id"><span class="glyphicon glyphicon-remove"></span></a>
+
+    }
+    
+    <br />
+    
+    
+    <dl class="dl-horizontal col-md-offset-1 col-md-5">
+       
+        
+        <dt>Korisničko ime:</dt>
+        <dd>@Model.korisnik.KorisnickoIme</dd>
+
+        <dt>Lozinka:</dt>
+        <dd>@Model.korisnik.Lozinka</dd>
+
+        <dt>Ime:</dt>
+        <dd>@Model.korisnik.Ime</dd>
+
+        <dt>Prezime:</dt>
+        <dd>@Model.korisnik.Prezime</dd>
+
+        <dt>Email:</dt>
+        <dd>@Model.korisnik.Email</dd>
+    </dl>
+
+    <div class="col-md-4 col-md-offset-1">
+        
+        <div class="list-group">
+            @if (!Model.Sadrzaji.Any())
+            {
+                <h4 style="color:brown"><strong>Korisnik nije autor sadržaja.</strong></h4>
+
+            }
+            else
+            {
+                <h4 style="color:brown"><strong>Autor slijedećih sadržaja:</strong></h4>
+                @foreach (var sadrzaj in Model.Sadrzaji)
+                {
+                    <div class="list-group-item">
+                        <a class ="btn btn-default" asp-controller="Sadrzaj" asp-action="Details" asp-route-id="@sadrzaj.Id"> @sadrzaj.Opis </a>
+                        <a class="btn btn-default btn-xs pull-right" asp-controller="Sadrzaj" asp-action="Edit" asp-route-id="@sadrzaj.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a class="btn btn-danger btn-xs pull-right" asp-controller="Sadrzaj" asp-action="Delete" asp-route-id="@sadrzaj.Id"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>                  
+                }
+            }
+           
+        </div>
+    </div>
+    
+    <div class="col-md-4 col-md-offset-7">
+
+        <div class="list-group">
+            @if (!Model.Odobrio.Any())
+            {
+                <h4 style="color:brown"><strong>Korisnik nije odobrio sadržaje.</strong></h4>
+
+            }
+            else
+            {
+                <h4 style="color:brown"><strong>Odobrio slijedeće sadržaja:</strong></h4>
+                @foreach (var sadrzaj in Model.Odobrio)
+                {
+                    <div class="list-group-item">
+                        <a class="btn btn-default" asp-controller="Sadrzaj" asp-action="Details" asp-route-id="@sadrzaj.Id"> @sadrzaj.Opis </a>
+                        <a class="btn btn-default btn-xs pull-right" asp-controller="Sadrzaj" asp-action="Edit" asp-route-id="@sadrzaj.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a class="btn btn-danger btn-xs pull-right" asp-controller="Sadrzaj" asp-action="Delete" asp-route-id="@sadrzaj.Id"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+
+                }
+            }
+
+        </div>
+    </div>
+
+</div>
+
+@if (Model.korisnik.Fer != null)
+{
+    <div class="row">
+        <br />
+        <h3>FerWeb račun</h3>
+        <hr />
+        <a class="btn btn-default btn-sm" asp-controller="FerWebAcc" asp-action="Edit" asp-route-id="@Model.korisnik.Fer.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a class="btn btn-danger btn-sm" asp-controller="FerWebAcc" asp-action="Delete" asp-route-id="@Model.korisnik.Fer.Id"><span class="glyphicon glyphicon-remove"></span></a>
+        <br />
+        <dl class="dl-horizontal col-md-offset-1 col-md-5">
+
+
+            <dt>Korisničko ime:</dt>
+            <dd>@Model.korisnik.Fer.KorisnickoIme</dd>
+
+            <dt>Lozinka:</dt>
+            <dd>@Model.korisnik.Fer.KorisnickoIme</dd>
+
+            <dt>Dozvola od servera:</dt>
+            @if (@Model.korisnik.Fer.DozvolaServer == null)
+            {
+
+                <dd>Ne posjeduje dozvolu.</dd>
+            }
+            else
+            {
+
+                <dd>@Model.korisnik.Fer.DozvolaServer</dd>
+            }
+        </dl>
+    </div>
+
+}
+@if (Model.korisnik.Dhmz != null)
+{
+    <div class="row">
+        <br />
+        <h3>DHMZ račun</h3>
+        <hr />
+        <a class="btn btn-default btn-sm" asp-controller="DhmzAcc" asp-action="Edit" asp-route-id="@Model.korisnik.Dhmz.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a class="btn btn-danger btn-sm" asp-controller="DhmzAcc" asp-action="Delete" asp-route-id="@Model.korisnik.Dhmz.Id"><span class="glyphicon glyphicon-remove"></span></a>
+        <br />
+
+        <dl class="dl-horizontal col-md-offset-1 col-md-5">
+
+
+            <dt>Korisničko ime:</dt>
+            <dd>@Model.korisnik.Dhmz.KorisnickoIme</dd>
+
+            <dt>Lozinka:</dt>
+            <dd>@Model.korisnik.Dhmz.KorisnickoIme</dd>
+
+            <dt>Dozvola od servera:</dt>
+            @if (@Model.korisnik.Dhmz.DozvolaServer == null)
+            {
+
+                <dd>Ne posjeduje dozvolu.</dd>
+            }
+            else
+            {
+
+                <dd>@Model.korisnik.Dhmz.DozvolaServer</dd>
+            }
+        </dl>
+    </div>
+}
+
+
+
+<div class="btn-group row" role="group">
+    <a class="btn btn-primary" asp-controller="Korisnik" asp-action="Index">Povratak</a>
+</div>

@@ -1,0 +1,53 @@
+@model IEnumerable<videozid.Models.Kategorija>
+
+@{
+    ViewData["Title"] = "Popis kategorija";
+}
+
+
+<br /><br />
+
+<h3>Kategorije</h3>
+<br />
+
+<div class="btn-group" role="group">
+    <a class="btn btn-primary" asp-action="Create">Dodaj novu kategoriju</a>
+</div>
+
+<table class="table table-bordered table-striped text-center" id="tableKategorije">
+    <thead>
+        <tr>
+            <th class="text-center"> Vrsta </th>
+            <th class="text-center"> Akcije </th>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td> @item.Vrsta </td>
+              
+                <td>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-default btn-sm" asp-action="Edit" asp-route-id="@item.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script>
+            $(document).ready(function () {
+                $('#tableKategorije').DataTable();
+            });
+    </script>
+}

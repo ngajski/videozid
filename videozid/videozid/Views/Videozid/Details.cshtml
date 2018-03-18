@@ -1,0 +1,94 @@
+@model videozid.ViewModels.VideozidDetailsViewModel
+
+@{
+
+    ViewData["Title"] = "Popis videozidova";
+}
+
+<div class="row">
+    <br />
+    <h4>Videozid</h4>
+    <hr />
+    <div class="col-md-offset-1 col-md-5">
+        <div class="row">
+            <dl class="dl-horizontal well">
+                <dt> Naziv Videozida</dt>
+                <dd> @Model.Videozid.Naziv</dd>
+
+                <dt> Lokacija</dt>
+                <dd>@Model.Videozid.Lokacija</dd>
+
+                <dt>Sirina</dt>
+                <dd> @Model.Videozid.Sirina</dd>
+
+                <dt> Visina</dt>
+                <dd> @Model.Videozid.Visina</dd>
+            </dl>
+        </div>
+
+        <div class="row">
+            <div class="btn-group" role="group">
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Videozid.Id">Edit</a>
+                <a class="btn btn-primary" asp-action="Index">Natrag na popis</a>
+            </div>
+
+            <div class="btn-group col-md-offset-1" role="group">
+                <a class="btn btn-primary" asp-action="Previous" asp-route-id="@Model.Videozid.Id">Prijasnji</a>
+                <a class="btn btn-primary" asp-action="Next" asp-route-id="@Model.Videozid.Id">Sljedeci</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5 col-md-offset-1">
+        <h4>Pripadajuci ekrani zida</h4>
+        <div class="just-padding">
+
+            <div class="list-group">
+                <b>
+                    <a href="#ekran" class="list-group-item" data-toggle="collapse">
+                        <i class="glyphicon glyphicon-chevron-right"></i>Vidi
+                    </a>
+                </b>
+                <div class="list-group collapse" id="ekran">
+                    @foreach (var ekran in Model.Ekrani)
+                    {
+                        <div class="list-group-item" id="list-@ekran.Id">
+                            <a asp-controller="Uredaj" asp-action="Details" asp-route-id="@ekran.IdUredaja"> @ekran.IdUredajaNavigation.Naziv </a>
+                            <a class="btn btn-danger btn-xs pull-right" onclick="deleteEkran(@ekran.Id)"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        function deleteEkran(id) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete", "EkranZida")",
+                data: { id: id },
+                ajaxasync: true,
+                success: function (data) {
+                    document.getElementById("list-".concat(id)).outerHTML = '';
+                },
+                error: function (data) {
+                    alert("Greska");
+                }
+             });
+
+        }
+
+        $(function () {
+
+            $('.list-group-item').on('click', function () {
+                $('.glyphicon', this)
+                    .toggleClass('glyphicon-chevron-right')
+                    .toggleClass('glyphicon-chevron-down');
+            });
+
+        });
+    </script>
+    }

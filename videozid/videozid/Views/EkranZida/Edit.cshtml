@@ -1,0 +1,59 @@
+@model videozid.Models.EkranZida
+
+@{
+
+    ViewData["Title"] = "Popis Ekrana";
+}
+<!DOCTYPE html>
+
+
+<form asp-action="Edit">
+    <div class="form-horizontal well">
+        <h4>EkranZida</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="IdUredaja" class="control-label col-md-2">Uredaj</label>
+            <div class="col-md-10">
+                <select asp-for="IdUredaja" class="form-control" asp-items="ViewBag.IdUredaja"></select>
+                <span asp-validation-for="IdUredaja" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdZida" class="control-label col-md-2">Videozid</label>
+            <div class="col-md-10">
+                <select asp-for="IdZida" class="form-control" asp-items="ViewBag.IdZida"></select>
+                <span asp-validation-for="IdZida" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="XKoord" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="XKoord" class="form-control" />
+                <span asp-validation-for="XKoord" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="YKoord" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="YKoord" class="form-control" />
+                <span asp-validation-for="YKoord" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="btn-group">
+    <a class="btn btn-primary" asp-action="Index">Natrag na popis</a>
+    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id" OnClick="if(!confirm('Jeste li sigurni da zelite ukloniti @Model.IdUredajaNavigation.Naziv s videozida @Model.IdZidaNavigation.Naziv?')) return false;">Obrisi</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

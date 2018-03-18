@@ -1,0 +1,70 @@
+@model videozid.Models.Sadrzaj
+
+@{
+    ViewData["Title"] = "Detalji";
+}
+
+<h2>Detalji</h2>
+
+<div>
+    <h4>Sadrzaj</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Ime
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ime)
+        </dd>
+        <dt>
+            Opis
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Opis)
+        </dd>
+        <dt>
+            URL
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Url)
+        </dd>
+        <dt>
+            Odobren
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.JeOdobren)
+        </dd>
+        <dt>
+            Autor
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdAutoraNavigation.Email)
+        </dd>
+        <dt>
+            Odobren od
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdOdobrenOdNavigation.Email)
+        </dd>
+        <dt>
+            Tip
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdTipaNavigation.Ime)
+        </dd>
+    </dl>
+</div>
+<div class="row">
+    <div class="btn-group" role="group">
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Uredi</a>
+        <a class="btn btn-primary" asp-action="Index">Povratak</a>
+        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Obrisi</a>
+
+    </div>
+    <br /><br />
+
+    <div class="btn-group" role="group">
+        <a class="btn btn-primary" asp-action="Previous" asp-route-id="@Model.Id">Prethodni</a>
+        <a class="btn btn-primary" asp-action="Next" asp-route-id="@Model.Id">Sljedeci</a>
+    </div>
+</div>

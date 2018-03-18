@@ -1,0 +1,260 @@
+﻿@{
+
+    ViewData["Title"] = "WEB API Uredaji";
+}
+
+@model int
+
+<h4>Detalji servisa</h4>
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-5">
+        <div class="row">
+            <dl class="dl-horizontal well">
+                <dt>Ime </dt>
+                <dd id="ime"></dd>
+
+                <dt> Opis</dt>
+                <dd id="opis"></dd>
+
+                <dt>Žiro račun</dt>
+                <dd id="racun"></dd>
+
+                <dt>Tip servisa</dt>
+                <dd id="tip"></dd>
+
+            </dl>
+        </div>
+
+        <div class="row">
+            <p><b>Serviseri</b></p>
+            <ul id="serviseri" class="list-group"></ul>
+
+            <div class="text-center">
+                <a id="add-serviser" class="btn btn-primary btn-xs">Dodaj</a>
+                <br /><br />
+                <div id="servis-content" class="row initially-hidden">
+                    <div class="col-xs-8 col-xs-offset-2">
+                        <select class="form-control" id="serviser-dropdown"></select>
+                    </div>
+                    <br /><br />
+                    <a id="serviser-submit" class="btn btn-success btn-xs">Potvrdi</a>
+                    <br /><br />
+                </div>
+            </div>
+
+
+            <p><b>Uređaji</b></p>
+            <ul id="uredaji" class="list-group"></ul>
+
+            <div class="text-center">
+                <a id="add-uredaj" class="btn btn-primary btn-xs">Dodaj</a>
+                <br /><br />
+                <div id="uredaj-content" class="row initially-hidden">
+                    <div class="col-xs-8 col-xs-offset-2">
+                        <select class="form-control" id="uredaj-dropdown"></select>
+                    </div>
+                    <br /><br />
+                    <a id="uredaj-submit" class="btn btn-success btn-xs">Potvrdi</a>
+                    <br /><br />
+                </div>
+            </div>
+        </div>
+            
+
+        <br /><br />
+        <a class="btn btn-primary btn-sm" asp-action="EditAPI" asp-route-id="@Model">Uredi</a>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+
+            var uredaj;
+            var uredaji;
+            var servisi;
+            $(document).ready(function () {
+                getServis();
+                initDropdowns();
+
+            });
+
+            $("#add-serviser").click(function () {
+                $("#servis-content").toggle(500);
+                $("#uredaj-content").hide(500);
+            });
+            $("#servis-content").hide(0);
+
+            $("#add-uredaj").click(function () {
+                $("#servis-content").hide(500);
+                $("#uredaj-content").toggle(500);
+            });
+            $("#uredaj-content").hide(0);
+
+            $("#serviser-submit").click(addServiser);
+            $("#uredaj-submit").click(addUredaj);
+
+
+            function getServis() {
+                $.ajax({
+                    type: "GET",
+                    url: "../../api/servis/"+ @Model,
+                    ajaxasync: false,
+                    success: function (data) {
+                        $("#ime")[0].innerHTML = data.ime;
+                        $("#opis")[0].innerHTML = data.opis;
+                        $("#racun")[0].innerHTML = data.racun;
+                        $("#tip")[0].innerHTML = data.tipServisa;
+
+                        var html = "Nema zaposlenih";
+                        if (data.serviseri != null) {
+                            html = "";
+                            $.each(data.serviseri, function () {
+                                html += '<div class="list-group-item" id="list-' + this.id + '"><a href="/Serviser/DetailsAPI/' + this.id + '">' + this.ime + ' ' + this.prezime
+                                    + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deleteServiser(' + this.id
+                                    + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                            });
+                        }
+                        $('#serviseri')[0].innerHTML += html;
+
+                        var html = "Servis ne servisira uređaje";
+                        if (data.uredaji.length != 0) {
+                            html = "";
+                            $.each(data.uredaji, function () {
+                                html += '<div class="list-group-item" id="list-' + this.id + '"><a href="/Uredaj/ApiDetails/' + this.id + '">' + this.naziv
+                                    + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deleteUredaj(' + this.id + "," + @Model
+                                    + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                            });
+                        }
+                        $('#uredaji')[0].innerHTML += html;
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                    });
+            }
+
+            function deleteServiser(id) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "../../api/serviser/delete/" + id,
+                        ajaxasync: true,
+                        success: function (data) {
+                            document.getElementById('list-'.concat(id)).style.display = "none";
+                        },
+                        error: function (data) {
+                            alert(data.responseText);
+                        }
+                    });
+            }
+
+            function deleteUredaj(idUredaj,idServis) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "../../api/servisira/delete/" + idUredaj + "/" + idServis,
+                    ajaxasync: true,
+                    success: function (data) {
+                        document.getElementById('list-'.concat(idUredaj)).style.display = "none";
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+
+            function initDropdowns() {
+                $.ajax({
+                    type: "GET",
+                    url: "../../api/serviser",
+                    ajaxasync: true,
+                    success: function (data) {
+                        $.each(data, function () {
+                            if (this.idServis != @Model) {
+                                var opt = document.createElement('option');
+                                opt.value = this.id;
+                                opt.innerHTML = this.ime + " " + this.prezime;
+                                document.getElementById("serviser-dropdown").appendChild(opt);
+                            }
+                        }
+                       );
+
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+
+                 $.ajax({
+                    type: "GET",
+                    url: "../../api/servis/uredaji/" + @Model,
+                    ajaxasync: true,
+                    success: function (data) {
+                        $.each(data, function () {
+                            var opt = document.createElement('option');
+                            opt.value = this.id;
+                            opt.innerHTML = this.ime;
+                            document.getElementById("uredaj-dropdown").appendChild(opt);
+                        }
+                       );
+
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+
+            function addServiser() {
+                var d = $("#serviser-dropdown")[0];
+                var sel = d.options[d.selectedIndex];
+                var val = sel.value === "" ? null : sel.value;
+                var IdServiser = val;
+
+                $.ajax({
+                    type: "PUT",
+                    url: "../../api/servis/addserviser/" + @Model + "/" + IdServiser,
+                    ajaxasync: true,
+                    processData: false,
+                    success: function (data) {
+                        var html = "";
+                        html += '<div class="list-group-item" id="list-' + this.id + '"><a href="/Serviser/DetailsAPI/' + data.id + '">' + data.ime + ' ' + data.prezime
+                            + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deleteServiser(' + data.id
+                            + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                        $('#serviseri')[0].innerHTML += html;
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+
+        function addUredaj() {
+                var d = $("#uredaj-dropdown")[0];
+                var sel = d.options[d.selectedIndex];
+                var val = sel.value === "" ? null : sel.value;
+                var IdUredaj = val;
+                var naziv = sel.innerHTML;
+
+                $.ajax({
+                    type: "PUT",
+                    url: "../../api/servis/adduredaj/" + IdUredaj + "/" + @Model,
+                    ajaxasync: true,
+                    processData: false,
+                    success: function (data) {
+                        var html = "";
+                        html += '<div class="list-group-item" id="list-' + IdUredaj + '"><a href="/Uredaj/ApiDetails/' + IdUredaj + '">' + naziv
+                            + '</a><a class="btn btn-danger btn-xs pull-right" onclick="deleteUredaj(' + IdUredaj + "," + @Model
+                                    + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+                        $('#uredaji')[0].innerHTML += html;
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+
+
+    </script>
+}

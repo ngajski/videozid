@@ -1,0 +1,99 @@
+﻿@model IEnumerable<videozid.Models.Korisnik>
+
+@{
+    ViewData["Title"] = "Obični korisnici";
+}
+
+<h2 class="text-center"><strong>Popis običnih korisnika</strong></h2>
+<br />
+<div class="row">
+    <div class="btn-group" role="group">
+        <a class="btn btn-success" asp-action="Create">Dodaj novog korisnika</a>
+        <a class="btn btn-warning" asp-controller="FerWebAcc" asp-action="Index">FerWeb računi</a>
+        <a class="btn btn-warning " asp-controller="DhmzAcc" asp-action="Index">DHMZ računi</a>
+    </div>
+</div>
+<br />
+<div class="row">
+    <h4 class="text-left" style="color:darkblue">Filter tablice:</h4>
+    <div class="btn-group right" role="group">
+        <a class="btn btn-primary" asp-controller="Korisnik" asp-action="Index">Svi korisnici</a>
+        <a class="btn btn-primary" asp-controller="Administrator" asp-action="Index">Administratori</a>
+        <a class="btn btn-primary" asp-controller="Korisnik" asp-action="ObicniKorisnici">Obični korisnici</a>
+    </div>
+</div>
+
+<div class="row">
+    <br />
+    <table class="table table-bordered table-striped text-center" id="tableKorisnik">
+        <thead>
+            <tr>
+                <th class="text-center"> Korisničko ime</th>
+                <th class="text-center"> Ime</th>
+                <th class="text-center"> Prezime</th>
+                <th class="text-center"> Email</th>
+                <th class="text-center"> FerWeb acc</th>
+                <th class="text-center"> DHMZ acc</th>
+                <th class="text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var korisnik in Model)
+            {
+                @if (!korisnik.Administrator.Where(a => a.IdKorisnika.Equals(korisnik.Id)).Any()) {
+                <tr>
+                    <td>
+                        <b><b> <a asp-controller="Korisnik" asp-action="Details" asp-route-id="@korisnik.Id">@korisnik.KorisnickoIme </a></b></b>
+                    </td>
+                    <td> @korisnik.Ime</td>
+                    <td> @korisnik.Prezime </td>
+                    <td> @korisnik.Email </td>
+                    <td>
+                        @if (korisnik.Fer == null)
+                        {
+                            <b> <a style="color:darkgreen" asp-controller="FerWebAcc" asp-route-id="@korisnik.Id" asp-action="Create">Dodaj račun</a></b>
+                        }
+                        else
+                        {
+                            <b> <a asp-controller="FerWebAcc" asp-action="Details" asp-route-id="@korisnik.FerId">FerWeb </a></b>
+
+                        }
+                    </td>
+                    <td>
+                        @if (korisnik.Dhmz == null)
+                        {
+                            <b> <a style="color:darkgreen" asp-controller="DhmzAcc" asp-route-id="@korisnik.Id" asp-action="Create">Dodaj račun</a></b>
+                        }
+                        else
+                        {
+                            <b> <a asp-controller="DhmzAcc" asp-action="Details" asp-route-id="@korisnik.DhmzId">DHMZ </a></b>
+
+                        }
+                    </td>
+                    <td style="width:8em">
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-default btn-sm" asp-action="Edit" asp-route-id="@korisnik.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@korisnik.Id"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    </td>
+                </tr>
+                    }
+                }
+
+        </tbody>
+
+    </table>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tableKorisnik').DataTable();
+        });
+    </script>
+}

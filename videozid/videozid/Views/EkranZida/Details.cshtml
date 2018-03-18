@@ -1,0 +1,38 @@
+@model videozid.Models.EkranZida
+
+@{
+
+    ViewData["Title"] = "Popis Ekrana";
+}
+
+<!DOCTYPE html>
+
+<div>
+    <h4>EkranZida</h4>
+    <hr />
+    <dl class="dl-horizontal well">
+        <dt> XKoord</dt>
+        <dd> @Model.XKoord</dd>
+
+        <dt> YKoord</dt>
+        <dd> @Model.YKoord</dd>
+
+        <dt> Naziv Uredaja</dt>
+        <dd> @Model.IdUredajaNavigation.Naziv</dd>
+
+        <dt> Naziv Videozida</dt>
+        <dd> @Model.IdZidaNavigation.Naziv</dd>
+    </dl>
+</div>
+
+<div class="row">
+    <div class="btn-group" role="group">
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <a class="btn btn-primary" asp-action="Index">Natrag na popis</a>
+    </div>
+
+    <div class="btn-group col-md-offset-1" role="group">
+        <a class="btn btn-primary" asp-action="Previous" asp-route-id="@Model.Id">Prijasnji</a>
+        <a class="btn btn-primary" asp-action="Next" asp-route-id="@Model.Id">Sljedeci</a>
+    </div>
+</div>

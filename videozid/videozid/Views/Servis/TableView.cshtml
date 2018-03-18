@@ -1,0 +1,72 @@
+﻿@model videozid.ViewModels.ServisiDetailsModel
+
+<table class="table table-bordered table-striped text-center" id="tablica">
+
+    <thead>
+        <tr>
+            <th class="text-center"><a asp-route-sort="1" asp-route-page="@Model.PagingInfo.CurrentPage" asp-route-ascending="@(Model.PagingInfo.Sort == 1 ? Model.PagingInfo.Ascending? false : true : true)">Id</a></th>
+            <th class="text-center"><a asp-route-sort="2" asp-route-page="@Model.PagingInfo.CurrentPage"  asp-route-ascending="@(Model.PagingInfo.Sort == 2 ? Model.PagingInfo.Ascending? false : true : true)">Naziv servisa</a></th>
+            <th class="text-center"><a asp-route-sort="3" asp-route-page="@Model.PagingInfo.CurrentPage"  asp-route-ascending="@(Model.PagingInfo.Sort == 3 ? Model.PagingInfo.Ascending? false : true : true)">Broj žiro računa</a></th>
+            <th class="text-center"> <a asp-route-sort="4" asp-route-page="@Model.PagingInfo.CurrentPage"  asp-route-ascending="@(Model.PagingInfo.Sort == 4 ? Model.PagingInfo.Ascending? false : true : true)">Opis</a></th>
+            <th class="text-center"> Serviseri </th>
+            <th class="text-center"> Akcije </th>
+            <th class="text-center">Obriši </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var servis in Model.Servisi)
+            {
+            <tr id="row-@servis.Servis.Id">
+                <td> @servis.Servis.Id</td>
+                <td> @servis.Servis.Ime </td>
+                <td> @servis.Servis.ZiroRacun </td>
+                <td>
+                    @if (servis.Servis.Opis == null)
+                    {
+                        <p>-</p>
+                    }
+                    else
+                    {
+                        @servis.Servis.Opis
+                    }
+                </td>
+                <td> <table>
+                     <tbody>
+                         <tr>
+                             @if (servis.Serviseri.Count() != 0)
+                             {
+                                 @foreach (var serviser in servis.Serviseri)
+                                 {
+
+                                    <td class="text-center"><a asp-controller="Serviser" asp-action="Details" asp-route-id="@serviser.Id">@serviser.Ime @serviser.Prezime</a></td>
+                                 }
+                             } else
+                             {
+                                    <td class="text-center">Trenutno nema zaposlenih</td>
+                             }
+
+                         </tr>     
+                    </tbody>  
+                    </table>
+                </td>
+                <td style="width:8em">
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-default btn-sm" asp-controller="Servis" asp-action="Edit" asp-route-id="@servis.Servis.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a class="btn btn-primary btn-sm" asp-controller="Servis" asp-action="Details" asp-route-id="@servis.Servis.Id"><span class="glyphicon glyphicon-info-sign"></span></a>
+                    </div>
+                </td>
+                <td>
+                    <form asp-action="Delete" method="post"
+                          asp-route-page="@Model.PagingInfo.CurrentPage"
+                          asp-route-sort="@Model.PagingInfo.Sort"
+                          asp-route-ascending="@Model.PagingInfo.Ascending"
+                          asp-route-id="@servis.Servis.Id">
+                        <input type="hidden" name="IdDokumenta" value="@servis.Servis.Id" />
+                        <button type="submit" class="btn btn-xs btn-danger delete" title="Obriši"><span class="glyphicon glyphicon-remove"></span></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

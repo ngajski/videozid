@@ -1,0 +1,340 @@
+﻿@{
+
+    ViewData["Title"] = "WEB API Sadržaji";
+}
+
+<div class="row">
+    <br /> <br />
+    <a id="Create" class="btn btn-primary">Dodaj novi sadržaj</a>
+    <br /><br />
+    <div id="Create-content" class="row initially-hidden">
+        <div class="col-xs-12">
+            <hr />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Ime</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="ime" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Opis</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="opis" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">URL</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="url" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Odobren</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="jeOdobren">
+                        <option value="true" selected="selected">Odobren</option>
+                        <option value="false">Nije</option>
+                    </select>
+                </div>
+            </div>
+            <br /><br />
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">Autor</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="autor">
+                        <option value="">--</option>
+                    </select>
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Odobren Od</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="odobrenOd">
+                        <option value="">--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Tip</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="tip">
+                        <option value="">--</option>
+                    </select>
+                </div>
+            </div>
+            <br /><br />
+            <div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="submit" value="Stvori novi sadržaj" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br /> <br />
+    <table class="table table-bordered table-striped text-center" id="tableSadrzaji">
+        <thead>
+            <tr>
+                <th class="text-center"> ID </th>
+                <th class="text-center"> Ime </th>
+                <th class="text-center"> Opis </th>
+                <th class="text-center"> Url</th>
+                <th class="text-center"> JeOdobren</th>
+                <th class="text-center"> Autor </th>
+                <th class="text-center"> Odobren od </th>
+                <th class="text-center"> Tip </th>
+                <th class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tableSadrzaji').DataTable();
+            getSadrzaji();
+            getAutori();
+            getOdobreni();
+            getTipovi();
+
+            $("#submit").click(create);
+
+            $("#Create").click(function () {
+                $("#Create-content").toggle(500);
+            });
+
+        });
+
+        function deleteSadrzaj(id) {
+            $.ajax({
+                type: "DELETE",
+                url: "../../api/Sadrzaj/Remove/" + id,
+                ajaxasync: true,
+                success: function (data) {
+
+                    $('#tableSadrzaji').DataTable()
+                        .row(document.getElementById('row-'.concat(id)).parentElement.parentElement)
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function getSadrzaji() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Sadrzaj/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+                    loadTable(data);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+
+        }
+
+        function getAutori() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Korisnik/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.ime + " " + this.prezime;
+                        document.getElementById("autor").appendChild(opt);
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function getOdobreni() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Korisnik/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.ime + " " + this.prezime;
+                        document.getElementById("odobrenOd").appendChild(opt);
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+
+        }
+
+        function getTipovi() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/TipSadrzaja/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+
+                    $.each(data, function () {
+                        var opt = document.createElement('option');
+                        opt.value = this.id;
+                        opt.innerHTML = this.ime;
+                        document.getElementById("tip").appendChild(opt);
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+
+        }
+
+
+        function loadTable(data) {
+            var html = "";
+            $.each(data, function () {
+                var a0, a1, a2, a3, a4, a5, a6, a7;
+                console.log(this);
+                a = '<span id ="row-' + this.id + '">' + this.id + '</span>';
+                a0 = this.ime
+                a1 = this.opis
+                a2 = this.url;
+                a3 = this.jeOdobren;
+                a4 = '<a href="../Korisnik/ApiDetails/' + this.idAutora + '">' + '<b>' + this.autor + '</b>' + "</a>";
+                a5 = '<a href="../Korisnik/ApiDetails/' + this.idOdobrenOd + '">' + '<b>' + this.odobrenOd + '</b>' + "</a>";
+                a6 = this.tip;
+                a7 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../Sadrzaj/ApiEdit/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../Sadrzaj/ApiDetails/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deleteSadrzaj(' + this.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+
+                $('#tableSadrzaji').DataTable().row.add([
+                    a,
+                    a0,
+                    a1,
+                    a2,
+                    a3,
+                    a4,
+                    a5,
+                    a6,
+                    a7,
+                ]).draw(false);
+            });
+
+        }
+
+        function create() {
+            var ime = $("#ime")[0].value;
+            if (ime == "") {
+                alert("Ime je potrebno unijeti!");
+                $("#ime")[0].select();
+                return;
+            }
+
+            var opis = $("#opis")[0].value;
+            if (opis == "") {
+                alert("Opis je potrebno unijeti!");
+                $("#opis")[0].select();
+                return;
+            }
+
+            var url = $("#url")[0].value;
+            if (url == "") {
+                alert("URL je potrebno unijeti!");
+                $("#url")[0].select();
+                return;
+            }
+
+            var jeodobren = $("#jeOdobren")[0];
+            var sel = jeodobren.options[jeodobren.selectedIndex];
+            jeodobren = sel.value === true ? true : false;
+
+            var autor = $("#autor")[0];
+            var sel = autor.options[autor.selectedIndex];
+            autor = sel.value === "" ? null : sel.value;
+
+            var odobrenOd = $("#odobrenOd")[0];
+            var sel = odobrenOd.options[odobrenOd.selectedIndex];
+            odobrenOd = sel.value === "" ? null : sel.value;
+
+            var tip = $("#tip")[0];
+            var sel = tip.options[tip.selectedIndex];
+            tip = sel.value === "" ? null : sel.value;
+
+            var data = {
+                "Ime": ime,
+                "Opis": opis,
+                "URL": url,
+                "JeOdobren": jeodobren,
+                "IdAutora": autor,
+                "IdOdobrenOd": odobrenOd,
+                "IdTipa": tip
+            }
+
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                url: "../../api/Sadrzaj/New",
+                ajaxasync: true,
+                data: JSON.stringify(data),
+                processData: false,
+                contentType: 'application/json',
+                success: function (data) {
+                    alert("Uspjeh!")
+                    var a0, a1, a2, a3, a4, a5, a6, a7;
+                    a = '<span id ="row-' + data.id + '">' + data.id + '</span>';
+                    a0 = data.ime
+                    a1 = data.opis
+                    a2 = data.url;
+                    a3 = data.jeOdobren;
+                    a4 = '<a href="../Korisnik/ApiDetails/' + data.idAutora + '">' + '<b>' + data.autor + '</b>' + "</a>";
+                    a5 = '<a href="../Korisnik/ApiDetails/' + data.idOdobrenOd + '">' + '<b>' + data.odobrenOd + '</b>' + "</a>";
+                    a6 = data.tip;
+                    a7 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../Sadrzaj/ApiEdit/' + data.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../Sadrzaj/ApiDetails/' + data.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deleteSadrzaj(' + data.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div>';
+
+                    $('#tableSadrzaji').DataTable().row.add([
+                        a,
+                        a0,
+                        a1,
+                        a2,
+                        a3,
+                        a4,
+                        a5,
+                        a6,
+                        a7,
+                    ]).draw(false);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+
+    </script>
+}

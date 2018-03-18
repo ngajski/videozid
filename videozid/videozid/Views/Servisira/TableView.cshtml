@@ -1,0 +1,64 @@
+﻿@model IEnumerable<videozid.Models.Servisira>
+
+<table class="table table-bordered table-striped text-center" id="tablica">
+    <thead>
+        <tr>
+            <th>
+                Servis
+            </th>
+            <th>
+                Uređaj
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="row-@Html.DisplayFor(modelItem => item.Id)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdServisNavigation.Ime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdUredajNavigation.Naziv)
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-default btn-sm" asp-action="Edit" asp-route-id="@item.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.Id"><span class="glyphicon glyphicon-info-sign"></span></a>
+                        <a class="btn btn-danger btn-sm" onclick="deleteRow(@item.Id)"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script>
+  $(document).ready(function(){
+      $('#tablica').DataTable();
+  });
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,149 @@
+﻿@{
+    ViewData["Title"] = "WEB API Kategorije";
+}
+
+
+<div class="row">
+
+    <br /> <br />
+    <a id="Create" class="btn btn-primary">Dodaj novu kategoriju</a>
+    <br /><br />
+    <div id="Create-content" class="row initially-hidden">
+        <div class="col-xs-12">
+            <hr />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Vrsta</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="vrsta" />
+                </div>
+            </div>
+            <br /><br />
+            <div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="submit" value="Stvori novu kategoriju" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br /> <br />
+    <table class="table table-bordered table-striped text-center" id="tableKategorija">
+        <thead>
+            <tr>
+                <th class="text-center"> ID</th>
+                <th class="text-center"> Vrsta</th>
+                <th class="text-center"> Brisanje</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js">
+    </script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js">
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tableKategorija').DataTable();
+            getKategorije();
+
+            $("#submit").click(create);
+
+            $("#Create").click(function () {
+                $("#Create-content").toggle(500);
+            });
+        });
+
+        function getKategorije() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/Kategorija/GetAll",
+                ajaxasync: true,
+                success: function (data) {
+                    loadTable(data);
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function loadTable(data) {
+            var html = "";
+            $.each(data, function () {
+                var a1, a2, a3;
+                a1 = '<span id ="row-' + this.id + '">' + this.id + '</span>';
+                a2 = this.vrsta;
+                a3 = '<a class="btn btn-danger btn-sm" onclick="deleteKategorija(' + this.id + ')"><span class="glyphicon glyphicon-remove"></span></a>';
+
+                $('#tableKategorija').DataTable().row.add([
+                    a1,
+                    a2,
+                    a3,
+                ]).draw(false);
+            });
+
+        }
+
+        function deleteKategorija(id) {
+            $.ajax({
+                type: "DELETE",
+                url: "../../api/Kategorija/Remove/" + id,
+                ajaxasync: true,
+                success: function (data) {
+
+                    $('#tableKategorija').DataTable()
+                        .row(document.getElementById('row-'.concat(id)).parentElement.parentElement)
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function create() {
+            var vrsta = $("#vrsta")[0].value;
+            if (vrsta == "") {
+                alert("Vrstu je potrebno unijeti!");
+                $("#vrsta")[0].select();
+                return;
+            }
+
+            var data = {
+                "Vrsta": vrsta
+            }
+
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                url: "../../api/Kategorija/New",
+                ajaxasync: true,
+                data: JSON.stringify(data),
+                processData: false,
+                contentType: 'application/json',
+                success: function (data) {
+                    alert("Uspjeh!")
+                    var a, a0;
+                    a = data.id,
+                    a0 = data.vrsta,
+                    a7 = '<a class="btn btn-danger btn-sm" onclick="deleteKategorija(' + data.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div></td>';
+                    $('#tableKategorija').DataTable().row.add([a, a0, a7]).draw(false);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+    </script>
+}

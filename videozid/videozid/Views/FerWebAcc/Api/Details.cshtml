@@ -1,0 +1,64 @@
+﻿@{
+
+    ViewData["Title"] = "WEB API FerWeb računi";
+}
+
+@model string
+
+
+<h4>Detalji računa</h4>
+<br />
+<div class="row">
+    <div class="col-md-offset-1 col-md-5">
+        <div class="row">
+            <dl class="dl-horizontal well">
+                <dt>Korisničko ime</dt>
+                <dd id="korisnickoIme"></dd>
+
+                <dt>Lozinka</dt>
+                <dd id="lozinka"></dd>
+
+                <dt>Dozvola server</dt>
+                <dd id="dozvolaServer"></dd>
+
+                <dt>Vlasnik</dt>
+                <dd id="vlasnik"></dd>
+            </dl>
+
+            <br /><br />
+            <a class="btn btn-primary btn-sm" asp-action="ApiEdit" asp-route-id="@ViewBag.id">Uredi osnovne informacije</a>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+
+        var racun;
+        $(document).ready(function () {
+                getRacun();
+            });
+
+            function getRacun() {
+            $.ajax({
+                type: "GET",
+                url: "../../api/FerWebAcc/Get/"+ "@Model",
+                ajaxasync: false,
+                success: function (data) {
+                    racun = data;
+
+                    $("#korisnickoIme")[0].innerHTML = racun.korisnickoIme;
+                    $("#lozinka")[0].innerHTML = racun.lozinka;
+                    $("#dozvolaServer")[0].innerHTML = racun.dozvolaServer;
+                    $("#vlasnik")[0].innerHTML = racun.vlasnik;
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+                });
+            }
+    </script>
+}

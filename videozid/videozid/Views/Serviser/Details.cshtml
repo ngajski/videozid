@@ -1,0 +1,59 @@
+﻿@model videozid.Models.Serviser
+
+@{
+    ViewData["Title"] = "Serviser";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detalji</title>
+</head>
+<body>
+
+<div>
+    <h4>Serviser - detalji</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Ime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Prezime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Prezime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Opis)
+        </dt>
+        <dd>
+            @if (Model.Opis == null)
+            {
+                <p>-</p>
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.Opis)
+            }
+            
+        </dd>
+        <dt>
+           Servis
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdServisNavigation.Ime)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Uredi</a>
+    <a class="btn btn-primary" asp-action="Index">Serviseri</a>
+    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Obriši</a>
+</div>
+</body>
+</html>

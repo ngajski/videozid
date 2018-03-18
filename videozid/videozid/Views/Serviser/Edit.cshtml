@@ -1,0 +1,66 @@
+@model videozid.Models.Serviser
+
+@{
+    ViewData["Title"] = "Uredi";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Uredi servisera</title>
+</head>
+<body>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Serviser</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="IdServis" class="control-label col-md-2">Servis</label>
+            <div class="col-md-10">
+                <select asp-for="IdServis" class="form-control" asp-items="ViewBag.IdServis"></select>
+                <span asp-validation-for="IdServis" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Ime" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Ime" class="form-control" />
+                <span asp-validation-for="Ime" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Prezime" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Prezime" class="form-control" />
+                <span asp-validation-for="Prezime" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Opis" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Opis" class="form-control" />
+                <span asp-validation-for="Opis" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Spremi" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+    <div>
+        <a class="btn btn-primary" asp-action="Index">Serviseri</a>
+    </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</body>
+</html>

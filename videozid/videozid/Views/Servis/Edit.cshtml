@@ -1,0 +1,83 @@
+﻿@model videozid.Models.Uredaj
+
+@{
+
+    ViewData["Title"] = "Popis uredaja";
+}
+
+
+<form asp-action="Edit">
+    <div class="form-horizontal well">
+        <h4>Uredivanje servisa</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="Naziv" class="col-md-2 control-label">Naziv Uredaja</label>
+            <div class="col-md-10">
+                <input asp-for="Naziv" class="form-control" />
+                <span asp-validation-for="Naziv" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="NabavnaCijena" class="col-md-2 control-label">Nabavna Cijena</label>
+            <div class="col-md-10">
+                <input asp-for="NabavnaCijena" class="form-control" />
+                <span asp-validation-for="NabavnaCijena" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AktualnaCijena" class="col-md-2 control-label">Aktualna Cijena</label>
+            <div class="col-md-10">
+                <input asp-for="AktualnaCijena" class="form-control" />
+                <span asp-validation-for="AktualnaCijena" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DatumNabavke" class="col-md-2 control-label">Datum nabavke</label>
+            <div class="col-md-10">
+                <input asp-for="DatumNabavke" class="form-control" />
+                <span asp-validation-for="DatumNabavke" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdNadredeneKomponente" class="control-label col-md-2">Nadredena Komponenta</label>
+            <div class="col-md-10">
+                <select asp-for="IdNadredeneKomponente" class="form-control" asp-items="ViewBag.IdNadredeneKomponente">
+                    <option value="">--</option>
+                </select>
+                <span asp-validation-for="IdNadredeneKomponente" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdZida" class="control-label col-md-2">Pripadnost Videozidu</label>
+            <div class="col-md-10">
+                <select asp-for="IdZida" class="form-control" asp-items="ViewBag.IdZida">
+                    <option value="">--</option>
+                </select>
+                <span asp-validation-for="IdZida" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdStatusa" class="control-label col-md-2">Status</label>
+            <div class="col-md-10">
+                <select asp-for="IdStatusa" class="form-control" asp-items="ViewBag.IdStatusa"></select>
+                <span asp-validation-for="IdStatusa" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="btn-group">
+    <a class="btn btn-primary" asp-action="Index">Natrag na popis</a>
+    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id" OnClick="if(!confirm('Jeste li sigurni da zelite izbrisati uredaj @Model.Naziv?')) return false;">Obrisi</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

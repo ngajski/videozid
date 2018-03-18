@@ -1,0 +1,236 @@
+﻿@{
+
+    ViewData["Title"] = "WEB API Servis";
+}
+
+<div class="row">
+    <br /> <br />
+
+    <table class="table table-bordered table-striped text-center" id="tablica">
+        <thead>
+            <tr>
+                <th class="text-center"> Ime </th>
+                <th class="text-center"> Opis </th>
+                <th class="text-center"> Žiro račun </th>
+                <th class="text-center"> Serviseri </th>
+                <th class="text-center"> Tip servisa </th>
+                <th class="text-center"> Akcije </th>
+            </tr>
+        </thead>
+    </table>
+
+
+    <div class="btn-group" role="group">
+        <a id="Create" class="btn btn-primary">Dodaj novi servis</a>
+        <a class="btn btn-primary" href="../api/excel/servisi">Excel izvoz</a>
+    </div>
+
+    <div id="Create-content" class="row initially-hidden">
+        <div class="col-xs-12">
+            <hr />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Ime</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="ime" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Opis</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="opis" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Žiro račun</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="racun" />
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <label class="col-md-2 control-label">Tip servisa</label>
+                <div class="col-md-10">
+                    <input class="form-control" id="tipServisa" />
+                </div>
+            </div>
+            <br /><br />
+            <div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="submit" value="Stvori servis" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br /> <br />
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+}
+
+@section scripts{
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tablica').DataTable();
+            getServisi();
+
+            $("#submit").click(createServis);
+
+            $("#Create").click(function () {
+                $("#Create-content").toggle(500);
+            });
+            $("#Create-content").hide(0);
+        });
+
+        function getServisi() {
+            $.ajax({
+                type: "GET",
+                url: "../api/servis",
+                ajaxasync: true,
+                success: function (data) {
+                    loadTable(data);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function loadTable(data) {
+            var html = "";
+            $.each(data, function () {
+                var a1, a2, a3, a4, a5;
+
+                a1 = '<b id="row-' + this.id + '" >' + this.ime + '</b>';
+                if (this.opis.trim() == "") a2 = " - ";
+                else a2 = this.opis; 
+                a3 = this.racun;
+                a4 = "";
+                if (this.serviseri.length == 0) {
+                    a4 += "Trentno nema zaposlenih";
+                } else {
+                    for (var i = 0; i < this.serviseri.length - 1; i++) {
+                        a4 += '<a href="../Serviser/DetailsAPI/' + this.serviseri[i].id + '">' + this.serviseri[i].ime + " " + this.serviseri[i].prezime + ", " + '</a> ';
+                    }
+                    var index = this.serviseri.length - 1;
+                    a4 += '<a href="../Serviser/DetailsAPI/' + this.serviseri[index].id + '">' + this.serviseri[index].ime + " " + this.serviseri[index].prezime + '</a> ';
+                }
+
+                a5 = this.tipServisa;
+                a6 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../Servis/EditAPI/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../Servis/DetailsAPI/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deleteRow(' + this.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div>'
+
+                $('#tablica').DataTable().row.add([
+                    a1,
+                    a2,
+                    a3,
+                    a4,
+                    a5,
+                    a6
+                ]).draw(false);
+            });
+
+        }
+
+        function deleteRow(id) {
+            $.ajax({
+                type: "DELETE",
+                url: "../api/servis/delete/" + id,
+                ajaxasync: true,
+                success: function (data) {
+                    $('#tablica').DataTable()
+                        .row(document.getElementById('row-'.concat(id)).parentElement.parentElement)
+                        .remove()
+                        .draw();
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function createServis() {
+            var ime = $("#ime")[0].value;
+            if (ime == "") {
+                alert("Ime servise ne smije biti prazno");
+                $("#ime")[0].select();
+                return;
+            }
+
+            var opis = $("#opis")[0].value;
+           
+            var racun = $("#racun")[0].value;
+            if (racun == "") {
+                alert("Žiro račun servisa je potrebno unijeti!");
+                $("#racun")[0].select();
+                return;
+            } else if (!checkIBAN(racun)) {
+                alert("Žiro račun mora biti u formatu HR*******************");
+                $("#racun")[0].select();
+                return;
+            }
+
+            var tipServisa = $("#tipServisa")[0].value;
+            if (tipServisa == "") {
+                alert("Tip servisa je potrebno unijeti!");
+                $("#tipServisa")[0].select();
+                return;
+            }
+ 
+            var data = {
+                "Ime": ime,
+                "Racun": racun,
+                "Opis": opis,
+                "TipServisa": tipServisa
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "../api/servis",
+                ajaxasync: true,
+                data: JSON.stringify(data),
+                processData: false,
+                contentType: 'application/json',
+                success: function (data) {
+                    var a1, a2, a3, a4, a5, a6, a7;
+
+                    a1 = '<b id="row-' + data.id + '" >' + ime + '</b>';
+                    if (opis.trim() == "" ) a2 = " - ";
+                    else a2 = opis;    
+                    a3 = racun;
+                    a4 = 'Trenutno nema zaposlenih';
+                    a5 = tipServisa;
+                    a6 = '<div class="btn-group" role="group"><a class="btn btn-default btn-sm" href="../Servis/EditAPI/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-pencil"></span></a><a class="btn btn-primary btn-sm" href="../Servis/DetailsAPI/' + this.id + '"' + "" + '"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger btn-sm" onclick="deleteRow(' + this.id + ')"><span class="glyphicon glyphicon-remove"></span></a></div>'
+
+                    $('#tablica').DataTable().row.add([
+                        a1,
+                        a2,
+                        a3,
+                        a4,
+                        a5,
+                        a6
+                    ]).draw(false);
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+        function checkIBAN(racun) {
+            if (racun.length != 21) {
+                return false;
+            } else if (!racun.toUpperCase().startsWith("HR")) {
+                return false;
+            }
+            return true;
+        }
+
+    </script>
+}

@@ -1,0 +1,29 @@
+@model videozid.Models.TipSadrzaja
+
+@{
+    ViewData["Title"] = "Brisanje";
+}
+
+<h2>Brisanje</h2>
+
+<h3>Jeste li sigurni da ovo zelite izbrisati?</h3>
+<div>
+    <h4>TipSadrzaja</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <input type="hidden" asp-for="Id" />
+        <dt>
+            @Html.DisplayNameFor(model => model.Ime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ime)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Izbrisi" class="btn btn-danger" /> 
+            <a class="btn btn-primary" asp-action="Index">Povratak</a>
+        </div>
+    </form>
+</div>
